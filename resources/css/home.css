@@ -1,5 +1,9 @@
+@font-face {
+    font-family: 'K2D';
+    src: url('../fonts/K2D-Medium.ttf') format('truetype');
+}
+
 :root {
-    font-family: K2D;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     font-variation-settings: normal;
     --font-family: "K2D";
@@ -13,18 +17,35 @@
     --surface-border: #e2e8f0;
 }
 
-.container{
-    margin-left: 11.25rem !important;
-    margin-right: 11.25rem !important;
-}
-
 .banner {
-    height: 800px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: url("../../public/images/placeholder.jpg");
+    flex-direction: column;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.70), rgba(0, 0, 0, 0.70)),url("../../public/images/banner.jpg");
+    background-size: cover;
+    background-position: center;
+    padding-top: 100px;
+    width: 100%;
+    color: #F8F8F8;
+    height: 68rem;
+
 }
+
+
+
+.banner h1 {
+    font-size: 70px;
+    border-bottom: 4px solid #F8F8F8;
+}
+.banner h2 {
+    font-size: 25px;
+    width: 57rem;
+    text-align: center;
+    margin: 0;
+}
+
+.banner button
 
 
 
