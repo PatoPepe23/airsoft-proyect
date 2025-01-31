@@ -22,6 +22,12 @@
     padding: 5px;
 }
 
+.hyper-nav{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
 .nav-button:hover{
     border-bottom: solid 4px #423024;
 }
