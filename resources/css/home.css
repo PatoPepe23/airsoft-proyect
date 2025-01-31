@@ -1,5 +1,10 @@
+@font-face {
+    font-family: 'K2D';
+    src: url('../fonts/K2D-Medium.ttf') format('truetype');
+}
+
 :root {
-    font-family: K2D;
+    font-family: 'K2D';
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     font-variation-settings: normal;
     --font-family: "K2D";
