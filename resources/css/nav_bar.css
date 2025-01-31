@@ -1,0 +1,31 @@
+.nav{
+    background-color: #F8F8F8 !important;
+    border-bottom: solid 2px #423024;
+    max-height: 100px;
+}
+
+.nav-container{
+    width: 100%;
+}
+
+.nav-logo img{
+    height: 85px;
+    width: 85px;
+}
+
+.nav-button{
+    font-family: K2D;
+    font-size: 24px;
+    color: #283227;
+    border-radius: 4px;
+    margin: 50px;
+    padding: 5px;
+}
+
+.nav-button:hover{
+    border-bottom: solid 3px #423024;
+}
+
+.navbar-nav{
+    margin-top: 0 !important;
+}

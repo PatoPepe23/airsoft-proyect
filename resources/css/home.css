@@ -1,0 +1,19 @@
+:root {
+    font-family: K2D;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    font-variation-settings: normal;
+    --font-family: "K2D";
+    --font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    --text-color: #283227;
+
+    --surface-ground: #f8fafc;
+    --surface-section: #F8F8F8;
+    --surface-card: #F8F8F8;
+    --surface-overlay: #F8F8F8;
+    --surface-border: #e2e8f0;
+}
+
+.container{
+    margin-left: 180px !important;
+    margin-right: 180px !important;
+}

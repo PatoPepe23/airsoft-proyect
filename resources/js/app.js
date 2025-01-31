@@ -63,7 +63,9 @@ import FloatLabel from 'primevue/floatlabel';
 import "primeflex/primeflex.css";
 import "primeicons/primeicons.css";
 import 'sweetalert2/dist/sweetalert2.min.css';
-import '../css/theme.css';
+import '../css/home.css';
+import '../css/nav_bar.css';
+
 
 const app = createApp({
     created() {

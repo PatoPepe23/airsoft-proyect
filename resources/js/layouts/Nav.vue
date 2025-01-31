@@ -1,32 +1,26 @@
 <template>
-    <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-        <div class="container">
-            <router-link to="/" class="navbar-brand">DAW 2</router-link>
-            <a class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </a>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mt-2 mt-lg-0 me-auto mb-2 mb-lg-0">
-                    <LocaleSwitcher />
-                </ul>
+    <nav class="nav navbar navbar-expand-lg navbar-light fixed w-100">
+        <div class="container nav-container">
+            <div>
+                <router-link to="/" class="nav-logo"><img src="../../../public/images/logo.svg" alt=""></router-link>
+                <a class="navbar-toggler" type="button" data-bs-toggle  ="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </a>
+            </div>
+            <div>
                 <ul class="navbar-nav mt-2 mt-lg-0 ms-auto">
-                        <li class="nav-item">
-                            <router-link to="/" class="nav-link" aria-current="page">{{ $t('home') }}</router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link :to="{ name : 'public-posts.index'}" class="nav-link">Blog</router-link>
-                        </li>
-                    <template v-if="!authStore().user?.name">
-                        <li class="nav-item">
-                            <router-link class="nav-link" to="/login"
-                            >{{ $t('login') }}</router-link
-                            >
-                        </li>
-                        <li class="nav-item">
-                            <router-link class="nav-link" to="/register">{{ $t('register') }}</router-link>
-                        </li>
-                    </template>
+                    <li class="nav-item">
+                        <router-link to="/" class="nav-button " aria-current="page">Historia</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link :to="{ name : 'public-posts.index'}" class="nav-button ">Reserva</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link to="" class="nav-button ">Normativa</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link to="" class="nav-button ">Como llegar</router-link>
+                    </li>
                     <li v-if="authStore().user?.name" class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             {{ authStore().user?.name }}
@@ -40,6 +34,15 @@
                     </li>
                 </ul>
             </div>
+            <template v-if="!authStore().user?.name">
+                <ul class="navbar-nav mt-2 mt-lg-0 ms-auto">
+                    <li class="nav-item">
+                        <router-link class="nav-link" to="/login"
+                        >{{ $t('login') }}</router-link
+                        >
+                    </li>
+                </ul>
+            </template>
         </div>
     </nav>
 </template>
