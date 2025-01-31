@@ -1,5 +1,10 @@
 <template>
 
+    <div class="container">
+        <section class="banner">
+
+        </section>
+    </div>
 </template>
 <!--
 <template>
@@ -211,3 +216,5 @@ export default {
 }
 </style>
 -->
+<script setup lang="ts">
+</script>
