@@ -1,6 +1,4 @@
 <template>
-
-
     <section class="banner">
         <h1>DUNKERQUE AIRSOFT CAMP</h1>
         <h2>La «Operación Dinamo» consistió en la defensa y la evacuación de fuerzas británicas, francesas y belgas por mar en Dunkerque (Francia).</h2>
