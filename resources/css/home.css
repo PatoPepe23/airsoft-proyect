@@ -4,7 +4,7 @@
 }
 
 :root {
-    font-family: 'K2D';
+    font-family: K2D;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     font-variation-settings: normal;
     --font-family: "K2D";
@@ -16,6 +16,11 @@
     --surface-card: #F8F8F8;
     --surface-overlay: #F8F8F8;
     --surface-border: #e2e8f0;
+}
+
+.container{
+    margin-left: 11.25rem !important;
+    margin-right: 11.25rem !important;
 }
 
 @media (min-width: 1400px) {
@@ -33,3 +38,39 @@
 .normal-button:hover{
     background-color: #41573E;
 }
+
+.banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.70), rgba(0, 0, 0, 0.70)),url("../../public/images/banner.jpg");
+    background-size: cover;
+    background-position: center;
+    padding-top: 100px;
+    width: 100%;
+    color: #F8F8F8;
+    height: 67.5rem;
+
+}
+
+@media (min-width: 1400px) {
+    .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+        max-width: 1560px;
+    }
+}
+
+.banner h1 {
+    font-size: 70px;
+    border-bottom: 4px solid #F8F8F8;
+}
+
+.banner h2 {
+    font-size: 25px;
+    width: 57rem;
+    text-align: center;
+    margin: 0;
+}
+
+
+
