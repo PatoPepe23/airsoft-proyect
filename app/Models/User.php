@@ -54,6 +54,10 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(UserAssignment::class,'user_id');
     }
 
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 
     public function registerMediaCollections(): void
     {
@@ -70,5 +74,5 @@ class User extends Authenticatable implements HasMedia
                 ->width(env('IMAGE_WIDTH', 300))
                 ->height(env('IMAGE_HEIGHT', 300));
         }
-    }    
+    }
 }

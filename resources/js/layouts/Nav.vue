@@ -36,13 +36,16 @@
                     </ul>
                 </div>
                 <template v-if="!authStore().user?.name">
-                    <ul class="navbar-nav mt-2 mt-lg-0 ms-auto">
-                        <li class="nav-item">
-                            <router-link class="nav-link" to="/login"
-                            >{{ $t('login') }}</router-link
-                            >
-                        </li>
-                    </ul>
+                    <div>
+                        <ul class="navbar-nav mt-2 mt-lg-0 ms-auto">
+                            <li class="nav-item">
+                                <router-link to="login" class="nav-button ">Login
+                                <img src="./../../../public/images/loginHead.svg" alt="" height="24px">
+                                </router-link>
+                            </li>
+
+                        </ul>
+                    </div>
                 </template>
             </div>
         </nav>

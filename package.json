@@ -26,6 +26,8 @@
     "@fortawesome/free-solid-svg-icons": "^6.7.1",
     "@fortawesome/vue-fontawesome": "^3.0.8",
     "@primevue/themes": "^4.2.4",
+    "@vue-email/components": "^0.0.21",
+    "@vue-email/render": "^0.0.9",
     "html2pdf.js": "^0.10.2",
     "install": "^0.13.0",
     "js-cookie": "^3.0.5",

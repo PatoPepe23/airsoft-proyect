@@ -13,6 +13,10 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>SQL Check</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="http://[::1]:5173/public/images/favicon.png">
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <!--<link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">-->
