@@ -11,16 +11,16 @@
                 <div>
                     <ul class="navbar-nav mt-2 mt-lg-0 ms-auto">
                         <li class="nav-item">
-                            <router-link to="/" class="nav-button " aria-current="page">Historia</router-link>
+                            <router-link to="/" class="nav-button" aria-current="page">Historia</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link :to="{ name : 'public-posts.index'}" class="nav-button ">Reserva</router-link>
+                            <router-link :to="{ name : 'public-posts.index'}" class="nav-button">Reserva</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="" class="nav-button ">Normativa</router-link>
+                            <router-link to="" class="nav-button">Normativa</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="" class="nav-button ">Como llegar</router-link>
+                            <router-link to="" class="nav-button">Como llegar</router-link>
                         </li>
                         <li v-if="authStore().user?.name" class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

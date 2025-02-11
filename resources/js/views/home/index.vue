@@ -1,8 +1,50 @@
 <template>
-    <section class="banner">
+    <section id="banner">
         <h1>DUNKERQUE AIRSOFT CAMP</h1>
         <h2>La «Operación Dinamo» consistió en la defensa y la evacuación de fuerzas británicas, francesas y belgas por mar en Dunkerque (Francia).</h2>
-        <button class="normal-button">Reservar</button>
+        <button class="normal-button">Reservar partida</button>
+    </section>
+    <section id="sobrenosotros" class="container">
+        <div class="sobrenosotros-left">
+            <h2>Sobre nosotros</h2>
+            <h3>Dunkerque, campo destinado a la practica de airsoft.</h3>
+            <p>En <strong>Dunkerque</strong> se lleva a cabo todo tipo de eventos tácticos: simulación militar, policial, recreación histórica, etc. gestionado por C.T.A. AIRSOFT CAMP.</p>
+
+            <p><strong>Asociación C.T.A. (Centro táctico de actividades)</strong> quiere ofrecer un escenario distinto con pinceladas de realismo para que podáis meteros en la piel de cualquier soldado del Eje o aliado.</p>
+        </div>
+        <div class="sobrenosotros-right">
+            <div class="sobrenosotros-right">
+                <router-link to="/">
+                    <div class="caja">
+                        <div class="imgcaja"></div>
+                        <p>Historia</p>
+                    </div>
+                </router-link>
+
+            <router-link to="/" >
+                <div class="caja">
+                    <div class="imgcaja"></div>
+                    <p>Reservas</p>
+                </div>
+            </router-link>
+            </div>
+
+            <div class="sobrenosotros-right">
+            <router-link to="/" >
+                <div class="caja">
+                    <div class="imgcaja"></div>
+                    <p>Normativa</p>
+                </div>
+            </router-link>
+
+            <router-link to="/" >
+                <div class="caja">
+                    <div class="imgcaja"></div>
+                    <p>Como llegar</p>
+                </div>
+            </router-link>
+            </div>
+        </div>
     </section>
 </template>
 <!--
