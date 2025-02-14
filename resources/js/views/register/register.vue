@@ -9,11 +9,22 @@
                             <div class="">
                                 <!-- Email -->
                                 <div class="mb-3">
-                                    <label for="name" class="form-label">{{ $t('name') }}</label>
+                                    <label for="name" class="form-label">{{ $t('fullname') }}</label>
                                     <input v-model="registerForm.name" id="name" type="text" class="form-control" autofocus>
                                     <!-- Validation Errors -->
                                     <div class="text-danger mt-1">
                                         <div v-for="message in validationErrors?.name">
+                                            {{ message }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- DNI -->
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">{{ $t('DNI') }}</label>
+                                    <input v-model="registerForm.DNI" id="DNI" type="text" class="form-control" autocomplete="username">
+                                    <!-- Validation Errors -->
+                                    <div class="text-danger mt-1">
+                                        <div v-for="message in validationErrors?.DNI">
                                             {{ message }}
                                         </div>
                                     </div>
@@ -24,6 +35,17 @@
                                     <!-- Validation Errors -->
                                     <div class="text-danger mt-1">
                                         <div v-for="message in validationErrors?.email">
+                                            {{ message }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Phone Number -->
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">{{ $t('number') }}</label>
+                                    <input v-model="registerForm.number" id="number" type="number" class="form-control" autocomplete="username">
+                                    <!-- Validation Errors -->
+                                    <div class="text-danger mt-1">
+                                        <div v-for="message in validationErrors?.number">
                                             {{ message }}
                                         </div>
                                     </div>
