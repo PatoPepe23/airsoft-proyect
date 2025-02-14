@@ -23,8 +23,8 @@
 
             <router-link to="/" >
                 <div class="caja">
-                    <div class="imgcaja"></div>
-                    <p>Reservas</p>
+                    <div class="imgcaja2"></div>
+                    <p>Normativa</p>
                 </div>
             </router-link>
             </div>
@@ -32,19 +32,73 @@
             <div class="sobrenosotros-right">
             <router-link to="/" >
                 <div class="caja">
-                    <div class="imgcaja"></div>
-                    <p>Normativa</p>
+                    <div class="imgcaja1"></div>
+                    <p>Reservas</p>
                 </div>
             </router-link>
 
             <router-link to="/" >
                 <div class="caja">
-                    <div class="imgcaja"></div>
+                    <div class="imgcaja3"></div>
                     <p>Como llegar</p>
                 </div>
             </router-link>
             </div>
         </div>
+    </section>
+    <section id="tickets" >
+    <h2>Proximas partidas</h2>
+        <div class="ticketbody">
+            <div class="ticketcaja">
+                <div class="ticketconboton">
+                    <div class="ticket cutout-image">
+                        <div>
+                            <p>Sábado 1 de Febrero</p>
+                            <p>Partida pública</p>
+                        </div>
+                        <p>8h - 13h</p>
+                    </div>
+                    <router-link to="/" class="ticketbutton">></router-link>
+                </div>
+                <div class="ticketconboton">
+                    <div class="ticket">
+                        <div>
+                            <p>Sábado 1 de Febrero</p>
+                            <p>Partida pública</p>
+                        </div>
+                        <p>8h - 13h</p>
+                    </div>
+                    <router-link to="/" class="ticketbutton">></router-link>
+                </div>
+            </div>
+            <div class="ticketcaja">
+                <div class="ticketconboton">
+                    <div class="ticket">
+                        <div>
+                            <p>Sábado 1 de Febrero</p>
+                            <p>Partida pública</p>
+                        </div>
+                        <p>8h - 13h</p>
+                    </div>
+                    <router-link to="/" class="ticketbutton">></router-link>
+                </div>
+                <div class="ticketconboton">
+                    <div class="ticket">
+                        <div>
+                            <p>Sábado 1 de Febrero</p>
+                            <p>Partida pública</p>
+                        </div>
+                        <p>8h - 13h</p>
+                    </div>
+                    <router-link to="/" class="ticketbutton">></router-link>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+    <section>
+
     </section>
 </template>
 <!--
