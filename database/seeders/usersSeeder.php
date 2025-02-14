@@ -12,6 +12,8 @@ class usersSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        DB::table('sandwiches')->insert([
+            ['fullname' => 'testing', 'mail' => 'testing@gmail.com', 'phone' => 111111111, 'DNI' => '12345678A', 'password'],
+        ]);
     }
 }

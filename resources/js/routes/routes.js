@@ -82,18 +82,7 @@ export default [
                 name: 'category-posts.index',
                 component: () => import('../views/category/posts.vue'),
             },
-            {
-                path: 'login',
-                name: 'auth.login',
-                component: () => import('../views/login/Login.vue'),
-                beforeEnter: guest,
-            },
-            {
-                path: 'register',
-                name: 'auth.register',
-                component: () => import('../views/register/index.vue'),
-                beforeEnter: guest,
-            },
+
             {
                 path: 'forgot-password',
                 name: 'auth.forgot-password',
@@ -107,8 +96,26 @@ export default [
                 beforeEnter: guest,
             },
         ]
-    },
 
+    },
+    {
+        path: '/',
+        // redirect: { name: 'login' },
+        children: [
+            {
+                path: 'login',
+                name: 'auth.login',
+                component: () => import('../views/login/Login.vue'),
+                beforeEnter: guest,
+            },
+            {
+                path: 'register',
+                name: 'auth.register',
+                component: () => import('../views/register/register.vue'),
+                beforeEnter: guest,
+            }
+        ]
+    },
     {
         path: '/app',
         component: AuthenticatedUserLayout,

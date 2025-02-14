@@ -16,7 +16,7 @@
     "password": "Contraseña",
     "forgot_password": "¿Olvidaste tu contraseña?",
     "confirm_password": "Confirmar Contraseña",
-    "name": "Nombre",
+    "fullName": "Nombre",
     "toggle_navigation": "Cambiar Navegación",
     "home": "Inicio",
     "you_are_logged_in": "¡Has iniciado sesión!",
