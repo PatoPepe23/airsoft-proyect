@@ -12,10 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users_reservations', function (Blueprint $table) {
-            $table->foreign('id_reservations')->references('id')->on('reservations')->onDelete('cascade');
-            $table->foreign('id_users')->references('id')->on('users')->onDelete('cascade');
+            $table->id();
+            $table->unsignedBigInteger('reservation_id');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('reservation_id')->references('id')->on('reservations')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
-
         });
     }
 

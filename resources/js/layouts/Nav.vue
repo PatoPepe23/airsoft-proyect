@@ -40,7 +40,7 @@
                         <ul class="navbar-nav mt-2 mt-lg-0 ms-auto">
                             <li class="nav-item">
                                 <router-link to="login" class="nav-button ">Login
-                                <img src="./../../../public/images/loginHead.svg" alt="" height="24px">
+                                <img src="./../../../public/images/loginHead.svg" alt="" height="24px" class="button-svg">
                                 </router-link>
                             </li>
 

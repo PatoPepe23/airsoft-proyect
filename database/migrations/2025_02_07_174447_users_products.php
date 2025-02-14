@@ -12,8 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users_products', function (Blueprint $table) {
-            $table->foreign('id_products')->references('id')->on('products')->onDelete('cascade');
-            $table->foreign('id_users')->references('id')->on('users')->onDelete('cascade');
+            $table->id();
+            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->boolean('received?');
         });
     }
