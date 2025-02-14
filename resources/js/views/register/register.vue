@@ -3,14 +3,18 @@
         <div class="row justify-content-center my-5">
             <div class="col-md-6">
                 <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-transparent">{{ $t('register') }}</div>
+                    <div class="login-register-selector">
+                        <router-link to="/login" class="nav-button " aria-current="page">{{ $t('Login') }}</router-link>
+                        <router-link to="/" class="login-logo"><img :src="'./images/logo.svg'" alt=""></router-link>
+                        <router-link to="" class="nav-button " aria-current="page">{{ $t('register') }}</router-link>
+                    </div>
                     <div class="card-body">
                         <form @submit.prevent="submitRegister">
                             <div class="">
                                 <!-- Email -->
                                 <div class="mb-3">
-                                    <label for="name" class="form-label">{{ $t('name') }}</label>
-                                    <input v-model="registerForm.name" id="name" type="text" class="form-control" autofocus>
+                                    <label for="name" class="form-label">{{ $t('fullName') }}</label>
+                                    <input v-model="registerForm.fullName" id="name" type="text" class="form-control" autofocus>
                                     <!-- Validation Errors -->
                                     <div class="text-danger mt-1">
                                         <div v-for="message in validationErrors?.name">
@@ -18,12 +22,34 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!-- DNI -->
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">{{ $t('DNI') }}</label>
+                                    <input v-model="registerForm.DNI" id="DNI" type="text" class="form-control" autocomplete="DNI">
+                                    <!-- Validation Errors -->
+                                    <div class="text-danger mt-1">
+                                        <div v-for="message in validationErrors?.DNI">
+                                            {{ message }}
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="mb-3">
                                     <label for="email" class="form-label">{{ $t('email') }}</label>
-                                    <input v-model="registerForm.email" id="email" type="email" class="form-control" autocomplete="username">
+                                    <input v-model="registerForm.email" id="email" type="email" class="form-control" autocomplete="email">
                                     <!-- Validation Errors -->
                                     <div class="text-danger mt-1">
                                         <div v-for="message in validationErrors?.email">
+                                            {{ message }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Phone Number -->
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">{{ $t('number') }}</label>
+                                    <input v-model="registerForm.number" id="number" type="number" class="form-control" autocomplete="tel-national">
+                                    <!-- Validation Errors -->
+                                    <div class="text-danger mt-1">
+                                        <div v-for="message in validationErrors?.number">
                                             {{ message }}
                                         </div>
                                     </div>
