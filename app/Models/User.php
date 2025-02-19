@@ -18,11 +18,11 @@ class User extends Authenticatable implements HasMedia
     use HasApiTokens, HasFactory, Notifiable, HasRoles, InteractsWithMedia;
 
     protected $fillable = [
-        'name',
+        'fullName',
         'email',
         'password',
-        'surname1',
-        'surname2'
+        'phone',
+        'DNI'
     ];
 
     /**
@@ -47,11 +47,6 @@ class User extends Authenticatable implements HasMedia
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new UserResetPasswordNotification($token));
-    }
-
-    public function assignaments()
-    {
-        return $this->hasMany(UserAssignment::class,'user_id');
     }
 
     public function posts()

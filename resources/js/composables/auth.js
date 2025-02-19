@@ -37,8 +37,10 @@ export default function useAuth() {
     })
 
     const registerForm = reactive({
-        name: '',
+        fullName: '',
+        DNI: '',
         email: '',
+        number: '',
         password: '',
         password_confirmation: ''
     })
@@ -75,6 +77,8 @@ export default function useAuth() {
 
     const submitRegister = async () => {
         if (processing.value) return
+
+        console.log(registerForm)
 
         processing.value = true
         validationErrors.value = {}
