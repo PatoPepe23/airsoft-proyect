@@ -225,6 +225,6 @@ export default function useAuth() {
         user,
         getUser,
         logout,
-        getAbilities
+        getAbilities,
     }
 }

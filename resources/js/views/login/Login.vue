@@ -34,7 +34,9 @@
                                             {{ message }}
                                         </div>
                                     </div>
+                                    <router-link class="forgot-password" :to="{name: 'auth.forgot-password'}">{{ $t('forgot_password')}}</router-link>
                                 </div>
+
                                 <!-- Remember me -->
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="remember" v-model="loginForm.remember" id="flexCheckIndeterminate">
@@ -44,13 +46,12 @@
                                 </div>
 
                                 <!-- Buttons -->
-                                <div class="flex items-center justify-end mt-4">
-                                    <button class="btn btn-primary" :class="{ 'opacity-25': processing }" :disabled="processing">
+                                <div class="flex items-center justify-content-center mt-4">
+                                    <button class="normal-button submit-login-button" :class="{ 'opacity-25': processing }" :disabled="processing">
                                         {{ $t('login') }}
                                     </button>
                                 </div>
                             </div>
-                            <router-link :to="{name: 'auth.forgot-password'}">{{ $t('forgot_password')}}</router-link>
                         </form>
                     </div>
                 </div>
