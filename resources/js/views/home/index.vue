@@ -123,7 +123,25 @@
     </section>
     <section id="colaboradores">
     <h2>Colaboradores</h2>
+        <div class="carousel container">
+            <div class="group">
+                <div class="carrouCard"><img :src="'./images/BarElCasino.png'" alt=""></div>
+                <div class="carrouCard"><img :src="'./images/barnaAirsoft.png'" alt=""></div>
+                <div class="carrouCard"><img :src="'./images/DisMatac.png'" alt=""></div>
+                <div class="carrouCard"><img :src="'./images/hobbyRace.png'" alt=""></div>
+                <div class="carrouCard"><img :src="'./images/SDJairsoft.png'" alt=""></div>
+                <div class="carrouCard"><img :src="'./images/TheTacticalCave.png'" alt=""></div>
+            </div>
 
+            <div aria-hidden="" class="group">
+                <div class="carrouCard"><img :src="'./images/BarElCasino.png'" alt=""></div>
+                <div class="carrouCard"><img :src="'./images/barnaAirsoft.png'" alt=""></div>
+                <div class="carrouCard"><img :src="'./images/DisMatac.png'" alt=""></div>
+                <div class="carrouCard"><img :src="'./images/hobbyRace.png'" alt=""></div>
+                <div class="carrouCard"><img :src="'./images/SDJairsoft.png'" alt=""></div>
+                <div class="carrouCard"><img :src="'./images/TheTacticalCave.png'" alt=""></div>
+            </div>
+        </div>
     </section>
 </template>
 <script setup lang="ts">
