@@ -51,3 +51,12 @@
     width: 100%;
     left: 0;
 }
+.nav-button img path{
+    fill: #283227;
+}
+
+.form-control{
+    height: 70px;
+    font-size: 24px;
+}
+

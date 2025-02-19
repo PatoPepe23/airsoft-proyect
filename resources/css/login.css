@@ -44,3 +44,60 @@
 .login-button:hover {
     border-bottom: solid #423024 4px;
 }
+
+label{
+    font-size: 24px;
+}
+
+input[type=checkbox]{
+    height: 25px;
+    width: 25px;
+    margin-right: 10px;
+}
+
+input[type=checkbox]:hover{
+    cursor: pointer;
+
+}
+
+input[type=checkbox]:checked{
+    background-color: #63865e;
+    border-color: #283227;
+}
+
+input[type=checkbox]:focus{
+    box-shadow: 0 0 0 0.1rem rgba(0,123,0,.25);
+    border-color: #283227;
+}
+
+.submit-login-button{
+    height: 5rem;
+    width: 100%;
+    font-size: 26px;
+}
+
+.forgot-password{
+    color: #158c00;
+}
+
+/* Register */
+
+.register-div{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.register-container{
+    border-radius: 4px;
+    width: 100%;
+}
+
+.register-checkboxes{
+    width: 50%;
+}
+
+.register-buttons{
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
