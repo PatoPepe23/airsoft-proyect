@@ -30,6 +30,21 @@
             </div>
         </div>
     </div>
+    <div class="carousel">
+        <div class="group">
+            <div class="carrouCard">a</div>
+            <div class="carrouCard">b</div>
+            <div class="carrouCard">c</div>
+            <div class="carrouCard">d</div>
+        </div>
+
+        <div aria-hidden="" class="group">
+            <div class="carrouCard">a</div>
+            <div class="carrouCard">b</div>
+            <div class="carrouCard">c</div>
+            <div class="carrouCard">d</div>
+        </div>
+    </div>
 
 </template>
 
