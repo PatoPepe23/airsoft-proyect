@@ -42,7 +42,8 @@ export default function useAuth() {
         email: '',
         number: '',
         password: '',
-        password_confirmation: ''
+        password_confirmation: '',
+        role_id: 2
     })
 
     const submitLogin = async () => {
@@ -65,7 +66,7 @@ export default function useAuth() {
                     showConfirmButton: false,
                     timer: 1500
                 })
-                await router.push({ name: 'admin.index' })
+                await router.push({ name: 'user.index' })
             })
             .catch(error => {
                 if (error.response?.data) {
