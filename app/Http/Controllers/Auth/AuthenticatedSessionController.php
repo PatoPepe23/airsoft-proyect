@@ -15,6 +15,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Log;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -36,9 +37,10 @@ class AuthenticatedSessionController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        $request->authenticate();
+        $a = $request->authenticate();
 
-//        $token = $request->session()->regenerate();
+        Log::info('AuthentificatedSessionController:'.$a);
+        //$token = $request->session()->regenerate();
         $token = $request->user()->createToken($request->userAgent())->plainTextToken;
         //$user= $request->user();
         //$user['rol']=User::find($user['id'])->load('roles')->roles[0]->name;
@@ -89,8 +91,10 @@ class AuthenticatedSessionController extends Controller
             'email' => $request['email'],
             'phone' => $request['number'],
             'DNI' => $request['DNI'],
-            'remember_token' => Null,
+            'role_id' => $request['role_id'],
             'password' => Hash::make($request['password']),
+            'remember_token' => Null,
+
         ]);
 
         return $this->successResponse($user, 'Registration Successfully');
