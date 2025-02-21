@@ -158,7 +158,7 @@ export default function useAuth() {
         user = auth.user
         //user = store.state.auth.user
         // Cookies.set('loggedIn', true)
-        getAbilities()
+        //getAbilities()
     }
 
     const getUser = async () => {
