@@ -214,7 +214,7 @@
     margin-top: 100px;
     width: 100%;
     color: #F8F8F8;
-    height: 50.25rem;
+    height: 55rem;
     display: flex;
     flex-direction: column;
 
@@ -248,10 +248,6 @@
 .ticketcaja .ticket {
     height: 178px;
     width: 635px;
-    /*border-bottom: #F1E58B solid 5px;
-    border-left: #F1E58B solid 5px;
-    border-top: #F1E58B solid 5px;
-    border-right: #423024 dashed 5px;*/
     color: black;
     position: relative;
     overflow: hidden;
@@ -291,9 +287,9 @@
     transition: 0.5s;
     aspect-ratio:1.5;
     background:
-        linear-gradient(#283227 0 0) right / 5px calc(100% - 50px + 5px) no-repeat,
-        conic-gradient(from 0deg at left 5px bottom 5px, #0000 0 90deg, #283227 0) 0 100% / calc(100% - 30px + 5px) calc(100% - 5px) repeat-y,
-        radial-gradient(25px at 98% 40px, #0000 calc(98% - 5px), #283227 calc(100% - 5px) 98%, #283227) 0 -40px;
+        linear-gradient(#41573E 0 0) right / 5px calc(100% - 50px + 5px) no-repeat,
+        conic-gradient(from 0deg at left 5px bottom 5px, #0000 0 90deg, #41573E 0) 0 100% / calc(100% - 30px + 5px) calc(100% - 5px) repeat-y,
+        radial-gradient(25px at 98% 40px, #0000 calc(98% - 5px), #41573E calc(100% - 5px) 98%, #283227) 0 -40px;
 }
 .ticketbutton:hover p {
     border-right: #41573E solid 2px;
