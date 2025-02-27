@@ -22,31 +22,30 @@
                         <li class="nav-item">
                             <router-link to="" class="nav-button">Como llegar</router-link>
                         </li>
-                        <li v-if="authStore().user?.name" class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ authStore().user?.name }}
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><router-link class="dropdown-item" to="/admin">Admin</router-link></li>
-                                <li><router-link to="/admin/posts" class="dropdown-item">Post</router-link></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="javascript:void(0)" @click="logout">Logout</a></li>
-                            </ul>
-                        </li>
                     </ul>
                 </div>
-                <template v-if="!authStore().user?.name">
                     <div>
                         <ul class="navbar-nav mt-2 mt-lg-0 ms-auto">
-                            <li class="nav-item">
+                            <LocaleSwitcher />
+                            <li v-if="!authStore().user?.name" class="nav-item">
                                 <router-link to="login" class="nav-button ">Login
                                 <img src="./../../../public/images/loginHead.svg" alt="" height="24px" class="button-svg">
                                 </router-link>
                             </li>
-
+                            <li v-if="authStore().user?.name" class="nav-item dropdown">
+                                <a class="nav-button" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ authStore().user?.name }}
+                                    <img src="./../../../public/images/loginHead.svg" alt="" height="24px" class="button-svg">
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><router-link class="dropdown-item" to="/admin">Admin</router-link></li>
+                                    <li><router-link to="/admin/posts" class="dropdown-item">Post</router-link></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="javascript:void(0)" @click="logout">Logout</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
-                </template>
             </div>
         </nav>
     </div>
