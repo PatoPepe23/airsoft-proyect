@@ -67,6 +67,7 @@ import '../css/home.css';
 import '../css/nav_bar.css';
 import '../css/login.css';
 import '../css/footer.css'
+import '../css/booking.css';
 
 
 const app = createApp({

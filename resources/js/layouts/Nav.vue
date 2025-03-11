@@ -11,41 +11,41 @@
                 <div>
                     <ul class="navbar-nav mt-2 mt-lg-0 ms-auto">
                         <li class="nav-item">
-                            <router-link to="/" class="nav-button" aria-current="page">Historia</router-link>
+                            <router-link to="/" class="nav-button" aria-current="page">{{ $t('history') }}</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link :to="{ name : 'public-posts.index'}" class="nav-button">Reserva</router-link>
+                            <router-link to="/booking" class="nav-button">{{ $t('booking') }}</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="" class="nav-button">Normativa</router-link>
+                            <router-link to="" class="nav-button">{{ $t('rules') }}</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="" class="nav-button">Como llegar</router-link>
+                            <router-link to="" class="nav-button">{{ $t('get_here') }}</router-link>
                         </li>
                     </ul>
                 </div>
-                    <div>
-                        <ul class="navbar-nav mt-2 mt-lg-0 ms-auto">
-                            <LocaleSwitcher />
-                            <li v-if="!authStore().user?.name" class="nav-item">
-                                <router-link to="login" class="nav-button ">Login
+                <div>
+                    <ul class="navbar-nav mt-2 mt-lg-0 ms-auto login-lang-div">
+                        <LocaleSwitcher class="langSwitcher"/>
+                        <li v-if="!authStore().user?.name" class="nav-item">
+                            <router-link to="login" class="nav-button nav-login-button ">{{ $t('login') }}
+                            <img src="./../../../public/images/loginHead.svg" alt="" height="24px" class="button-svg">
+                            </router-link>
+                        </li>
+                        <li v-if="authStore().user?.name" class="nav-item dropdown">
+                            <a class="nav-button" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ authStore().user?.name }}
                                 <img src="./../../../public/images/loginHead.svg" alt="" height="24px" class="button-svg">
-                                </router-link>
-                            </li>
-                            <li v-if="authStore().user?.name" class="nav-item dropdown">
-                                <a class="nav-button" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{ authStore().user?.name }}
-                                    <img src="./../../../public/images/loginHead.svg" alt="" height="24px" class="button-svg">
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><router-link class="dropdown-item" to="/admin">Admin</router-link></li>
-                                    <li><router-link to="/admin/posts" class="dropdown-item">Post</router-link></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="javascript:void(0)" @click="logout">Logout</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><router-link class="dropdown-item" to="/admin">Admin</router-link></li>
+                                <li><router-link to="/admin/posts" class="dropdown-item">Post</router-link></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="javascript:void(0)" @click="logout">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
     </div>

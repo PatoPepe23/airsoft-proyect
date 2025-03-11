@@ -14,14 +14,14 @@ const logoUrl = computed(() => {
         <div class="footerup">
             <img :src="'./images/logo.svg'" alt="airsoftlogo">
             <div>
-                <h3>Contacto</h3>
+                <h3>{{ $t('contacts') }}</h3>
                 <p> Robert: +34 622 42 13 25</p>
                 <p> Germán: +34 616 80 30 96</p>
                 <p> Jose (alquileres): +34 611 07 22 55</p>
                 <p> dunkerque.airsoft.camp@gmail.com</p>
             </div>
             <div>
-                <h3>Ubicación</h3>
+                <h3>{{ $t('location') }}</h3>
                 <p> Masia Bach, 08635 Sant Esteve Sesrovires, Barcelona</p>
             </div>
             <div>

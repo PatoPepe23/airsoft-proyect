@@ -1,0 +1,19 @@
+.nav-avoid{
+    margin-top: 100px;
+}
+
+.booking-ol{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    list-style: none;
+    padding: 0;
+}
+
+.booking-ol li{
+    height: 100px;
+    background-color: #41573E;
+}
+
+.first-day {
+    grid-column-start: 1
+}
