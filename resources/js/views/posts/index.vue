@@ -1,26 +1,48 @@
 <template>
     <div class="container">
-        <h2 class="text-center my-4">Blog Posts</h2>
-        <div class="row mb-2">
-            <div v-for="post in posts?.data" :key="post.id" class="col-md-6">
-                <div
-                    class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                    <div class="col-auto d-none d-lg-block d-md-block">
-                        <img :src="getImageUrl(post)" class="img-fluid"/>
-                    </div>
-                    <div class="col p-4 d-flex flex-column position-static">
-                        <strong v-for="category in post.categories" class="d-inline-block mb-2 text-primary">
-                            {{ category.name }}
-                        </strong>
-                        <h3 class="mb-0">{{ post.title }}</h3>
-                        <div class="mb-1 text-muted">12 de Enero</div>
-                        <div class="card-text mb-auto" v-html="post.content.substring(0, 150) + '...'"></div>
-                        <router-link :to="{ name: 'public-posts.details', params: { id: post.id } }"
-                                     class="stretched-link">Continual leyendo
-                        </router-link>
-                    </div>
-                </div>
-            </div>
+        <div class="nav-avoid">
+            <h1>Enero 2021</h1>
+            <ol class="booking-ol">
+                <li class="day-name">Lun</li>
+                <li class="day-name">Mar</li>
+                <li class="day-name">Mié</li>
+                <li class="day-name">Jue</li>
+                <li class="day-name">Vie</li>
+                <li class="day-name">Sáb</li>
+                <li class="day-name">Dom</li>
+
+                <li class="first-day">1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li>6</li>
+                <li>7</li>
+                <li>8</li>
+                <li>9</li>
+                <li>10</li>
+                <li>11</li>
+                <li>12</li>
+                <li>13</li>
+                <li>14</li>
+                <li>15</li>
+                <li>16</li>
+                <li>17</li>
+                <li>18</li>
+                <li>19</li>
+                <li>20</li>
+                <li>21</li>
+                <li>22</li>
+                <li>23</li>
+                <li>24</li>
+                <li>25</li>
+                <li>26</li>
+                <li>27</li>
+                <li>28</li>
+                <li>29</li>
+                <li>30</li>
+                <li>31</li>
+            </ol>
         </div>
     </div>
 </template>

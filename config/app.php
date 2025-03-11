@@ -82,12 +82,20 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'es',
     'locales' => [
-        'en' => 'EN',
-        'bn' => 'BN',
         'es' => 'ES',
+        'en' => 'EN',
+        'cat' => 'CAT',
         'fr' => 'FR',
+        'de' => 'DE',
+        'pt' => 'PT',
+        'zh-simple' => '中文 (简体)',
+        'zh-trad' => '中文 (繁體)',
+        'ko' => '한국어',
+        'jp' => '日本語',
+        'ru' => 'RU',
+        'uk' => 'UK',
     ],
 
     /*

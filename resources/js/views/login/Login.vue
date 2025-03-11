@@ -4,7 +4,7 @@
             <div class="col-md-6 center-login-div">
                 <div class="card border-0 shadow-sm login-container">
                     <div class="login-register-selector">
-                        <router-link to="" class="login-button " aria-current="page">{{ $t('Login') }}</router-link>
+                        <router-link to="" class="login-button " aria-current="page">{{ $t('login') }}</router-link>
                         <router-link to="/" class="login-logo"><img :src="'./images/logo.svg'" alt=""></router-link>
                         <router-link to="/register" class="login-button" aria-current="page">{{ $t('register') }}</router-link>
                     </div>
