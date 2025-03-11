@@ -20,11 +20,9 @@ class CreateAdminUserSeeder extends Seeder
     {
         $user = User::create([
             'id' => 1,
-            'name' => 'David',
-            'surname1' => 'Herrera',
-            'alias' => 'dherrera',
-            'email' => 'admin@demo.com',
-            'password' => bcrypt('12345678'),
+            'fullname' => 'dunkerque',
+            'phonenumber' => '622421325',
+            'email' => 'dunkerque.airsoft.camp@gmail.com',
         ]);
 
         $role = Role::create(['name' => 'admin']);
@@ -46,11 +44,9 @@ class CreateAdminUserSeeder extends Seeder
 
         $user = User::create([
             'id' => 2,
-            'name' => 'User',
-            'surname1' => 'User',
-            'alias' => 'user',
-            'email' => 'user@demo.com',
-            'password' => bcrypt('12345678')
+            'fullname' => 'dunkerque2',
+            'phonenumber' => '632421325',
+            'email' => 'dunkerque.airsoft2.camp@gmail.com',
         ]);
         $user->assignRole([$role2->id]);
 
