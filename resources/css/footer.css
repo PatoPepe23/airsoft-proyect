@@ -1,0 +1,38 @@
+.layout-footer .footerup{
+    display: flex ;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 50px;
+    padding: 5% 0;
+}
+
+.footercontactoyubicacion {
+    margin-top: 50px;
+}
+
+.facebook {
+    margin-right: 15px;
+}
+
+.footerbottom {
+    position: relative;
+    text-align: center;
+    padding: 2%;
+}
+
+.footerbottom:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 45%;
+    width: 10%;
+    height: 4px;
+    background-color: #423024;
+    transform: translateY(-50%);
+}
+
+
+.footerbottom  img{
+    margin: 0px 5px;
+}
