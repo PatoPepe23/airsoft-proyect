@@ -21,7 +21,10 @@ class CreateAdminUserSeeder extends Seeder
         $user = User::create([
             'id' => 1,
             'fullname' => 'dunkerque',
+            'password' => bcrypt('12345678'),
+            'DNI' => '12345678A',
             'phonenumber' => '622421325',
+
             'email' => 'dunkerque.airsoft.camp@gmail.com',
         ]);
 
@@ -45,6 +48,8 @@ class CreateAdminUserSeeder extends Seeder
         $user = User::create([
             'id' => 2,
             'fullname' => 'dunkerque2',
+            'password' => bcrypt('12345678'),
+            'DNI' => '1111111A',
             'phonenumber' => '632421325',
             'email' => 'dunkerque.airsoft2.camp@gmail.com',
         ]);

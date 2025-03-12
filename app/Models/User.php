@@ -45,6 +45,11 @@ class User extends Authenticatable implements HasMedia
         'email_verified_at' => 'datetime',
     ];
 
+    public function credenciales()
+    {
+        return $this->hasOne(Credenciales::class);
+    }
+
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new UserResetPasswordNotification($token));
