@@ -15,16 +15,18 @@ class CreatePartidaSeeder extends Seeder
     {
         $partida = Partida::create([
             'id' => 1,
-            'fecha' => 'Sabado 15',
+            'fecha' => '01-03-2025',
             'plazas' => 220,
-            'tipo' => "dominguera"
+            'tipo' => "dominguera",
+            'cancelled?' => false
         ]);
 
         $partida = Partida::create([
             'id' => 2,
-            'fecha' => 'Domingo 16',
+            'fecha' => '02-03-2025',
             'plazas' => 220,
-            'tipo' => "dominguera"
+            'tipo' => "dominguera",
+            'cancelled?' => false
         ]);
 
     }
