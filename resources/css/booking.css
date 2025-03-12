@@ -1,0 +1,46 @@
+.nav-avoid{
+    margin-top: 100px;
+}
+
+.booking-ol{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    list-style: none;
+    padding: 0;
+}
+
+.booking-ol li{
+    height: 100px;
+    background-color: #41573E;
+}
+
+.first-day {
+    grid-column-start: 1
+}
+
+.disabled {
+    opacity: 0.5; /* Make it semi-transparent */
+    pointer-events: none; /* Prevent interaction */
+    /* Add other styles as needed */
+}
+
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.current-day {
+    background-color: #f0f0f0;
+}

@@ -68,13 +68,13 @@ export default [
                 component: () => import('../views/home/index.vue'),
             },
             {
-                path: 'posts',
-                name: 'public-posts.index',
+                path: 'booking',
+                name: 'booking.index',
                 component: () => import('../views/posts/index.vue'),
             },
             {
-                path: 'posts/:id',
-                name: 'public-posts.details',
+                path: 'booking/:id',
+                name: 'booking.details',
                 component: () => import('../views/posts/details.vue'),
             },
             {

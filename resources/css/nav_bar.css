@@ -24,6 +24,12 @@
     margin-top: 0 !important;
 }
 
+.login-lang-div{
+    display: flex;
+    justify-content: end;
+    width: 315px;
+}
+
 /*Buttons*/
 .nav-button{
     font-size: 24px;
@@ -58,5 +64,16 @@
 .form-control{
     height: 70px;
     font-size: 24px;
+}
+
+.langSwitcher{
+    width: 95px;
+    display: flex;
+    justify-content: end;
+}
+
+.nav-login-button{
+    margin: 15px;
+    width: 190px;
 }
 
