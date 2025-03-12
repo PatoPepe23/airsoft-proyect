@@ -11,7 +11,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionTableSeeder::class);
         $this->call(CreateAdminUserSeeder::class);
 
-        $this->call(CreateCredencialesSeeder::class);
         $this->call(CreateDescuentoSeeder::class);
         $this->call(CreateFoodSeeder::class);
         $this->call(CreateObjPerdidoSeeder::class);
