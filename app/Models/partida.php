@@ -20,7 +20,7 @@ class partida extends Model
         static::deleting(function ($partida){
             $fechaConvertida = Carbon::createFromFormat('d-m-Y', $partida->fecha);
 
-            $nuevaFecha = $fechaConvertida->addMonths(2);
+            $nuevaFecha = $fechaConvertida->addDays(56);
 
             Partida::create([
                 'fecha' => $nuevaFecha->format('d-m-Y'),
