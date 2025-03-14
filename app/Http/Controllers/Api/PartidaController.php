@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
+use Carbon\Carbon;
+use App\Jobs\DeletePartida;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Partida;
@@ -22,7 +23,11 @@ class PartidaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $partida = Partida::create($request->all());
+        $fechaBorrado = Carbon::parse($partida->fecha)->addWeek();
+        DeletePartida::dispatch($partida->id)
+            ->delay($fechaBorrado);
+        return response()->json($partida, 201);
     }
 
     /**

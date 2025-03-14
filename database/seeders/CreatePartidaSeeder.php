@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\partida;
+use Illuminate\Support\Facades\DB;
 
 class CreatePartidaSeeder extends Seeder
 {
@@ -18,7 +19,7 @@ class CreatePartidaSeeder extends Seeder
             'fecha' => '01-03-2025',
             'plazas' => 220,
             'tipo' => "dominguera",
-            'cancelled?' => false
+            'cancelled' => false
         ]);
 
         $partida = Partida::create([
@@ -26,8 +27,15 @@ class CreatePartidaSeeder extends Seeder
             'fecha' => '02-03-2025',
             'plazas' => 220,
             'tipo' => "dominguera",
-            'cancelled?' => false
+            'cancelled' => false
         ]);
+
+
+        // Eliminar la partida con el id especificado
+        //DB::table('partida')->where('id', 1)->delete();
+
+
+
 
     }
 }
