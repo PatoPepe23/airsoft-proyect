@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('fecha');
             $table->integer('plazas');
             $table->string('tipo');
-            $table->boolean('cancelled?');
+            $table->boolean('cancelled');
             $table->timestamps();
         });
     }

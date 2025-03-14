@@ -10,13 +10,14 @@
                 {{ day }}
             </div>
             <div
-                v-for="day in days"
+                v-for="(day, index) in days"
                 :key="day.date"
                 class="calendar-day"
                 :class="[
-          { 'outside-month': !day.isCurrentMonth },
-          getDayClass(day.date) // Clase dinámica basada en el número de plazas
-        ]"
+                    { 'outside-month': !day.isCurrentMonth },
+                    getDayClass(day.date, day.isCurrentMonth), // Clase dinámica basada en las plazas, cancelled y tipo
+                    { 'row-even': Math.floor(index / 7) % 2 === 0, 'row-odd': Math.floor(index / 7) % 2 !== 0 } // Alternar colores de filas
+                ]"
             >
                 <template v-if="isWeekend(day.date) && day.isCurrentMonth">
                     <button @click="redirectToBooking(day.date)">
@@ -39,7 +40,7 @@ export default {
         return {
             currentDate: new Date(),
             daysOfWeek: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
-            specialDays: [], // Almacena los días especiales desde la base de datos
+            partidas: {}, // Almacena todas las partidas por fecha
         };
     },
     computed: {
@@ -61,10 +62,10 @@ export default {
 
             // Días del mes anterior
             const prevMonthLastDay = new Date(year, month, 0).getDate();
-            for (let i = startDay - 1; i >= 0; i--) {
+            for (let i = startDay; i > 0; i--) {
                 days.push({
-                    day: prevMonthLastDay - i,
-                    date: new Date(year, month - 1, prevMonthLastDay - i),
+                    day: prevMonthLastDay - i + 1,
+                    date: new Date(year, month - 1, prevMonthLastDay - i + 1),
                     isCurrentMonth: false,
                 });
             }
@@ -78,9 +79,9 @@ export default {
                 });
             }
 
-            // Días del siguiente mes
-            const nextMonthDays = 42 - days.length; // 6 semanas * 7 días = 42
-            for (let i = 1; i <= nextMonthDays; i++) {
+            // Días del siguiente mes (solo los necesarios para completar 5 filas)
+            const totalDays = 35 - days.length; // 5 filas * 7 días = 35
+            for (let i = 1; i <= totalDays; i++) {
                 days.push({
                     day: i,
                     date: new Date(year, month + 1, i),
@@ -94,11 +95,11 @@ export default {
     methods: {
         prevMonth() {
             this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() - 1, 1);
-            this.fetchSpecialDays(); // Recargar los días especiales al cambiar de mes
+            this.fetchPartidas(); // Recargar las partidas al cambiar de mes
         },
         nextMonth() {
             this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 1);
-            this.fetchSpecialDays(); // Recargar los días especiales al cambiar de mes
+            this.fetchPartidas(); // Recargar las partidas al cambiar de mes
         },
         isWeekend(date) {
             const dayOfWeek = date.getDay(); // 0 (domingo) a 6 (sábado)
@@ -115,84 +116,117 @@ export default {
             const dayId = this.formatDate(date); // Formato dd-mm-yyyy
             this.$router.push(`/booking/${dayId}`); // Navegación con Vue Router
         },
-        async fetchSpecialDays() {
+        async fetchPartidas() {
             try {
-                const response = await axios.get('/api/special-days');
-                this.specialDays = response.data; // Almacena los días especiales
+                const response = await axios.get('/api/partidas', {
+                    params: {
+                        year: this.currentDate.getFullYear(),
+                        month: this.currentDate.getMonth() + 1, // Los meses van de 1 a 12
+                    },
+                });
+
+                // Transformar la respuesta de la API
+                this.partidas = response.data.reduce((acc, item) => {
+                    const fecha = this.formatApiDate(item.fecha); // Convertir a YYYY-MM-DD
+                    acc[fecha] = item; // Almacenar toda la partida
+                    return acc;
+                }, {});
             } catch (error) {
-                console.error('Error fetching special days:', error);
+                console.error('Error fetching partidas:', error);
             }
         },
-        getDayClass(date) {
-            const formattedDate = date.toISOString().split('T')[0]; // Formato YYYY-MM-DD
-            const specialDay = this.specialDays.find(d => d.date === formattedDate);
+        formatApiDate(fecha) {
+            // Convertir fecha de "dd-mm-yyyy" a "yyyy-mm-dd"
+            const [day, month, year] = fecha.split('-');
+            const adjustedDay = String(Number(day) - 1).padStart(2, '0'); // Restar 1 y asegurar dos dígitos
+            return `${year}-${month}-${adjustedDay}`;
+        },
+        getDayClass(date, isCurrentMonth) {
+            // Solo aplicar clases dinámicas si el día pertenece al mes actual
+            if (!isCurrentMonth) {
+                return ''; // No colorear días fuera del mes actual
+            }
 
-            if (specialDay) {
-                const plazas = specialDay.plazas; // Usamos el campo 'plazas'
+            const formattedDate = this.formatApiDate(this.formatDate(date)); // Formatear la fecha correctamente
+            const partida = this.partidas[formattedDate]; // Obtiene la partida para la fecha
 
-                if (plazas === 0) {
-                    return 'full'; // Clase para cuando no hay plazas disponibles
-                } else if (plazas < 50) {
-                    return 'almost-full'; // Clase para cuando quedan pocas plazas
-                } else {
-                    return 'not-full'; // Clase para cuando hay muchas plazas disponibles
+            if (partida) {
+                if (this.isWeekend(date)) {
+                    const plazas = partida.plazas;
+
+                    if (partida.cancelled == 1) {
+                        return 'cancelled'; // Clase para partidas canceladas
+                    }
+
+                    if (plazas === 0) {
+                        return 'full'; // Clase para cuando no hay plazas disponibles
+                    } else if (plazas <= 50) {
+                        return 'almost-full'; // Clase para cuando quedan pocas plazas
+                    } else {
+                        return 'not-full'; // Clase para cuando hay muchas plazas disponibles
+                    }
                 }
             }
 
-            return ''; // No hay clase si no hay coincidencia
+            return ''; // No hay clase si no es fin de semana o no hay partida
         },
     },
     mounted() {
-        this.fetchSpecialDays(); // Obtener los días especiales al cargar el componente
+        this.fetchPartidas(); // Obtener las partidas al cargar el componente
     },
 };
 </script>
 
 <style>
 .calendar {
-    font-family: Arial, sans-serif;
-    max-width: 400px;
+    max-width: 800px;
+    min-height: 700px;
     margin: 0 auto;
-    border: 1px solid #ccc;
-    border-radius: 8px;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .calendar-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    padding: 10px;
-    background-color: #f0f0f0;
-    border-bottom: 1px solid #ccc;
+    font-size: 1.5em;
 }
 
 .calendar-header button {
     background: none;
     border: none;
-    font-size: 18px;
+    font-size: 32px;
     cursor: pointer;
 }
 
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
-    padding: 10px;
+    gap: 1px;
+    padding: 5px;
+    flex-grow: 1;
 }
 
 .calendar-day-header {
     text-align: center;
     font-weight: bold;
-    padding: 5px;
-    background-color: #f9f9f9;
+    padding: 25px; /* Aumentar el padding */
+    background-color: #283227;
+    color: #F8F8F8;
+    font-size: 1.2em; /* Aumentar el tamaño de la fuente */
 }
 
 .calendar-day {
     text-align: center;
-    padding: 10px;
-    border: 1px solid #eee;
+    padding: 20px;
     cursor: pointer;
+    position: relative;
+    font-size: 1.8em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .calendar-day.outside-month {
@@ -204,7 +238,7 @@ export default {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 1.2em;
     color: inherit;
 }
 
@@ -212,20 +246,33 @@ export default {
     text-decoration: underline;
 }
 
+/* Alternar colores de filas */
+.row-even {
+    background-color: #D9D9D9;
+}
+
+.row-odd {
+    background-color: #c6c6c6;
+}
+
 /* Clases dinámicas */
 .full {
-    background-color: #EC9494; /* Rojo claro */
+    background-color: #EC9494;
 }
 
 .almost-full {
-    background-color: #ECD894; /* Amarillo claro */
+    background-color: #ECD894;
 }
 
 .not-full {
-    background-color: #94E890; /* Verde claro */
+    background-color: #94E890;
 }
 
 .cancelled {
-    background-color: #6D6D6D; /* Gris */
+    background-color: #6D6D6D;
+    background-image: url("/public/images/cancelled.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 </style>
