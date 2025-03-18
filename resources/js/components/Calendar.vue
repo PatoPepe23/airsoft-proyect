@@ -20,7 +20,7 @@
                 ]"
             >
                 <template v-if="isWeekend(day.date) && day.isCurrentMonth">
-                    <button @click="redirectToBooking(day.date)">
+                    <button @click="redirectToBooking(day.date)" class="calendar-day-weekend-button">
                         {{ day.day }}
                     </button>
                 </template>
@@ -211,19 +211,33 @@ export default {
 
 .calendar-day-header {
     text-align: center;
+    align-content: center;
     font-weight: bold;
-    padding: 25px; /* Aumentar el padding */
+    padding: 8px; /* Aumentar el padding */
     background-color: #283227;
     color: #F8F8F8;
-    font-size: 1.2em; /* Aumentar el tamaño de la fuente */
+    font-size: 1.8em; /* Aumentar el tamaño de la fuente */
+}
+
+.calendar-day-weekend-button {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .calendar-day {
     text-align: center;
-    padding: 20px;
-    cursor: pointer;
+    padding: 0; /* Eliminar el padding para que el botón ocupe todo el espacio */
     position: relative;
-    font-size: 1.8em;
+    font-size: 2.2em;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -232,18 +246,6 @@ export default {
 .calendar-day.outside-month {
     color: #ccc;
     cursor: default;
-}
-
-.calendar-day button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.2em;
-    color: inherit;
-}
-
-.calendar-day button:hover {
-    text-decoration: underline;
 }
 
 /* Alternar colores de filas */

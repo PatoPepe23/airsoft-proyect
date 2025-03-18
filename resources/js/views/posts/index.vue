@@ -1,6 +1,12 @@
 <template>
     <div class="container">
         <div class="nav-avoid">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><router-link to="/">{{ $t('home') }}</router-link></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ $t('booking') }}</li>
+                </ol>
+            </nav>
             <h1>{{ $t('booking') }}</h1>
         </div>
         <selfCalendar/>
