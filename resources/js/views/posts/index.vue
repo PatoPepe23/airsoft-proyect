@@ -7,9 +7,15 @@
                     <li class="breadcrumb-item active" aria-current="page">{{ $t('booking') }}</li>
                 </ol>
             </nav>
-            <h1>{{ $t('booking') }}</h1>
+            <div class="booking-title">
+                <h3>{{ $t('booking_instructions') }}</h3>
+                <h1>{{ $t('booking') }}</h1>
+            </div>
         </div>
-        <selfCalendar/>
+        <div class="flex">
+            <selfCalendar/>
+<!--            <skinyCalendar />-->
+        </div>
     </div>
 </template>
 
@@ -17,6 +23,7 @@
 import axios from 'axios';
 import {ref, onMounted} from 'vue';
 import selfCalendar from './../../components/Calendar.vue';
+// import skinyCalendar from './../../components/skiny-calendar.vue';
 
 const posts = ref();
 

@@ -8,7 +8,7 @@
                 </div>
 
                     <DataTable v-model:filters="filters" :value="users.data" paginator :rows="5"
-                               :globalFilterFields="['id','alias', 'name','surname1','surname2','email','created_at','type.name']" stripedRows dataKey="id" size="small">
+                               :globalFilterFields="['id', 'fullname', 'DNI',  'phonenumber', 'email','created_at','type.name']" stripedRows dataKey="id" size="small">
 
                         <template #header>
                             <Toolbar pt:root:class="toolbar-table">
@@ -41,10 +41,9 @@
                         <template #empty> No customers found. </template>
 
                         <Column field="id" header="ID" sortable></Column>
-                        <Column field="alias" header="Alias" sortable></Column>
-                        <Column field="name" header="Nombre" sortable></Column>
-                        <Column field="surname1" header="Apellido1" sortable></Column>
-                        <Column field="surname2" header="Apellido2" sortable></Column>
+                        <Column field="alias" header="Nombre" sortable></Column>
+                        <Column field="name" header="DNI" sortable></Column>
+                        <Column field="surname1" header="Telefono" sortable></Column>
                         <Column field="email" header="Email" sortable></Column>
                         <Column field="created_at" header="Creado el" sortable></Column>
 

@@ -43,5 +43,7 @@
     "password_updated": "Your password has been updated!",
     "new_password": "New Password",
     "login_with": "Log In with",
-    "register_with": "Register with"
+    "register_with": "Register with",
+    "today": "Today",
+    "booking_instructions": "Click the day you want to reserve."
 }

@@ -25,8 +25,7 @@ class PartidaController extends Controller
     {
         $partida = Partida::create($request->all());
         $fechaBorrado = Carbon::parse($partida->fecha)->addWeek();
-        DeletePartida::dispatch($partida->id)
-            ->delay($fechaBorrado);
+        DeletePartida::dispatch($partida->id)->delay($fechaBorrado);
         return response()->json($partida, 201);
     }
 

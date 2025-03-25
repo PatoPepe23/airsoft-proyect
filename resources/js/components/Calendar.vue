@@ -4,6 +4,7 @@
             <button @click="prevMonth">←</button>
             <h2>{{ currentMonth }} {{ currentYear }}</h2>
             <button @click="nextMonth">→</button>
+            <button @click="goToCurrentDate" class="normal-button current-date-button">{{ $t('today') }}</button>
         </div>
         <div class="calendar-grid">
             <div v-for="day in daysOfWeek" :key="day" class="calendar-day-header">
@@ -15,12 +16,16 @@
                 class="calendar-day"
                 :class="[
                     { 'outside-month': !day.isCurrentMonth },
-                    getDayClass(day.date, day.isCurrentMonth), // Clase dinámica basada en las plazas, cancelled y tipo
+                    getDayClass(day.date, day.isCurrentMonth).class, // Clase dinámica basada en las plazas, cancelled y tipo
                     { 'row-even': Math.floor(index / 7) % 2 === 0, 'row-odd': Math.floor(index / 7) % 2 !== 0 } // Alternar colores de filas
                 ]"
             >
                 <template v-if="isWeekend(day.date) && day.isCurrentMonth">
-                    <button @click="redirectToBooking(day.date)" class="calendar-day-weekend-button">
+                    <button
+                        @click="redirectToBooking(day.date)"
+                        class="calendar-day-weekend-button"
+                        :disabled="getDayClass(day.date, day.isCurrentMonth).disabled"
+                    >
                         {{ day.day }}
                     </button>
                 </template>
@@ -80,7 +85,7 @@ export default {
             }
 
             // Días del siguiente mes (solo los necesarios para completar 5 filas)
-            const totalDays = 35 - days.length; // 5 filas * 7 días = 35
+            const totalDays = 35 - days.length;
             for (let i = 1; i <= totalDays; i++) {
                 days.push({
                     day: i,
@@ -100,6 +105,10 @@ export default {
         nextMonth() {
             this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 1);
             this.fetchPartidas(); // Recargar las partidas al cambiar de mes
+        },
+        goToCurrentDate() {
+            this.currentDate = new Date(); // Establece la fecha actual
+            this.fetchPartidas(); // Recargar las partidas al volver a la fecha actual
         },
         isWeekend(date) {
             const dayOfWeek = date.getDay(); // 0 (domingo) a 6 (sábado)
@@ -142,9 +151,15 @@ export default {
             return `${year}-${month}-${adjustedDay}`;
         },
         getDayClass(date, isCurrentMonth) {
-            // Solo aplicar clases dinámicas si el día pertenece al mes actual
+            const today = new Date().toISOString().split('T')[0];
+            const dateString = date.toISOString().split('T')[0];
+
             if (!isCurrentMonth) {
-                return ''; // No colorear días fuera del mes actual
+                return { class: '', disabled: true }; // No colorear días fuera del mes actual y deshabilitar
+            }
+
+            if (dateString < today && this.isWeekend(date)) {
+                return { class: 'past-day', disabled: true };
             }
 
             const formattedDate = this.formatApiDate(this.formatDate(date)); // Formatear la fecha correctamente
@@ -155,20 +170,20 @@ export default {
                     const plazas = partida.plazas;
 
                     if (partida.cancelled == 1) {
-                        return 'cancelled'; // Clase para partidas canceladas
+                        return { class: 'cancelled', disabled: true }; // Clase para partidas canceladas y deshabilitar
                     }
 
                     if (plazas === 0) {
-                        return 'full'; // Clase para cuando no hay plazas disponibles
+                        return { class: 'full', disabled: true }; // Clase para cuando no hay plazas disponibles y deshabilitar
                     } else if (plazas <= 50) {
-                        return 'almost-full'; // Clase para cuando quedan pocas plazas
+                        return { class: 'almost-full', disabled: false }; // Clase para cuando quedan pocas plazas
                     } else {
-                        return 'not-full'; // Clase para cuando hay muchas plazas disponibles
+                        return { class: 'not-full', disabled: false }; // Clase para cuando hay muchas plazas disponibles
                     }
                 }
             }
 
-            return ''; // No hay clase si no es fin de semana o no hay partida
+            return { class: '', disabled: false }; // No hay clase si no es fin de semana o no hay partida
         },
     },
     mounted() {
@@ -201,6 +216,13 @@ export default {
     cursor: pointer;
 }
 
+.current-date-button {
+    position: page;
+    padding: 0 25px;
+    font-size: 1.2em !important;
+    left: 30%;
+}
+
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -213,10 +235,10 @@ export default {
     text-align: center;
     align-content: center;
     font-weight: bold;
-    padding: 8px; /* Aumentar el padding */
+    padding: 30px;
     background-color: #283227;
     color: #F8F8F8;
-    font-size: 1.8em; /* Aumentar el tamaño de la fuente */
+    font-size: 1.8em;
 }
 
 .calendar-day-weekend-button {
@@ -233,9 +255,14 @@ export default {
     justify-content: center;
 }
 
+.calendar-day-weekend-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
 .calendar-day {
     text-align: center;
-    padding: 0; /* Eliminar el padding para que el botón ocupe todo el espacio */
+    padding: 30px;
     position: relative;
     font-size: 2.2em;
     display: flex;
@@ -277,4 +304,9 @@ export default {
     background-position: center;
     background-size: cover;
 }
+
+.past-day {
+    background-color: #717171;
+}
+
 </style>

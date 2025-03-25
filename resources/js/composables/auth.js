@@ -66,7 +66,7 @@ export default function useAuth() {
                     showConfirmButton: false,
                     timer: 1500
                 })
-                await router.push({ name: 'user.index' })
+                await router.push({ name: 'home' })
             })
             .catch(error => {
                 if (error.response?.data) {
@@ -159,7 +159,7 @@ export default function useAuth() {
         user = auth.user
         //user = store.state.auth.user
         // Cookies.set('loggedIn', true)
-        //getAbilities()
+        getAbilities()
     }
 
     const getUser = async () => {
