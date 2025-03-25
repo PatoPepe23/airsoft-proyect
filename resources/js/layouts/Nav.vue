@@ -21,7 +21,6 @@
                         </li>
                         <li class="nav-item">
                             <router-link to="" class="nav-button">{{ $t('get_here') }}</router-link>
-                            <li><a class="dropdown-item" href="javascript:void(0)" @click="logout">Logout</a></li>
                         </li>
                         <li v-if="authStore().user && authStore().user.roles && authStore().user.roles[0]?.id == 1" class="nav-item">
                             <router-link to="/admin" class="nav-button">Administrar</router-link>
