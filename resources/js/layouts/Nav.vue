@@ -21,6 +21,7 @@
                         </li>
                         <li class="nav-item">
                             <router-link to="" class="nav-button">{{ $t('get_here') }}</router-link>
+                            <li><a class="dropdown-item" href="javascript:void(0)" @click="logout">Logout</a></li>
                         </li>
                     </ul>
                 </div>

@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('partida-player', function (Blueprint $table) {
+        Schema::create('partida_player_pedido', function (Blueprint $table) {
             $table->id();
             $table->foreignId('player_id')->references('id')->on('player');
-            $table->foreignId('partida_id')->references('id')->on('partida');
+            $table->string('partida_id'); // 🔹 Mismo tipo de dato que 'fecha' en 'partida'
+            $table->foreign('partida_id')->references('fecha')->on('partida');
+            $table->foreignId('pedido_id')->references('id')->on('pedido');
+            $table->timestamps();
         });
     }
 
@@ -23,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('partida-player');
+        Schema::dropIfExists('partida_player_pedido');
     }
 };

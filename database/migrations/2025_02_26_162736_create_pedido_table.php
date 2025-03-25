@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('pedido', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->references('id')->on('users');
-            $table->foreignId('partida_id')->references('id')->on('partida');
-            $table->foreignId('food_id')->references('id')->on('food');
+            $table->integer('cost');
+            $table->foreignId('food_id')->nullable()->references('id')->on('food');
 
 
 

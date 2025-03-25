@@ -9,7 +9,7 @@ class pedidodescuento extends Model
 {
     use HasFactory;
 
-    protected $table = 'pedido-descuento';
+    protected $table = 'pedido_descuento';
 
     protected $fillable = ['pedido_id', 'descuento_id'];
 }

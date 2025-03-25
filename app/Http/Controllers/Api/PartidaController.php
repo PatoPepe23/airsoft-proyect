@@ -6,6 +6,7 @@ use App\Jobs\DeletePartida;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Partida;
+use App\Models\RegistroPartida;
 
 
 class PartidaController extends Controller
@@ -24,10 +25,16 @@ class PartidaController extends Controller
     public function store(Request $request)
     {
         $partida = Partida::create($request->all());
+
+        $registropartida = RegistroPartida::create([
+            'partida_id' => $partida->partida_id
+        ]);
+
         $fechaBorrado = Carbon::parse($partida->fecha)->addWeek();
         DeletePartida::dispatch($partida->id)
             ->delay($fechaBorrado);
-        return response()->json($partida, 201);
+
+        return response()->json($partida, $registropartida, 201);
     }
 
     /**

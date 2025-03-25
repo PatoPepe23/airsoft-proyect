@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\NoteController;
 use App\Http\Controllers\Api\PartidaController;
 
+use App\Http\Controllers\reservarController;
+
+
+
 Route::post('forget-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('forget.password.post');
 Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.reset');
 
@@ -64,3 +68,5 @@ Route::put('note/{id}', [NoteController::class, 'update'])->name('note.update');
 Route::delete('note/{id}', [NoteController::class, 'destroy'])->name('note.destroy');
 
 Route::get('/partidas', [PartidaController::class, 'index']);
+
+Route::post('/reservar', [reservarController::class, 'store']);

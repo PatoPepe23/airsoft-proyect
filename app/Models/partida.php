@@ -28,6 +28,7 @@ class partida extends Model
                 'tipo' => 'dominguera',
                 'cancelled' => false
             ]);
+
         });
     }
 }

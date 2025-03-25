@@ -17,7 +17,7 @@
                                     <input v-model="loginForm.email" id="email" type="email" class="form-control" required autofocus autocomplete="username">
                                     <!-- Validation Errors -->
                                     <div class="text-danger mt-1">
-                                        <div v-for="message in validatfionErrors?.email">
+                                        <div v-for="message in validationErrors?.email">
                                             {{ message }}
                                         </div>
                                     </div>

@@ -7,6 +7,7 @@ const PostsIndex  = ()  => import('../views/admin/posts/Index.vue');
 const PostsCreate  = ()  => import('../views/admin/posts/Create.vue');
 const PostsEdit  = ()  => import('../views/admin/posts/Edit.vue');
 
+
 async function requireLogin(to, from, next) {
     const auth = authStore();
     let isLogin = !!auth.authenticated;

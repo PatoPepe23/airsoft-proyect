@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('player', function (Blueprint $table) {
+        Schema::create('registropartidas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('usuario');
-            $table->boolean('alquiler?');
+            $table->text('partida_id');
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('player');
+        Schema::dropIfExists('registropartidas');
     }
 };

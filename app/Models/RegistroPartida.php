@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class pedidocomida extends Model
+class RegistroPartida extends Model
 {
     use HasFactory;
+    protected $table = 'RegistroPartida';
 
-    protected $table = 'pedido-comida';
+    protected $fillable = ['id_partida'];
 
-    protected $fillable = ['pedido_id', 'food_id'];
 }
