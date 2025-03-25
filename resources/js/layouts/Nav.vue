@@ -23,23 +23,24 @@
                             <router-link to="" class="nav-button">{{ $t('get_here') }}</router-link>
                             <li><a class="dropdown-item" href="javascript:void(0)" @click="logout">Logout</a></li>
                         </li>
+                        <li v-if="authStore().user && authStore().user.roles && authStore().user.roles[0]?.id == 1" class="nav-item">
+                            <router-link to="/admin" class="nav-button">Administrar</router-link>
+                        </li>
                     </ul>
                 </div>
                 <div>
                     <ul class="navbar-nav mt-2 mt-lg-0 ms-auto login-lang-div">
                         <LocaleSwitcher class="langSwitcher"/>
-                        <li v-if="!authStore().user?.name" class="nav-item">
-                            <router-link to="login" class="nav-button nav-login-button ">{{ $t('login') }}
+                        <li v-if="!authStore().user?.fullname" class="nav-item">
+                            <router-link to="/login" class="nav-button nav-login-button ">{{ $t('login') }}
                             <img src="./../../../public/images/loginHead.svg" alt="" height="24px" class="button-svg">
                             </router-link>
                         </li>
-                        <li v-if="authStore().user?.name" class="nav-item dropdown">
-                            <a class="nav-button" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ authStore().user?.name }}
+                        <li v-if="authStore().user?.fullname" class="nav-item dropdown">
+                            <a class="nav-button nav-login-button" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ authStore().user?.fullname }}
                                 <img src="./../../../public/images/loginHead.svg" alt="" height="24px" class="button-svg">
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><router-link class="dropdown-item" to="/admin">Admin</router-link></li>
                                 <li><router-link to="/admin/posts" class="dropdown-item">Post</router-link></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="javascript:void(0)" @click="logout">Logout</a></li>
@@ -57,6 +58,5 @@
 import useAuth from "@/composables/auth";
 import LocaleSwitcher from "../components/LocaleSwitcher.vue";
 import { authStore } from "../store/auth";
-
 const { processing, logout } = useAuth();
 </script>
