@@ -20,50 +20,34 @@
                                 <th class="px-6 py-3 bg-gray-50 text-left">
                                     <input v-model="search_id" type="text"
                                            class="inline-block mt-1 form-control"
-                                           placeholder="Filter by ID">
+                                           placeholder="Filtrar por dia">
                                 </th>
                                 <th class="px-6 py-3 bg-gray-50 text-left">
                                     <input v-model="search_title" type="text"
                                            class="inline-block mt-1 form-control"
-                                           placeholder="Filter by Title">
+                                           placeholder="Filtrar por jugadores">
                                 </th>
                                 <th class="px-6 py-3 bg-gray-50 text-left">
+                                    <input v-model="search_content" type=""
+                                           class="inline-block mt-1 form-control"
+                                           placeholder="Filtrar por turno">
                                     <!-- <v-select multiple v-model="search_category" :options="categoryList" :reduce="category => category.id" label="name" class="form-control w-100"/> -->
                                 </th>
                                 <th class="px-6 py-3 bg-gray-50 text-left">
-                                    <input v-model="search_content" type="text"
+                                    <input v-model="search_content" type=""
                                            class="inline-block mt-1 form-control"
-                                           placeholder="Filter by Content">
+                                           placeholder="Filtrar por estado">
+                                    <!-- <v-select multiple v-model="search_category" :options="categoryList" :reduce="category => category.id" label="name" class="form-control w-100"/> -->
                                 </th>
-                                <th class="px-6 py-3 text-start"></th>
                                 <th class="px-6 py-3 text-start"></th>
                             </tr>
                             <tr>
-                                <th class="px-6 py-3 text-start">
-                                    <div class="flex flex-row"
-                                         @click="updateOrdering('id')">
-                                        <div class="font-medium text-uppercase"
-                                             :class="{ 'font-bold text-blue-600': orderColumn === 'id' }">
-                                            ID
-                                        </div>
-                                        <div class="select-none">
-                                <span :class="{
-                                  'text-blue-600': orderDirection === 'asc' && orderColumn === 'id',
-                                  'hidden': orderDirection !== '' && orderDirection !== 'asc' && orderColumn === 'id',
-                                }">&uarr;</span>
-                                            <span :class="{
-                                  'text-blue-600': orderDirection === 'desc' && orderColumn === 'id',
-                                  'hidden': orderDirection !== '' && orderDirection !== 'desc' && orderColumn === 'id',
-                                }">&darr;</span>
-                                        </div>
-                                    </div>
-                                </th>
                                 <th class="px-6 py-3 text-left">
                                     <div class="flex flex-row"
                                          @click="updateOrdering('title')">
                                         <div class="font-medium text-uppercase"
                                              :class="{ 'font-bold text-blue-600': orderColumn === 'title' }">
-                                            Title
+                                            Dia
                                         </div>
                                         <div class="select-none">
                                 <span :class="{
@@ -78,39 +62,64 @@
                                     </div>
                                 </th>
                                 <th class="px-6 py-3 text-left">
-                                    <div class="flex flex-row">
-                                        <div class="font-medium text-uppercase">
-                                            Thumbnail
-                                        </div>
-                                    </div>
-                                </th>
-                                <th class="px-6 py-3 bg-gray-50 text-left">
-                                    <span class="text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Category</span>
-                                </th>
-                                <th class="px-6 py-3 bg-gray-50 text-left">
-                                    <span class="text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Content</span>
-                                </th>
-                                <th class="px-6 py-3 bg-gray-50 text-left">
-                                    <div class="flex flex-row items-center justify-between cursor-pointer"
-                                         @click="updateOrdering('created_at')">
-                                        <div class="leading-4 font-medium text-gray-500 uppercase tracking-wider"
-                                             :class="{ 'font-bold text-blue-600': orderColumn === 'created_at' }">
-                                            Created at
+                                    <div class="flex flex-row"
+                                         @click="updateOrdering('players')">
+                                        <div class="font-medium text-uppercase"
+                                             :class="{ 'font-bold text-blue-600': orderColumn === 'players' }">
+                                            JUGADORES
                                         </div>
                                         <div class="select-none">
                                 <span :class="{
-                                  'text-blue-600': orderDirection === 'asc' && orderColumn === 'created_at',
-                                  'hidden': orderDirection !== '' && orderDirection !== 'asc' && orderColumn === 'created_at',
+                                  'text-blue-600': orderDirection === 'asc' && orderColumn === 'players',
+                                  'hidden': orderDirection !== '' && orderDirection !== 'asc' && orderColumn === 'players',
                                 }">&uarr;</span>
                                             <span :class="{
-                                  'text-blue-600': orderDirection === 'desc' && orderColumn === 'created_at',
-                                  'hidden': orderDirection !== '' && orderDirection !== 'desc' && orderColumn === 'created_at',
+                                  'text-blue-600': orderDirection === 'desc' && orderColumn === 'players',
+                                  'hidden': orderDirection !== '' && orderDirection !== 'desc' && orderColumn === 'players',
+                                }">&darr;</span>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th class="px-6 py-3 text-left">
+                                    <div class="flex flex-row"
+                                         @click="updateOrdering('players')">
+                                        <div class="font-medium text-uppercase"
+                                             :class="{ 'font-bold text-blue-600': orderColumn === 'players' }">
+                                            TURNO
+                                        </div>
+                                        <div class="select-none">
+                                <span :class="{
+                                  'text-blue-600': orderDirection === 'asc' && orderColumn === 'players',
+                                  'hidden': orderDirection !== '' && orderDirection !== 'asc' && orderColumn === 'players',
+                                }">&uarr;</span>
+                                            <span :class="{
+                                  'text-blue-600': orderDirection === 'desc' && orderColumn === 'players',
+                                  'hidden': orderDirection !== '' && orderDirection !== 'desc' && orderColumn === 'players',
+                                }">&darr;</span>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th class="px-6 py-3 text-left">
+                                    <div class="flex flex-row"
+                                         @click="updateOrdering('players')">
+                                        <div class="font-medium text-uppercase"
+                                             :class="{ 'font-bold text-blue-600': orderColumn === 'players' }">
+                                            ESTADO
+                                        </div>
+                                        <div class="select-none">
+                                <span :class="{
+                                  'text-blue-600': orderDirection === 'asc' && orderColumn === 'players',
+                                  'hidden': orderDirection !== '' && orderDirection !== 'asc' && orderColumn === 'players',
+                                }">&uarr;</span>
+                                            <span :class="{
+                                  'text-blue-600': orderDirection === 'desc' && orderColumn === 'players',
+                                  'hidden': orderDirection !== '' && orderDirection !== 'desc' && orderColumn === 'players',
                                 }">&darr;</span>
                                         </div>
                                     </div>
                                 </th>
                                 <th class="px-6 py-3 bg-gray-50 text-left">
-                                    Actions
+                                    Acciones
                                 </th>
                             </tr>
                             </thead>
@@ -129,9 +138,6 @@
                                     <div v-for="category in post.categories">
                                         {{ category.name }}
                                     </div>
-                                </td>
-                                <td class="px-6 py-4 text-sm">
-                                    <div v-html="post.content.slice(0, 100) + '...'"></div>
                                 </td>
                                 <td class="px-6 py-4 text-sm">
                                     {{ post.created_at }}

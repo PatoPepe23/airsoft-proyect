@@ -12,4 +12,6 @@ class pedido extends Model
     protected $table = 'pedido';
 
     protected $fillable = ['user_id', 'cost', 'food_id'];
+
+
 }

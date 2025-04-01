@@ -16,11 +16,10 @@ class UserResource extends JsonResource
     {
         return [
             'id'   => $this->id,
-            'alias' => $this->alias,
-            'name' => $this->name,
-            'surname1' => $this->surname1,
-            'surname2' => $this->surname2,
+            'fullname' => $this->fullname,
             'email' => $this->email,
+            'phonenumber' => $this->phonenumber,
+            'DNI' => $this->DNI,
             'role_id' => $this->roles,
             'roles' => $this->roles,
             'avatar' => count($this->getMedia('*')) > 0 ? $this->getMedia('*')[0]->getUrl() : null,
