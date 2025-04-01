@@ -12,23 +12,20 @@ class partida extends Model
 
     protected $table = 'partida';
 
-    protected $fillable = ['fecha', 'plazas', 'tipo', 'cancelled'];
+    protected $fillable = ['fecha', 'plazas', 'tipo', 'cancelled', 'shift'];
 
-    protected static function boot(){
-        parent::boot();
 
-        static::deleting(function ($partida){
-            $fechaConvertida = Carbon::createFromFormat('d-m-Y', $partida->fecha);
+    public function players()
+    {
+        return $this->belongsToMany(Player::class, 'partida_player_pedido')
+            ->withPivot('pedido_id')
+            ->withTimestamps();
+    }
 
-            $nuevaFecha = $fechaConvertida->addDays(56);
-
-            Partida::create([
-                'fecha' => $nuevaFecha->format('d-m-Y'),
-                'plazas' => 220,
-                'tipo' => 'dominguera',
-                'cancelled' => false
-            ]);
-
-        });
+    public function pedidos()
+    {
+        return $this->belongsToMany(Pedido::class, 'partida_player_pedido')
+            ->withPivot('player_id')
+            ->withTimestamps();
     }
 }

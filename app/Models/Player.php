@@ -12,4 +12,19 @@ class Player extends Model
     protected $table = 'player';
 
     protected $fillable = ['DNI','nombrecompleto', 'telefono', 'email', 'team', 'alquiler'];
+
+    public function partidas()
+    {
+        return $this->belongsToMany(Partida::class, 'partida_player_pedido')
+            ->withPivot('pedido_id')
+            ->withTimestamps();
+    }
+
+    public function pedidos()
+    {
+        return $this->belongsToMany(Pedido::class, 'partida_player_pedido')
+            ->withPivot('partida_id')
+            ->withTimestamps();
+    }
+
 }

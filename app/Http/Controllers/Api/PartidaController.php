@@ -24,17 +24,7 @@ class PartidaController extends Controller
      */
     public function store(Request $request)
     {
-        $partida = Partida::create($request->all());
-
-        $registropartida = RegistroPartida::create([
-            'partida_id' => $partida->partida_id
-        ]);
-
-        $fechaBorrado = Carbon::parse($partida->fecha)->addWeek();
-        DeletePartida::dispatch($partida->id)
-            ->delay($fechaBorrado);
-
-        return response()->json($partida, $registropartida, 201);
+        //
     }
 
     /**
