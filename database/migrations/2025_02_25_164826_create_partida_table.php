@@ -21,7 +21,6 @@ return new class extends Migration
             $table->timestamps();
 
             $table->unique(['fecha', 'shift']);
-            $table->index(['id', 'shift']);
         });
     }
 

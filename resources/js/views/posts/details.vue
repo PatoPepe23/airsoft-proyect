@@ -14,23 +14,23 @@
 
                 <form @submit.prevent="reservar">
                     <div class="form-group">
-                        <label for="DNI">DNI:</label>
+                        <label for="DNI">* DNI:</label>
                         <input type="text" id="DNI" v-model="DNI" required />
                     </div>
 
                     <div class="form-group">
-                        <label for="nombre">Nombre completo:</label>
+                        <label for="nombre">* Nombre completo:</label>
                         <input type="text" id="nombre" v-model="nombrecompleto" required />
                     </div>
 
                     <div class="form-group">
-                        <label for="telefono">Teléfono:</label>
-                        <input type="tel" id="telefono" v-model="telefono" required min="18" />
+                        <label for="email">* Email:</label>
+                        <input type="email" id="email" v-model="email" required />
                     </div>
 
                     <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" v-model="email" required />
+                        <label for="telefono">Teléfono:</label>
+                        <input type="tel" id="telefono" v-model="telefono" min="18" />
                     </div>
 
                     <div class="form-group">
@@ -125,15 +125,15 @@ const reservar = async () => {
 
         swal({
             icon: 'success',
-            title: 'Reserva en la partida con exito',
+            title: 'Reserva realizada con exito',
             showConfirmButton: false,
-            timer: 1500
+            timer: 2500
         });
         setTimeout(() => {
             router.push({ name: 'home' }).then(() => {
                 window.scrollTo(0, 0); // Hace scroll al inicio
             });
-        }, 1500);
+        }, 2500);
 
 
         // Limpiar los campos después de enviar
@@ -151,7 +151,7 @@ const reservar = async () => {
             icon: 'error',
             title: error.response?.data.message,
             showConfirmButton: false,
-            timer: 1500
+            timer: 2500
         });
     }
 };

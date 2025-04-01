@@ -25,7 +25,7 @@ class reservarController extends Controller
         $validated = $request->validate([
             'DNI' => 'required|string|max:20',
             'nombrecompleto' => 'required|string|max:100',
-            'telefono' => 'required|numeric',
+            'telefono' => 'nullable|numeric',
             'email' => 'required|email',
             'team' => 'nullable|string',
             'alquiler' => 'required|boolean',

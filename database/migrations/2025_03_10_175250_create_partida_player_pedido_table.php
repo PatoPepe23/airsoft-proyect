@@ -14,12 +14,9 @@ return new class extends Migration
         Schema::create('partida_player_pedido', function (Blueprint $table) {
             $table->id();
             $table->foreignId('player_id')->references('id')->on('player');
-            $table->foreignId('partida_id');
-            $table->boolean('shift')->default(false);
+            $table->foreignId('partida_id')->references('id')->on('partida');
             $table->foreignId('pedido_id')->references('id')->on('pedido');
             $table->timestamps();
-
-            $table->foreign(['partida_id', 'shift'])->references(['id', 'shift'])->on('partida')->onDelete('cascade');
 
         });
     }
