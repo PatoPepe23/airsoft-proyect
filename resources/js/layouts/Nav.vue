@@ -25,8 +25,24 @@
                             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div class="offcanvas-body">
-                            <p>Hola</p>
-                            <!-- Aquí tu contenido del menú -->
+                            <ul class="navbar-nav mt-2 mt-lg-0 ms-auto">
+                                <li class="nav-item">
+                                    <router-link to="/" class="nav-button" aria-current="page">{{ $t('history') }}</router-link>
+                                </li>
+                                <li class="nav-item">
+                                    <router-link to="/booking" class="nav-button">{{ $t('booking') }}</router-link>
+                                </li>
+                                <li class="nav-item">
+                                    <router-link to="" class="nav-button">{{ $t('rules') }}</router-link>
+                                </li>
+                                <li class="nav-item">
+                                    <router-link to="" class="nav-button">{{ $t('get_here') }}</router-link>
+                                </li>
+                                <li v-if="authStore().user && authStore().user.roles && authStore().user.roles[0]?.id == 1" class="nav-item">
+                                    <router-link to="/admin" class="nav-button">Administrar</router-link>
+                                </li>
+                                <LocaleSwitcher class="langSwitcher"/>
+                            </ul>
                         </div>
                     </div>
                 </div>
