@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('partida_player_pedido', function (Blueprint $table) {
             $table->id();
             $table->foreignId('player_id')->references('id')->on('player');
-            $table->string('partida_id'); //  Mismo tipo de dato que 'fecha' en 'partida'
-            $table->foreign('partida_id')->references('fecha')->on('partida');
+            $table->foreignId('partida_id')->references('id')->on('partida');
             $table->foreignId('pedido_id')->references('id')->on('pedido');
             $table->timestamps();
+
         });
     }
 

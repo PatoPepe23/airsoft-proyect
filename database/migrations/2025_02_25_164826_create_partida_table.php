@@ -13,11 +13,14 @@ return new class extends Migration
     {
         Schema::create('partida', function (Blueprint $table) {
             $table->id();
-            $table->string('fecha')->unique();
+            $table->date('fecha');
             $table->integer('plazas');
             $table->string('tipo');
             $table->boolean('cancelled');
+            $table->boolean('shift');
             $table->timestamps();
+
+            $table->unique(['fecha', 'shift']);
         });
     }
 

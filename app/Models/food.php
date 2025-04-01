@@ -12,4 +12,11 @@ class food extends Model
     protected $table = 'food';
 
     protected $fillable = ['nombre'];
+
+    public function pedido()
+    {
+        return $this->belongsToMany(pedido::class, 'pedido_comida')
+            ->withPivot('pedido_id')
+            ->withTimestamps();
+    }
 }

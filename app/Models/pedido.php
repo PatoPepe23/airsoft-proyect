@@ -13,5 +13,25 @@ class pedido extends Model
 
     protected $fillable = ['user_id', 'cost', 'food_id'];
 
+    public function players()
+    {
+        return $this->belongsToMany(player::class, 'partida_player_pedido')
+            ->withPivot('partida_id')
+            ->withTimestamps();
+    }
+
+    public function partidas()
+    {
+        return $this->belongsToMany(partida::class, 'partida_player_pedido')
+            ->withPivot('player_id')
+            ->withTimestamps();
+    }
+
+    public function comida()
+    {
+        return $this->belongsToMany(food::class, 'pedido_comida')
+            ->withPivot('food_id')
+            ->withTimestamps();
+    }
 
 }

@@ -12,6 +12,7 @@ export default function useUsers() {
     const isLoading = ref(false)
     const swal = inject('$swal')
 
+
     const getUsers = async (
         page = 1,
         search_id = '',

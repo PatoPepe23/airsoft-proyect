@@ -14,23 +14,23 @@
 
                 <form @submit.prevent="reservar">
                     <div class="form-group">
-                        <label for="DNI">DNI:</label>
+                        <label for="DNI">* DNI:</label>
                         <input type="text" id="DNI" v-model="DNI" required />
                     </div>
 
                     <div class="form-group">
-                        <label for="nombre">Nombre completo:</label>
+                        <label for="nombre">* Nombre completo:</label>
                         <input type="text" id="nombre" v-model="nombrecompleto" required />
                     </div>
 
                     <div class="form-group">
-                        <label for="telefono">Teléfono:</label>
-                        <input type="tel" id="telefono" v-model="telefono" required min="18" />
+                        <label for="email">* Email:</label>
+                        <input type="email" id="email" v-model="email" required />
                     </div>
 
                     <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" v-model="email" required />
+                        <label for="telefono">Teléfono:</label>
+                        <input type="tel" id="telefono" v-model="telefono" min="18" />
                     </div>
 
                     <div class="form-group">
@@ -60,6 +60,11 @@
                         <label for="alquiler">Equipamiento de alquiler?</label>
                     </div>
 
+                    <div class="form-group">
+                        <input type="checkbox" id="shift" v-model="shift" >
+                        <label for="shift">Turno de tarde? (16:00)</label>
+                    </div>
+
                     <button type="submit">Enviar</button>
                 </form>
 
@@ -72,18 +77,22 @@
 
 <script setup>
 import axios from 'axios';
-import { ref, onMounted } from 'vue';
-import { useRoute } from "vue-router";
+import {ref, onMounted, inject} from 'vue';
+import { useRoute, useRouter } from "vue-router";
+
 
 
     const post = ref();
     const categories = ref();
     const route = useRoute()
+    const router = useRouter();
     const partida_id = route.params.id;
+    const swal = inject('$swal')
 
     onMounted(() => {
         axios.get('/api/get-post/' + route.params.id).then(({ data }) => {
-            post.value = data
+            post.value = data;
+            verifysunday(partida_id);
         })
         axios.get('/api/category-list').then(({ data }) => {
             categories.value = data.data
@@ -98,6 +107,7 @@ import { useRoute } from "vue-router";
         const alquiler = ref(false);
         const food = ref(false);
         const bocadillo = ref(1)
+        const shift = ref(false);
 
 const reservar = async () => {
     try {
@@ -109,11 +119,22 @@ const reservar = async () => {
             alquiler: alquiler.value,
             food: food.value,
             food_id: food.value ? bocadillo.value : null,
-            partida_id: partida_id
+            partida_id: partida_id,
+            shift: shift.value
         });
 
-        console.log("Jugador registrado:", response.data);
-        alert("Registro exitoso!");
+        swal({
+            icon: 'success',
+            title: 'Reserva realizada con exito',
+            showConfirmButton: false,
+            timer: 2500
+        });
+        setTimeout(() => {
+            router.push({ name: 'home' }).then(() => {
+                window.scrollTo(0, 0); // Hace scroll al inicio
+            });
+        }, 2500);
+
 
         // Limpiar los campos después de enviar
         DNI.value = "";
@@ -121,11 +142,17 @@ const reservar = async () => {
         telefono.value = "";
         email.value = "";
         food.value = false;
-        bocadillo.value = null;
+        bocadillo.value = 1;
+        shift.value = false;
 
     } catch (error) {
         console.error("Error al enviar el formulario:", error.response?.data || error);
-        alert("Error al registrar, verifica los datos.");
+        swal({
+            icon: 'error',
+            title: error.response?.data.message,
+            showConfirmButton: false,
+            timer: 2500
+        });
     }
 };
 

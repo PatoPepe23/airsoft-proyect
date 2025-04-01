@@ -12,4 +12,5 @@ class partidaplayerpedido extends Model
     protected $table = 'partida_player_pedido';
 
     protected $fillable = ['player_id', 'partida_id', 'pedido_id'];
+
 }
