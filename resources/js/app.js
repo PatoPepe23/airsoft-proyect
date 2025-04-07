@@ -68,6 +68,7 @@ import '../css/nav_bar.css';
 import '../css/login.css';
 import '../css/footer.css'
 import '../css/booking.css';
+import '../css/bookingform.css';
 
 
 const app = createApp({

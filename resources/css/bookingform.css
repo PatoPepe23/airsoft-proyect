@@ -1,0 +1,100 @@
+h1 {
+    text-align: center;
+}
+
+.bookingform {
+    display: flex;
+    justify-content: center;
+    margin-top: 2%;
+}
+
+form {
+    display: flex;
+    flex-direction: row;
+    gap: 2%;
+}
+
+.bookingformleft {
+    display: flex;
+    gap: 5%;
+    background-color: #283227;
+    color: white;
+    padding: 2%;
+    height: 31rem;
+    width: 100%;
+    border-radius: 4px;
+}
+
+.bookingformleft .bookingtextinput {
+    display: flex;
+    flex-direction: column;
+}
+
+.formsplit {
+    display: flex;
+    flex-direction: column;
+}
+.formsplit:nth-child(1) input {
+    margin-bottom: 5%;
+}
+
+.bookingformright {
+    background-color: #D9D9D9;
+    display: flex;
+    flex-direction: column;
+    padding: 1%;
+    font-size: 20px;
+    gap: 12%;
+    border-radius: 4px;
+}
+
+.bookingformright button {
+    background-color: #283227 !important;
+    border-radius: 4px !important;
+    color: #F8F8F8 !important;
+    border: none;
+    transition: 0.5s ease !important;
+    width: 100%;
+    height: 50px;
+}
+
+.bookingformright button:hover{
+    background-color: #41573E !important;
+    transition: 0.5s ease !important;
+}
+
+.precio {
+    color: #FF6200;
+}
+
+select {
+    width: 300px;
+}
+
+.bookingtextinput input{
+    width: 20rem;
+    height: 3rem;
+    border-radius: 4px;
+    border: none;
+    font-size: 20px;
+}
+
+.form-group select {
+    width: 20rem;
+    height: 3rem;
+    border-radius: 4px;
+    border: none;
+    font-size: 14px;
+}
+
+.bookingcheckinput label{
+    margin-right: 1%;
+}
+
+.bookingcheckinput input[type="checkbox"] {
+        accent-color: #FF6200;
+}
+
+.bookingseparationup {
+    margin-top: 5%;
+}
