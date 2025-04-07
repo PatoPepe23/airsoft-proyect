@@ -52,7 +52,7 @@ export default {
         currentYear() {
             return this.currentDate.getFullYear();
         },
-        currentMonth() {
+        currentMonth() {``
             return this.currentDate.toLocaleString('default', { month: 'long' });
         },
         days() {
@@ -104,7 +104,7 @@ export default {
         },
         nextMonth() {
             this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 1);
-            this.fetchPartidas(); // Recargar las partidas al cambiar de mes
+            // this.fetchPartidas(); // Recargar las partidas al cambiar de mes
         },
         goToCurrentDate() {
             this.currentDate = new Date(); // Establece la fecha actual
@@ -127,16 +127,17 @@ export default {
         },
         async fetchPartidas() {
             try {
-                const response = await axios.get('/api/partidas', {
-                    params: {
-                        year: this.currentDate.getFullYear(),
-                        month: this.currentDate.getMonth() + 1, // Los meses van de 1 a 12
-                    },
-                });
+                const response = await axios.get('/api/partidas?'
+                    + 'year=' + this.currentDate.getFullYear()
+                    + '&month=' + (this.currentDate.getMonth() + 1)
+                    + '&limitMonth=' + (this.currentDate.getMonth() + 4)
+                );
+
+                // console.log('api partidas')
 
                 // Transformar la respuesta de la API
                 this.partidas = response.data.reduce((acc, item) => {
-                    const fecha = this.formatApiDate(item.fecha); // Convertir a YYYY-MM-DD
+                    const fecha = item.fecha; // Convertir a YYYY-MM-DD
                     acc[fecha] = item; // Almacenar toda la partida
                     return acc;
                 }, {});
@@ -147,7 +148,7 @@ export default {
         formatApiDate(fecha) {
             // Convertir fecha de "dd-mm-yyyy" a "yyyy-mm-dd"
             const [day, month, year] = fecha.split('-');
-            const adjustedDay = String(Number(day) - 1).padStart(2, '0'); // Restar 1 y asegurar dos dígitos
+            const adjustedDay = String(Number(day)).padStart(2, '0'); // Restar 1 y asegurar dos dígitos
             return `${year}-${month}-${adjustedDay}`;
         },
         getDayClass(date, isCurrentMonth) {
@@ -162,8 +163,12 @@ export default {
                 return { class: 'past-day', disabled: true };
             }
 
-            const formattedDate = this.formatApiDate(this.formatDate(date)); // Formatear la fecha correctamente
-            const partida = this.partidas[formattedDate]; // Obtiene la partida para la fecha
+            const formatedDate = this.formatApiDate(this.formatDate(date)); // Formatear la fecha correctamente
+            const partida = this.partidas[formatedDate]; // Obtiene la partida para la fecha
+
+            // console.log(this.partidas[formatedDate]);
+            // console.log(formatedDate);
+            // console.log(partida);
 
             if (partida) {
                 if (this.isWeekend(date)) {

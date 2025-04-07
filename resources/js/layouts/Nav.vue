@@ -11,7 +11,7 @@
                 <div class=" collapse" id="navbarSupportedContent">
                     <p>Hola</p>
                 </div>-->
-                <div class="position-relative">
+                <div class="w-100 w-lg-auto position-relative d-lg-block d-flex flex-row-reverse align-items-center justify-content-between">
                     <!-- Botón del toggler -->
                     <router-link to="/" class="nav-logo"><img :src="'./images/logo.svg'" alt="Logo Dunkerque"></router-link>
                     <a class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent">
@@ -97,3 +97,15 @@ import LocaleSwitcher from "../components/LocaleSwitcher.vue";
 import { authStore } from "../store/auth";
 const { processing, logout } = useAuth();
 </script>
+
+<style scoped>
+
+@media (min-width: 992px) {
+    .w-lg-auto {
+        width: auto !important;
+    }
+
+}
+
+
+</style>

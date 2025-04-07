@@ -433,3 +433,11 @@
     flex-direction: column-reverse;
     align-items: center;
 }
+
+
+/* DataTable centrar icono filtro */
+
+.p-datatable-inline-filter .p-datatable-filter-element-container {
+    flex: 0 !important;
+    width: unset !important;
+}

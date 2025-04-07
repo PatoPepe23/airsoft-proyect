@@ -5,6 +5,7 @@
     align-items: flex-start;
     gap: 50px;
     padding: 5% 0;
+    overflow: hidden;
 }
 
 .footercontactoyubicacion {

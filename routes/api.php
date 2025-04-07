@@ -68,6 +68,7 @@ Route::get('note/{id}', [NoteController::class, 'show'])->name('note.show');
 Route::put('note/{id}', [NoteController::class, 'update'])->name('note.update');
 Route::delete('note/{id}', [NoteController::class, 'destroy'])->name('note.destroy');
 
+//Route::get('/partidas', [PartidaController::class, 'index']);
 Route::get('/partidas', [PartidaController::class, 'index']);
 
 Route::post('/reservar', [reservarController::class, 'store']);

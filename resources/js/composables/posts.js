@@ -24,6 +24,11 @@ export default function usePosts() {
         order_column = 'created_at',
         order_direction = 'desc'
     ) => {
+        console.log('day: '+search_day);
+        console.log('id: '+search_id);
+        console.log('player: '+search_players);
+        console.log('shift: '+search_shift);
+        console.log('state: '+search_state);
         axios.get('/api/posts?page=' + page +
             '&search_day=' + search_day +
             '&search_id=' + search_id +
@@ -34,6 +39,7 @@ export default function usePosts() {
             '&order_direction=' + order_direction)
             .then(response => {
                 console.log(response.data);
+
                 posts.value = response.data;
             })
     }
