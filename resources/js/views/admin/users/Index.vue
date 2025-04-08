@@ -6,7 +6,6 @@
                 <div class="card-header bg-transparent ps-0 pe-0">
                     <h5 class="float-start mb-0">Ejercicios</h5>
                 </div>
-
                     <DataTable v-model:filters="filters" :value="users.data" paginator :rows="5"
                                :globalFilterFields="['id', 'fullname', 'DNI',  'phonenumber', 'email','created_at','type.name']" stripedRows dataKey="id" size="small">
 
@@ -39,11 +38,10 @@
                         </template>
 
                         <template #empty> No customers found. </template>
-
                         <Column field="id" header="ID" sortable></Column>
-                        <Column field="alias" header="Nombre" sortable></Column>
-                        <Column field="name" header="DNI" sortable></Column>
-                        <Column field="surname1" header="Telefono" sortable></Column>
+                        <Column field="fullname" header="Nombre" sortable></Column>
+                        <Column field="DNI" header="DNI" sortable></Column>
+                        <Column field="phonenumber" header="Telefono" sortable></Column>
                         <Column field="email" header="Email" sortable></Column>
                         <Column field="created_at" header="Creado el" sortable></Column>
 

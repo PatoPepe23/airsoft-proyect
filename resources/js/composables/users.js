@@ -92,12 +92,15 @@ export default function useUsers() {
     }
 
     const updateUser = async (user) => {
+        console.log('Update');
         if (isLoading.value) return;
 
         isLoading.value = true
         validationErrors.value = {}
 
-        axios.put('/api/users/' + user.id, user)
+        console.log(user)
+
+        axios.post('/api/users', user)
             .then(response => {
                 //router.push({name: 'users.index'})
 

@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\AuthorController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\PostControllerAdvance;
@@ -26,9 +25,11 @@ Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
 
-    Route::apiResource('users', UserController::class);
+    Route::post('users', [UserController::class,'update']); //Listar
+    Route::get('users', [UserController::class,'index']);
+    Route::get('users/{user}', [UserController::class,'show']);
+//    Route::apiResource('users', UserController::class);
 
-    Route::post('users/updateimg', [UserController::class,'updateimg']); //Listar
 
     Route::apiResource('posts', PostControllerAdvance::class);
     Route::apiResource('categories', CategoryController::class);
@@ -69,6 +70,7 @@ Route::get('note/{id}', [NoteController::class, 'show'])->name('note.show');
 Route::put('note/{id}', [NoteController::class, 'update'])->name('note.update');
 Route::delete('note/{id}', [NoteController::class, 'destroy'])->name('note.destroy');
 
+//Route::get('/partidas', [PartidaController::class, 'index']);
 Route::get('/partidas', [PartidaController::class, 'index']);
 
 Route::post('/reservar', [reservarController::class, 'store']);

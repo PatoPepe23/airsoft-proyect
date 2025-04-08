@@ -88,14 +88,19 @@ class UserController extends Controller
      * @param User $user
      * @return UserResource
      */
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateUserRequest $request)
     {
+
+        $user = User::find($request->id);
+        if(!$user){
+            return response()->json(['message' => 'User not found'], 404);
+        }
         $role = Role::find($request->role_id);
 
-        $user->name = $request->name;
+        $user->fullname = $request->fullname;
         $user->email = $request->email;
-        $user->surname1 = $request->surname1;
-        $user->surname2 = $request->surname2;
+        $user->DNI = $request->DNI;
+        $user->phonenumber = $request->phonenumber;
 
         if(!empty($request->password)) {
             $user->password = Hash::make($request->password) ?? $user->password;
@@ -112,7 +117,7 @@ class UserController extends Controller
 
     public function updateimg(Request $request)
     {
-
+        echo "<script>console.log('User Update')</script>";
         $user = User::find($request->id);
 
         if($request->hasFile('picture')) {

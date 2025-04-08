@@ -86,7 +86,7 @@
 
                     <div class="form-group">
                         <label for="name">Nombre</label>
-                        <input v-model="user.name" type="text" class="form-control" id="name">
+                        <input v-model="user.fullname" type="text" class="form-control" id="name">
                         <div class="text-danger mt-1">{{ errors.name }}</div>
                         <div class="text-danger mt-1">
                             <div v-for="message in validationErrors?.name">
@@ -96,8 +96,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="surname1">Apellido 1</label>
-                        <input v-model="user.surname1" type="text" class="form-control" id="surname1">
+                        <label for="surname1">DNI</label>
+                        <input v-model="user.DNI" type="text" class="form-control" id="surname1">
                         <div class="text-danger mt-1">{{ errors.surname1 }}</div>
                         <div class="text-danger mt-1">
                             <div v-for="message in validationErrors?.surname1">
@@ -107,8 +107,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="surname2">Apellido 2</label>
-                        <input v-model="user.surname2" type="text" class="form-control" id="surname2">
+                        <label for="surname2">Numero</label>
+                        <input v-model="user.phonenumber" type="text" class="form-control" id="surname2">
                         <div class="text-danger mt-1">{{ errors.surname2 }}</div>
                         <div class="text-danger mt-1">
                             <div v-for="message in validationErrors?.surname2">
@@ -168,7 +168,7 @@ defineRule('min', min);
 
 // Define a validation schema
 const schema = {
-    name: 'required',
+    fullname: 'required',
     email: 'required',
     password: 'min:8'
 }
@@ -176,18 +176,18 @@ const schema = {
 // Create a form context with the validation schema
 const { validate, errors, resetForm } = useForm({ validationSchema: schema })
 // Define actual fields for validation
-const { value: name } = useField('name', null, { initialValue: '' });
+const { value: fullname } = useField('fullname', null, { initialValue: '' });
 const { value: email } = useField('email', null, { initialValue: '' });
-const { value: surname1 } = useField('surname1', null, { initialValue: '' });
-const { value: surname2 } = useField('surname2', null, { initialValue: '' });
+const { value: DNI } = useField('DNI', null, { initialValue: '' });
+const { value: phonenumber } = useField('phonenumber', null, { initialValue: '' });
 const { value: password } = useField('password', null, { initialValue: '' });
 const { value: role_id } = useField('role_id', null, { initialValue: '', label: 'role' });
 
 const user = reactive({
-    name,
+    fullname,
     email,
-    surname1,
-    surname2,
+    DNI,
+    phonenumber,
     password,
     role_id
 })
@@ -205,10 +205,10 @@ onMounted(() => {
 // https://vuejs.org/api/reactivity-core.html#watcheffect
 watchEffect(() => {
     user.id = postData.value.id
-    user.name = postData.value.name
+    user.fullname = postData.value.fullname
     user.email = postData.value.email
-    user.surname1 = postData.value.surname1
-    user.surname2 = postData.value.surname2
+    user.DNI = postData.value.DNI
+    user.phonenumber = postData.value.phonenumber
     user.role_id = postData.value.role_id
     user.avatar = postData.value.avatar
 })
