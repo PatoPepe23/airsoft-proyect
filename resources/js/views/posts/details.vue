@@ -87,11 +87,12 @@
 
                         </div>
                         <div class="bookingconfirmation">
-                        <p>Total: <span class="precio">{{!food && !alquiler ? '15€' :
-                            food && !alquiler ? '21€' :
-                                !food && alquiler ? '40€' :
-                                    '46€' }}</span></p>
-                        <button type="submit">Reservar</button>
+                            <p>Total: <span class="precio">{{!food && !alquiler ? '15€' :
+                                food && !alquiler ? '21€' :
+                                    !food && alquiler ? '40€' :
+                                        '46€' }}</span></p>
+                            <qr-code text="Hello World!"></qr-code>
+                            <button type="submit">Reservar</button>
                         </div>
                     </div>
                 </form>
@@ -105,8 +106,6 @@ import axios from 'axios';
 import {ref, onMounted, inject} from 'vue';
 import { useRoute, useRouter } from "vue-router";
 
-
-
     const post = ref();
     const categories = ref();
     const route = useRoute()
@@ -117,7 +116,6 @@ import { useRoute, useRouter } from "vue-router";
     onMounted(() => {
         axios.get('/api/get-post/' + route.params.id).then(({ data }) => {
             post.value = data;
-            verifysunday(partida_id);
         })
         axios.get('/api/category-list').then(({ data }) => {
             categories.value = data.data
@@ -154,6 +152,23 @@ const reservar = async () => {
             showConfirmButton: false,
             timer: 2500
         });
+
+
+        await axios.post('/api/send-mail', {
+            DNI: DNI.value,
+            nombrecompleto: nombrecompleto.value,
+            telefono: telefono.value,
+            email: email.value,
+            alquiler: alquiler.value,
+            food: food.value,
+            food_id: food.value ? bocadillo.value : null,
+            shift: shift.value,
+            subject: 'Confirmación de reserva',
+            body: `Gracias por tu reserva, ${nombrecompleto.value}. Nos vemos pronto.`,
+            //qrBase64: qrBase64.value
+        });
+
+
         setTimeout(() => {
             router.push({ name: 'home' }).then(() => {
                 window.scrollTo(0, 0); // Hace scroll al inicio
@@ -176,7 +191,7 @@ const reservar = async () => {
             icon: 'error',
             title: error.response?.data.message,
             showConfirmButton: false,
-            timer: 2500
+            //timer: 2500
         });
     }
 };

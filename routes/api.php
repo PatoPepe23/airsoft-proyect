@@ -17,6 +17,8 @@ use App\Http\Controllers\Api\PartidaController;
 
 use App\Http\Controllers\reservarController;
 
+use App\Http\Controllers\Api\SendMailController;
+
 
 
 Route::post('forget-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('forget.password.post');
@@ -70,3 +72,5 @@ Route::delete('note/{id}', [NoteController::class, 'destroy'])->name('note.destr
 Route::get('/partidas', [PartidaController::class, 'index']);
 
 Route::post('/reservar', [reservarController::class, 'store']);
+
+Route::post('/send-mail', [SendMailController::class, 'send']);
