@@ -91,7 +91,6 @@
                                 food && !alquiler ? '21€' :
                                     !food && alquiler ? '40€' :
                                         '46€' }}</span></p>
-                            <qr-code text="Hello World!"></qr-code>
                             <button type="submit">Reservar</button>
                         </div>
                     </div>
@@ -165,9 +164,7 @@ const reservar = async () => {
             shift: shift.value,
             subject: 'Confirmación de reserva',
             body: `Gracias por tu reserva, ${nombrecompleto.value}. Nos vemos pronto.`,
-            //qrBase64: qrBase64.value
-        });
-
+        })
 
         setTimeout(() => {
             router.push({ name: 'home' }).then(() => {

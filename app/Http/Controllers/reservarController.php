@@ -37,7 +37,7 @@ class reservarController extends Controller
         $pedido = Pedido::create([
             'cost' => $preciobase,
         ]);
-        $pedido->comidas->sync([2,4,6]);
+
         if ($request->food) {
                 $pedido->comida()->attach($request->food_id);
         }

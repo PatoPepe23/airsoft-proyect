@@ -16,7 +16,9 @@
     <li><strong>Comida:</strong> {{ $data['food'] ? 'Sí' : 'No' }}</li>
     <li><strong>Hora:</strong> {{ $data['shift'] ? '16:00' : '8:00'}}</li>
 </ul>
-<p><img src="data:image/png;base64,{{ $qrCodeBase64 }}" alt="QR Code"></p>
+
+<img src="data:image/png;base64,{{ $qrCodeBase64 }}" alt="QRcode">
+
 
 <p>¡Nos vemos en el campo!</p>
 </body>
