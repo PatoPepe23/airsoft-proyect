@@ -25,10 +25,11 @@ class BookingConfirmation extends Mailable
     public function build() {
         return $this->subject('Confirmación de reserva')
             ->view('emails.booking-confirmation') // Apunta a la vista
-            ->with([
-                'data' => $this->data,               // Pasa los datos a la vista
-                'qrCodeBase64' => $this->qrCodeBase64 // Pasa el QR en Base64 a la vista
-            ]);
+            ->with(['data' => $this->data]);
+        /*->with([
+            'data' => $this->data,               // Pasa los datos a la vista
+            'qrCodeBase64' => $this->qrCodeBase64 // Pasa el QR en Base64 a la vista
+        ]);*/
     }
 
     /**

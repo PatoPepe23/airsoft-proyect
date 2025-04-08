@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\BookingConfirmation;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
+
 
 class SendMailController extends Controller
 {
@@ -14,9 +14,9 @@ class SendMailController extends Controller
     {
         $data = $request->all();
 
-        $qrCodeBase64 = base64_encode(QrCode::format('png')->size(200)->generate($data['DNI']));
+        //$qrCodeBase64 = base64_encode(QrCode::format('png')->size(200)->generate($data['DNI']));
 
-        Mail::to($data['email'])->send(new BookingConfirmation($data, $qrCodeBase64));
+        Mail::to($data['email'])->send(new BookingConfirmation($data));
 
         return response()->json(['message' => 'Correo enviado']);
     }
