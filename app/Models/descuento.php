@@ -12,4 +12,11 @@ class descuento extends Model
     protected $table = 'descuento';
 
     protected $fillable = ['codigo', 'porcentaje'];
+
+    public function pedidos()
+    {
+        return $this->belongsToMany(Pedido::class, 'pedido')
+            ->withPivot('player_id')
+            ->withTimestamps();
+    }
 }

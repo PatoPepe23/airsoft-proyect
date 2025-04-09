@@ -13,6 +13,15 @@ class CreateDescuentoSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $food = descuento::create([
+            'id' => 1,
+            'codigo' => 'Aquatik',
+            'porcentaje' => '15'
+        ]);
+        $food = descuento::create([
+            'id' => 2,
+            'codigo' => '123',
+            'porcentaje' => '10'
+        ]);
     }
 }

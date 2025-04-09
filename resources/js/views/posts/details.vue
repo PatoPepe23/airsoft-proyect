@@ -62,7 +62,7 @@
                             <div class="form-group bookingcheckinput bookingseparationup">
                                 <div>
                                     <input type="checkbox" id="alquiler" v-model="alquiler">
-                                    <label for="alquiler">Equipamiento de alquiler?</label>
+                                    <label for="alquiler">Alquilar equipamiento</label>
 
                                 </div>
                             </div>
@@ -87,10 +87,10 @@
 
                         </div>
                         <div class="bookingconfirmation">
-                            <p>Total: <span class="precio">{{!food && !alquiler ? '15€' :
-                                food && !alquiler ? '21€' :
-                                    !food && alquiler ? '40€' :
-                                        '46€' }}</span></p>
+                            <form @submit.prevent="discount">
+                                <input type="text" id="discount" v-model="discountinput" placeholder="Discount code">
+                            </form>
+                            <p>Total: <span class="precio">{{precio}} €</span></p>
                             <button type="submit">Reservar</button>
                         </div>
                     </div>
@@ -102,7 +102,7 @@
 
 <script setup>
 import axios from 'axios';
-import {ref, onMounted, inject} from 'vue';
+import {ref, onMounted, inject, computed} from 'vue';
 import { useRoute, useRouter } from "vue-router";
 
     const post = ref();
@@ -110,7 +110,9 @@ import { useRoute, useRouter } from "vue-router";
     const route = useRoute()
     const router = useRouter();
     const partida_id = route.params.id;
-    const swal = inject('$swal')
+    const swal = inject('$swal');
+
+
 
     onMounted(() => {
         axios.get('/api/get-post/' + route.params.id).then(({ data }) => {
@@ -131,6 +133,53 @@ import { useRoute, useRouter } from "vue-router";
         const bocadillo = ref(1)
         const shift = ref(false);
 
+
+        const discountinput = ref("");
+        const descuentoPorcentaje = ref(0);
+
+
+const precio = computed(() => {
+        let base = 15;
+
+        if (alquiler.value) {
+            base = 40;
+        }
+
+        if (food.value) {
+            base += 6;
+        }
+
+
+    const descuento = base * (descuentoPorcentaje.value / 100);
+    return Math.max(0, base - descuento);
+    });
+
+const discount = async () => {
+    try {
+        const response = await axios.post('/api/discount', {
+            discountinput: discountinput.value
+        });
+
+        descuentoPorcentaje.value = response.data.porcentaje;
+
+        swal({
+            icon: 'success',
+            title: 'Descuento aplicado correctamente',
+            showConfirmButton: false,
+            timer: 2500
+        });
+    } catch (error) {
+        console.error("Error al conseguir el descuento:", error.response?.data || error);
+        descuentoPorcentaje.value = 0;
+        swal({
+            icon: 'error',
+            title: "Error al conseguir el descuento/No existe el descuento",
+            showConfirmButton: false,
+            timer: 2500
+        });
+    }
+};
+
 const reservar = async () => {
     try {
         const response = await axios.post('/api/reservar', {
@@ -142,7 +191,8 @@ const reservar = async () => {
             food: food.value,
             food_id: food.value ? bocadillo.value : null,
             partida_id: partida_id,
-            shift: shift.value
+            shift: shift.value,
+            precio: precio.value
         });
 
         swal({
@@ -164,6 +214,7 @@ const reservar = async () => {
             shift: shift.value,
             subject: 'Confirmación de reserva',
             body: `Gracias por tu reserva, ${nombrecompleto.value}. Nos vemos pronto.`,
+            precio: precio.value
         })
 
         setTimeout(() => {

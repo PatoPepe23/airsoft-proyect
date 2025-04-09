@@ -18,6 +18,8 @@ use App\Http\Controllers\reservarController;
 
 use App\Http\Controllers\Api\SendMailController;
 
+use App\Http\Controllers\Api\discountController;
+
 
 
 Route::post('forget-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('forget.password.post');
@@ -76,3 +78,5 @@ Route::get('/partidas', [PartidaController::class, 'index']);
 Route::post('/reservar', [reservarController::class, 'store']);
 
 Route::post('/send-mail', [SendMailController::class, 'send']);
+
+Route::post('/discount', [discountController::class, 'store']);

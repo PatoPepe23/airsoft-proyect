@@ -12,16 +12,6 @@ class reservarController extends Controller
 {
     public function store(Request $request)
     {
-        $preciobase = 15;
-
-        if($request->alquiler) {
-            $preciobase = 40;
-        }
-
-        if($request->food) {
-            $preciobase += 6;
-        }
-
         $validated = $request->validate([
             'DNI' => 'required|string|max:20',
             'nombrecompleto' => 'required|string|max:100',
@@ -35,7 +25,7 @@ class reservarController extends Controller
         $player = player::create($validated);
 
         $pedido = Pedido::create([
-            'cost' => $preciobase,
+            'cost' => $request->precio,
         ]);
 
         if ($request->food) {

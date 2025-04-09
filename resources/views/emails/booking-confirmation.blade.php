@@ -5,7 +5,7 @@
     <title>Confirmación de reserva</title>
 </head>
 <body>
-<h1>Hola {{ $data['nombrecompleto'] }}!</h1>
+<h2>Hola {{ $data['nombrecompleto'] }}!</h2>
 <p>Gracias por reservar en Dunkerque Airsoft Camp.</p>
 
 <ul>
@@ -15,6 +15,7 @@
     <li><strong>Alquiler:</strong> {{ $data['alquiler'] ? 'Sí' : 'No' }}</li>
     <li><strong>Comida:</strong> {{ $data['food'] ? 'Sí' : 'No' }}</li>
     <li><strong>Hora:</strong> {{ $data['shift'] ? '16:00' : '8:00'}}</li>
+    <li><strong>Precio:</strong> {{$data['precio']}}</li>
 </ul>
 
 <img src="data:image/png;base64,{{ $qrCodeBase64 }}" alt="QRcode">

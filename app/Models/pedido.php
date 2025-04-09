@@ -34,4 +34,11 @@ class pedido extends Model
             ->withTimestamps();
     }
 
+    public function descuentos()
+    {
+        return $this->belongsToMany(descuento::class, 'descuento')
+            ->withPivot('descuento_id')
+            ->withTimestamps();
+    }
+
 }
