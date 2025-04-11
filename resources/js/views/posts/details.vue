@@ -8,7 +8,7 @@
                     <li class="breadcrumb-item active" aria-current="page">{{ this.$route.params.id }}</li>
                 </ol>
             </nav>
-            <h1>{{ $t('booking') }}</h1>
+            <h1>{{ $t('booking') }} {{this.$route.params.id}}</h1>
 
             <div class="bookingform">
                 <form @submit.prevent="reservar">
@@ -81,7 +81,7 @@
                         <div>
                             <h2>Información de la reserva</h2>
                             <p>Bocata: {{ food ? 'Sí ' : 'No ' }}<span class="precio">{{ food ? '+ 6€' : '+ 0€' }}</span></p>
-                            <p>Alquiler: {{ alquiler ? 'Sí ' : 'No ' }}<span class="precio">{{ alquiler ? '+ 40€' : '+ 15€' }}</span></p>
+                            <p>Alquiler: {{ alquiler ? 'Sí ' : 'No ' }}<span class="precio">{{ alquiler ? '+ 25€' : '+ 0€' }}</span></p>
                             <p>Jugadores: <span class="precio">1</span></p>
                             <p>Hora: <span class="precio">{{ shift ? '16:00' : '8:00' }}</span></p>
 
@@ -90,7 +90,7 @@
                             <form @submit.prevent="discount">
                                 <input type="text" id="discount" v-model="discountinput" placeholder="Discount code">
                             </form>
-                            <p>Total: <span class="precio">{{precio}} €</span></p>
+                            <p>Total: <span class="precio">{{precio}} €</span> <span v-if="descuentoPorcentaje" class="old">{{base}} €</span></p>
                             <button type="submit">Reservar</button>
                         </div>
                     </div>
@@ -135,24 +135,28 @@ import { useRoute, useRouter } from "vue-router";
 
 
         const discountinput = ref("");
-        const descuentoPorcentaje = ref(0);
+        const descuentoPorcentaje = ref(null);
 
+const base = computed(() => {
+    let b = 15;
+
+    if (alquiler.value) {
+        b = 40;
+    }
+
+    if (food.value) {
+        b += 6;
+    }
+
+    return b;
+});
 
 const precio = computed(() => {
-        let base = 15;
-
-        if (alquiler.value) {
-            base = 40;
-        }
-
-        if (food.value) {
-            base += 6;
-        }
-
-
-    const descuento = base * (descuentoPorcentaje.value / 100);
-    return Math.max(0, base - descuento);
-    });
+    if (descuentoPorcentaje.value) {
+        return base.value - (base.value * descuentoPorcentaje.value / 100);
+    }
+    return base.value;
+});
 
 const discount = async () => {
     try {
@@ -161,6 +165,7 @@ const discount = async () => {
         });
 
         descuentoPorcentaje.value = response.data.porcentaje;
+
 
         swal({
             icon: 'success',

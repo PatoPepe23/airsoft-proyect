@@ -98,3 +98,8 @@ select {
 .bookingseparationup {
     margin-top: 5%;
 }
+
+.bookingconfirmation .old {
+    text-decoration: line-through;
+    font-size: 14px;
+}

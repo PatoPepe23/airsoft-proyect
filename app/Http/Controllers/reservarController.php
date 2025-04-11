@@ -36,6 +36,9 @@ class reservarController extends Controller
 
         $partida = partida::where('fecha', $partidafecha)->where('shift', $request->shift)->first();
 
+        $partida->plazas -= 1;
+        $partida->save();
+
         $player->partidas()->attach($partida->id, ['pedido_id' => $pedido->id]);
 
         // Retornar una respuesta JSON

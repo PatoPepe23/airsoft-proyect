@@ -18,7 +18,7 @@
     <li><strong>Precio:</strong> {{$data['precio']}}</li>
 </ul>
 
-<img src="data:image/png;base64,{{ $qrCodeBase64 }}" alt="QRcode">
+<img src="cid:qr_cid" alt="Código QR" width="200"/>
 
 
 <p>¡Nos vemos en el campo!</p>
