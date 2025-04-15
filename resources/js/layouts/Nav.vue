@@ -2,15 +2,6 @@
     <div class="hyper-nav">
         <nav class="nav navbar navbar-expand-lg justify-content-center fixed w-100">
             <div class="container nav-container">
-<!--                <div>
-                    <router-link to="/" class="nav-logo"><img :src="'./images/logo.svg'" alt="Logo Dunkerque"></router-link>
-                    <a class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </a>
-                </div>
-                <div class=" collapse" id="navbarSupportedContent">
-                    <p>Hola</p>
-                </div>-->
                 <div class="w-100 w-lg-auto position-relative d-lg-block d-flex flex-row-reverse align-items-center justify-content-between">
                     <!-- Botón del toggler -->
                     <router-link to="/" class="nav-logo"><img :src="'./images/logo.svg'" alt="Logo Dunkerque"></router-link>

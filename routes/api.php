@@ -20,6 +20,7 @@ use App\Http\Controllers\reservarController;
 
 Route::post('forget-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('forget.password.post');
 Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.reset');
+Route::post('posts/{id}', [PostControllerAdvance::class,'cancel']);
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
 
