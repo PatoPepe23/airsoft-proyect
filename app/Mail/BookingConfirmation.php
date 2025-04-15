@@ -28,7 +28,7 @@ class BookingConfirmation extends Mailable
             ->attach($this->qrPath, [
                 'as' => 'qr_code.png',
                 'mime' => 'image/png',
-                'content_id' => 'qr_cid', // <-- Aquí está el CID
+                'content_id' => 'qr_cid',
                 'disposition' => 'inline',
             ]);
     }

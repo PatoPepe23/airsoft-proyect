@@ -219,7 +219,8 @@ const reservar = async () => {
             shift: shift.value,
             subject: 'Confirmación de reserva',
             body: `Gracias por tu reserva, ${nombrecompleto.value}. Nos vemos pronto.`,
-            precio: precio.value
+            precio: precio.value,
+            partida_id: partida_id
         })
 
         setTimeout(() => {
