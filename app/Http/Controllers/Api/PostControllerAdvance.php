@@ -10,54 +10,16 @@ use App\Models\partida;
 use App\Models\Post;
 use App\Http\Resources\GameResource;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class PostControllerAdvance extends Controller
 {
     public function index()
     {
-
-//        $orderColumn = request('order_column', 'created_at');
-//        if (!in_array($orderColumn, ['day', 'player'])) {
-//            $orderColumn = 'fecha';
-//        }
-//        $orderDirection = request('order_direction', 'desc');
-//        if (!in_array($orderDirection, ['asc', 'desc'])) {
-//            $orderDirection = 'desc';
-//        }
-//
-//        $partidas = Partida::
-//        when(request('search_day'), function ($query) {
-//            $query->where('fecha', request('search_day'));
-//        });
-//            ->when(request('search_player'), function ($query) {
-//                $query->where('plazas', 'like', '%' . request('search_player') . '%');
-//            })
-//            ->when(request('search_shift'), function ($query) {
-//                $query->where('shift', 'like', '%' . request('search_shift') . '%');
-//            })
-//            ->when(request('search_state'), function ($query) {
-//                $query->where('cancelled', 'like', '%' . request('search_state') . '%');
-//            })
-//            ->when(request('search_global'), function ($query) {
-//                $query->where(function ($q) {
-//                    $q->where('fecha', request('search_global'))
-//                        ->orWhere('plazas', 'like', '%' . request('search_global') . '%')
-//                        ->orWhere('shift', 'like', '%' . request('search_global') . '%')
-//                        ->orWhere('cancelled', 'like', '%' . request('search_global') . '%');
-//                });
-//            })
-//            ->orderBy($orderColumn, $orderDirection)
-//            ->paginate(10);
-
-//        return Response()->json($partidas, 200);
-//        return GameResource::collection($partidas);
-
         $actualDate = Carbon::now();
         $maxDate = $actualDate->addMonth(2)->endOfMonth();
 
         $partidas = Partida::where('fecha', '<=', $maxDate)->get();
-
-//        return Response()->json($partidas, 200);
 
         return GameResource::collection($partidas);
     }
@@ -107,6 +69,25 @@ class PostControllerAdvance extends Controller
             $post->categories()->sync($category);
 
             return new PostResource($post);
+        }
+    }
+
+    public  function  cancel($post)
+    {
+//        $this->authorize('post-cancell');
+//        if ($post->user_id !== auth()->id() && !auth()->user()->hasPermissionTo('post-cancell')) {
+//            return response()->json(['status' => 405, 'success' => false, 'message' => 'No tienes permisos para cancellar este post']);
+//        } else {
+//
+//        }
+
+        echo $post;
+
+        $result = DB::table('partida')->where('id', $post)->update(['cancelled' => true]);
+        if ($result) {
+            return response()->json(['status' => 200, 'success' => true, 'message' => 'Se cancelo con exito']);
+        } else {
+            return response()->json(['status' => 405, 'success' => false, 'message' => 'No se pudo cancelar']);
         }
     }
 
