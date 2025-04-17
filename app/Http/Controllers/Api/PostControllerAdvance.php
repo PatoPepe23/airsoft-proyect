@@ -7,6 +7,7 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Category;
 use App\Models\partida;
+use App\Models\pedido;
 use App\Models\Post;
 use App\Http\Resources\GameResource;
 use Carbon\Carbon;
@@ -44,14 +45,43 @@ class PostControllerAdvance extends Controller
         return new PostResource($post);
     }
 
-    public function show(Post $post)
+    public function show($post)
     {
-        $this->authorize('post-edit');
-        if ($post->user_id !== auth()->user()->id && !auth()->user()->hasPermissionTo('post-all')) {
-            return response()->json(['status' => 405, 'success' => false, 'message' => 'You can only edit your own posts']);
-        } else {
-            return new PostResource($post);
-        }
+
+//        return $post;
+//        $this->authorize('post-edit');
+//        if ($post->user_id !== auth()->user()->id && !auth()->user()->hasPermissionTo('post-all')) {
+//            return response()->json(['status' => 405, 'success' => false, 'message' => 'You can only edit your own posts']);
+//        } else {
+            $game = Partida::findOrFail($post);
+
+            $playersList =$game->players;
+
+            $playersListWithProducts = $playersList->map(function ($player) {
+                $productName = null;
+                if ($player->pivot->pedido_id){
+                    $pedido = pedido::find($player->pivot->pedido_id);
+                    if ($pedido && $pedido->foot_id){
+                        $productName = $pedido->foot->name;
+                    }
+                }
+                return [
+                    'id' => $player->id,
+                    'DNI' => $player->DNI,
+                    'nombrecompleto' => $player->nombrecompleto,
+                    'email' => $player->email,
+                    'telefono' => $player->telefono,
+                    'team' => $player->team,
+                    'alquiler' => $player->alquiler,
+                    'created_at' => $player->created_at,
+                    'updated_at' => $player->updated_at,
+                    'pivot' => $player->pivot,
+                    'nombre_producto' => $productName,
+                ];
+            });
+
+            return response()->json(['status' => 200, 'players' => $playersList]);
+//        }
     }
 
 

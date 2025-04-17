@@ -46,13 +46,14 @@ export default {
             currentDate: new Date(),
             daysOfWeek: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
             partidas: {}, // Almacena todas las partidas por fecha
+            intervalId: null,
         };
     },
     computed: {
         currentYear() {
             return this.currentDate.getFullYear();
         },
-        currentMonth() {``
+        currentMonth() {
             return this.currentDate.toLocaleString('default', { month: 'long' });
         },
         days() {
@@ -104,7 +105,7 @@ export default {
         },
         nextMonth() {
             this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 1);
-            // this.fetchPartidas(); // Recargar las partidas al cambiar de mes
+            this.fetchPartidas(); // Recargar las partidas al cambiar de mes
         },
         goToCurrentDate() {
             this.currentDate = new Date(); // Establece la fecha actual
@@ -133,12 +134,9 @@ export default {
                     + '&limitMonth=' + (this.currentDate.getMonth() + 4)
                 );
 
-                // console.log('api partidas')
-
-                // Transformar la respuesta de la API
                 this.partidas = response.data.reduce((acc, item) => {
-                    const fecha = item.fecha; // Convertir a YYYY-MM-DD
-                    acc[fecha] = item; // Almacenar toda la partida
+                    const fecha = item.fecha;
+                    acc[fecha] = item;
                     return acc;
                 }, {});
             } catch (error) {
@@ -166,10 +164,6 @@ export default {
             const formatedDate = this.formatApiDate(this.formatDate(date)); // Formatear la fecha correctamente
             const partida = this.partidas[formatedDate]; // Obtiene la partida para la fecha
 
-            // console.log(this.partidas[formatedDate]);
-            // console.log(formatedDate);
-            // console.log(partida);
-
             if (partida) {
                 if (this.isWeekend(date)) {
                     const plazas = partida.plazas;
@@ -193,6 +187,10 @@ export default {
     },
     mounted() {
         this.fetchPartidas(); // Obtener las partidas al cargar el componente
+        this.intervalId = setInterval(() => this.fetchPartidas(), 5000);
+    },
+    beforeUnmount() {
+        clearInterval(this.intervalId);
     },
 };
 </script>
@@ -313,5 +311,4 @@ export default {
 .past-day {
     background-color: #717171;
 }
-
 </style>
