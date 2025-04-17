@@ -197,7 +197,8 @@ const reservar = async () => {
             food_id: bocadillo.value,
             partida_id: partida_id,
             shift: shift.value,
-            precio: precio.value
+            precio: precio.value,
+            dentro: false
         });
 
         swal({

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Category;
+use App\Models\food;
 use App\Models\partida;
 use App\Models\pedido;
 use App\Models\Post;
@@ -55,32 +56,48 @@ class PostControllerAdvance extends Controller
 //        } else {
             $game = Partida::findOrFail($post);
 
-            $playersList =$game->players;
+            $playersList = $game->players;
 
-            $playersListWithProducts = $playersList->map(function ($player) {
+            $players = $playersList->map(function ($player) {
+                $pedidoId = $player->pivot->pedido_id;
+                $income = $player->pivot->cost;
                 $productName = null;
-                if ($player->pivot->pedido_id){
-                    $pedido = pedido::find($player->pivot->pedido_id);
-                    if ($pedido && $pedido->foot_id){
-                        $productName = $pedido->foot->name;
+                if ($pedidoId) {
+                    $pedido = pedido::find($pedidoId);
+                    if ($pedido->food_id != null) {
+                        $product = food::find($pedido->food_id);
+                        $productName = $product->nombre;
+                    } else {
+                        $productName = 'Sin bocadillo';
                     }
                 }
+
+                $statusState = null;
+                switch ($player->dentro) {
+                    case 0:
+                        $statusState = 'Fuera';
+                        break;
+                    case 1:
+                        $statusState = 'Entregado';
+                        break;
+                    default:
+                        $statusState = 'Si ves esto, avisa a los informaticos';
+                        break;
+                }
+
                 return [
-                    'id' => $player->id,
+                    'player_id' => $player->id,
                     'DNI' => $player->DNI,
-                    'nombrecompleto' => $player->nombrecompleto,
-                    'email' => $player->email,
-                    'telefono' => $player->telefono,
-                    'team' => $player->team,
-                    'alquiler' => $player->alquiler,
-                    'created_at' => $player->created_at,
-                    'updated_at' => $player->updated_at,
-                    'pivot' => $player->pivot,
-                    'nombre_producto' => $productName,
+                    'name' => $player->nombrecompleto,
+                    'phone' => $player->telefono,
+                    'mail' => $player->email,
+                    'food_name' => $productName,
+                    'income' => $pedido->cost,
+                    'status' => $statusState,
                 ];
             });
 
-            return response()->json(['status' => 200, 'players' => $playersList]);
+            return response()->json(['status' => 200, 'players' => $players]);
 //        }
     }
 

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('telefono')->nullable();
             $table->string('team')->nullable();
             $table->boolean('alquiler');
+            $table->boolean('dentro');
             $table->timestamps();
         });
     }

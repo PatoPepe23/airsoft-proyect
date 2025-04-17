@@ -19,6 +19,7 @@ class reservarController extends Controller
             'email' => 'required|email',
             'team' => 'nullable|string',
             'alquiler' => 'required|boolean',
+            'dentro' => 'required|boolean',
             'shift' => 'required|boolean'
         ]);
 
