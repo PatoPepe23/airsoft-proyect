@@ -59,7 +59,7 @@
                         <Column header="Acciones" style="min-width: 8rem">
                             <template #body="{ data }">
                                 <router-link v-if="can('post-edit')"
-                                             :to="{ name: 'posts.edit', params: { id: data.id } }" class="btn btn-primary btn-sm">Edit
+                                             :to="{ name: 'posts.edit', params: { id: data.id } }" class="btn btn-primary btn-sm">Detalles
                                 </router-link>
                                 <button v-if="can('post-delete')" @click.prevent="cancelPost(data.id)"
                                         class="btn btn-danger btn-sm ms-2">Cancelar</button>

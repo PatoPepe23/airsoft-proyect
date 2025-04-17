@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('player_id')->references('id')->on('player');
             $table->foreignId('partida_id')->references('id')->on('partida');
             $table->foreignId('pedido_id')->references('id')->on('pedido');
+            $table->boolean('entrada')->default(false);
             $table->timestamps();
 
         });
