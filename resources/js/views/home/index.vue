@@ -1,8 +1,8 @@
 <template>
-    <section id="banner">
+    <section id="banner" class="py-10 px-5">
         <h1>{{ $t('webName') }}</h1>
-        <h2>{{ $t('history_resume') }}</h2>
-        <div>
+        <h2 class="responsive-title text-center text-wrap mx-auto px-3">{{ $t('history_resume') }}</h2>
+        <div class="d-flex flex-column flex-md-row gap-3 mt-4 justify-content-center align-items-center">
             <button class="normal-button">Reservar partida publica Sabado 1</button>
             <button class="normal-button">Reservar partida publica Domingo 2</button>
         </div>
@@ -12,7 +12,7 @@
         <div v-html="$t('about_us')" class="sobrenosotros-left"></div>
 
         <div class="sobrenosotros-right">
-            <div class="sobrenosotros-right">
+            <div class="sobrenosotros-right sobrenosotros-rightseparation">
                 <router-link to="/">
                     <div class="caja">
                         <div class="imgcaja"></div>
@@ -28,7 +28,7 @@
             </router-link>
             </div>
 
-            <div class="sobrenosotros-right">
+            <div class="sobrenosotros-right sobrenosotros-rightseparation">
             <router-link to="/booking" >
                 <div class="caja">
                     <div class="imgcaja1"></div>

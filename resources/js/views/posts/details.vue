@@ -194,7 +194,7 @@ const reservar = async () => {
             email: email.value,
             alquiler: alquiler.value,
             food: food.value,
-            food_id: food.value ? bocadillo.value : null,
+            food_id: bocadillo.value,
             partida_id: partida_id,
             shift: shift.value,
             precio: precio.value
@@ -215,7 +215,7 @@ const reservar = async () => {
             email: email.value,
             alquiler: alquiler.value,
             food: food.value,
-            food_id: food.value ? bocadillo.value : null,
+            food_id:bocadillo.value,
             shift: shift.value,
             subject: 'Confirmación de reserva',
             body: `Gracias por tu reserva, ${nombrecompleto.value}. Nos vemos pronto.`,
