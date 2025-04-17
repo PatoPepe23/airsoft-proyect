@@ -31,9 +31,17 @@
 }
 
 .container{
-    margin-left: 11.25rem !important;
-    margin-right: 11.25rem !important;
+    margin-left: 5.62rem !important;
+    margin-right: 5.62rem !important;
 }
+
+@media (min-width: 768px) {
+    .container {
+        margin-left: 11.25rem !important;
+        margin-right: 11.25rem !important;
+    }
+}
+
 
 @media (min-width: 1400px) {
     .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
@@ -83,10 +91,24 @@
 }
 
 #banner h2 {
-    font-size: 25px;
+
     width: 57rem;
     text-align: center;
     margin: 0;
+}
+
+.responsive-title {
+    font-size: 20px;
+    width: 90%;
+    max-width: 400px;
+}
+
+@media (min-width: 768px) {
+    .responsive-title {
+        font-size: 25px;
+        width: auto;
+        max-width: none;
+    }
 }
 
 #banner button {
@@ -95,17 +117,19 @@
     font-size: 20px;
     margin-top:2rem;
 }
-#banner div {
-    display: flex;
-    gap: 40px;
-}
 
 /*Sobre nosotros*/
 
 #sobrenosotros {
     display: grid;
-    grid-template-columns: 35% 65%;
+    grid-template-columns: 1fr;
     margin-top: 5%;
+}
+
+@media (min-width: 768px) {
+    #sobrenosotros {
+        grid-template-columns: 35% 65%;
+    }
 }
 
 #sobrenosotros h2{
@@ -191,26 +215,48 @@
 }
 
 .sobrenosotros-right {
-    display: flex;
-    gap: 100px;
+    display: grid;
+    grid-template-columns: 1fr;
+
+    margin-top: 2rem;
+}
+
+.sobrenosotros-rightseparation {
+    gap: 2rem;
 
 }
+
+
 
 .sobrenosotros-right:nth-child(1) {
     position: relative;
-    padding-left: 100px;
+
 }
 
-.sobrenosotros-right:nth-child(1)::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 4px;
-    height: 200px;
-    background-color: #423024;
+@media (min-width: 768px) {
+    .sobrenosotros-right:nth-child(1) {
+
+        padding-left: 100px;
+    }
+
+    .sobrenosotros-right {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+
+    .sobrenosotros-right:nth-child(1)::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 4px;
+        height: 200px;
+        background-color: #423024;
+    }
 }
+
+
 
 .sobrenosotros-right div {
     display: flex;
@@ -321,6 +367,41 @@
         linear-gradient(#F8F8F8 0 0) right / 5px calc(100% - 50px + 5px) no-repeat,
         conic-gradient(from 0deg at left 5px bottom 5px, #0000 0 90deg, #F8F8F8 0) 0 100% / calc(100% - 30px + 5px) calc(100% - 5px) repeat-y,
         radial-gradient(25px at 98% 40px, #0000 calc(98% - 5px), #F8F8F8 calc(100% - 5px) 98%, #41573E) 0 -40px;
+}
+
+@media (max-width: 768px) {
+
+    .ticketbody {
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }
+
+    .ticketcaja {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .ticketcaja .ticket,
+    .ticketcaja {
+        width: 90vw;
+        max-width: 400px;
+        height: auto;
+        aspect-ratio: unset; /* Para que no se deforme en pantallas pequeñas */
+    }
+
+    .ticketcaja .ticket p {
+        font-size: 24px;
+        margin-left: 1rem;
+    }
+
+    .ticketcaja .ticketconboton {
+        flex-direction: column;
+    }
+
+
+
+
 }
 
 /*Como encontrarnos*/

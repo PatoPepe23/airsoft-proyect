@@ -25,11 +25,12 @@ class reservarController extends Controller
         $player = player::create($validated);
 
         $pedido = Pedido::create([
-            'cost' => $request->precio,
+            'cost' => $request->precio
         ]);
-
-        if ($request->food) {
-                $pedido->comida()->attach($request->food_id);
+        if ($request->food && $request->food_id) {
+            // Aquí actualizas la relación, no es necesario usar `attach`, solo asignas el `food_id`
+            $pedido->food_id = $request->food_id;
+            $pedido->save();  // Guarda los cambios en el pedido
         }
 
         $partidafecha = Carbon::createFromFormat('d-m-Y', $request->partida_id)->format('Y-m-d');

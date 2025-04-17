@@ -15,8 +15,6 @@ class food extends Model
 
     public function pedido()
     {
-        return $this->belongsToMany(pedido::class, 'pedido_comida')
-            ->withPivot('pedido_id')
-            ->withTimestamps();
+        return $this->hasMany(Pedido::class);
     }
 }
