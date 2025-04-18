@@ -11,7 +11,7 @@ class Player extends Model
 
     protected $table = 'player';
 
-    protected $fillable = ['DNI','nombrecompleto', 'telefono', 'email', 'team', 'alquiler'];
+    protected $fillable = ['DNI','nombrecompleto', 'telefono', 'email', 'team', 'alquiler', 'dentro'];
 
     public function partidas()
     {

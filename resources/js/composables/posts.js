@@ -3,12 +3,8 @@ import { useRouter } from 'vue-router'
 
 export default function usePosts() {
     const posts = ref({})
-    const post = ref({
-        title: '',
-        content: '',
-        category_id: '',
-        thumbnail: ''
-    })
+    const playersData = ref([]);
+
     const router = useRouter()
     const validationErrors = ref({})
     const isLoading = ref(false)
@@ -45,10 +41,51 @@ export default function usePosts() {
     }
 
     const getPost = async (id) => {
-        axios.get('/api/posts/' + id)
-            .then(response => {
-                post.value = response.data.data;
+        try {
+            const response = await axios.get(`/api/posts/${id}`);
+            if (response.data && response.data.players) {
+                playersData.value = response.data.players;
+            } else {
+                console.error("La respuesta de la API no tiene la estructura esperada para los jugadores.");
+            }
+        } catch (error) {
+            console.error("Error al obtener los jugadores:", error);
+        }
+    }
+
+    const playerCheck = async (player) => {
+        swal({
+            title: 'Estas seguro?',
+            text: 'Quieres confirmar que esta persona ha entrado al campo?',
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Si, cancelala',
+            confirmButtonColor: '#ef4444',
+            timer: 20000,
+            timerProgressBar: true,
+            reverseButtons: true
+        })
+            .then(result => {
+                if (result.isConfirmed) {
+                    axios.post(`/api/post/${player}`)
+                        .then(response => {
+                            getPosts()
+                            router.push({name: 'posts.edit'})
+                            swal({
+                                icon: 'success',
+                                title: 'Registrado con exito'
+                            })
+                        })
+                        .catch(error => {
+                            swal({
+                                icon: 'error',
+                                title: 'Something went wrong'
+                            })
+                        })
+                }
             })
+
     }
 
     const storePost = async (post) => {
@@ -143,13 +180,14 @@ export default function usePosts() {
 
     return {
         posts,
-        post,
         getPosts,
         getPost,
         storePost,
         updatePost,
         cancelPost,
         validationErrors,
-        isLoading
+        isLoading,
+        playersData,
+        playerCheck
     }
 }
