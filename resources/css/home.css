@@ -430,9 +430,6 @@
         margin-left: 1rem;
     }
 
-
-
-
 }
 
 /*Como encontrarnos*/
@@ -466,7 +463,7 @@
 
 .contactos {
     width: 650px;
-    height: 450px;
+    height: 430px;
     background-color: #283227;
     color: #F8F8F8;
 }
@@ -493,6 +490,9 @@
 @media (max-width: 768px) {
     #encontrarnos h2{
         font-size: 50px;
+    }
+    .contactos p {
+        font-size: 18px;
     }
 }
 
