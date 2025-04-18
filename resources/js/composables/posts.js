@@ -53,6 +53,41 @@ export default function usePosts() {
         }
     }
 
+    const playerCheck = async (player) => {
+        swal({
+            title: 'Estas seguro?',
+            text: 'Quieres confirmar que esta persona ha entrado al campo?',
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Si, cancelala',
+            confirmButtonColor: '#ef4444',
+            timer: 20000,
+            timerProgressBar: true,
+            reverseButtons: true
+        })
+            .then(result => {
+                if (result.isConfirmed) {
+                    axios.post(`/api/post/${player}`)
+                        .then(response => {
+                            getPosts()
+                            router.push({name: 'posts.edit'})
+                            swal({
+                                icon: 'success',
+                                title: 'Registrado con exito'
+                            })
+                        })
+                        .catch(error => {
+                            swal({
+                                icon: 'error',
+                                title: 'Something went wrong'
+                            })
+                        })
+                }
+            })
+
+    }
+
     const storePost = async (post) => {
         if (isLoading.value) return;
 
@@ -152,6 +187,7 @@ export default function usePosts() {
         cancelPost,
         validationErrors,
         isLoading,
-        playersData
+        playersData,
+        playerCheck
     }
 }

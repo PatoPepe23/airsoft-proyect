@@ -14,8 +14,8 @@
             <Column field="phone" header="Telefono"></Column>
             <Column field="status" header="Status"></Column>
             <column header="Opciones">
-                <template #body>
-                    <button
+                <template #body="player">
+                    <button @click.prevent.stop="playerCheck(player.data.player_id)"
                             class="btn btn-danger btn-sm ms-2">Verificar
                     </button>
                 </template>
@@ -27,9 +27,7 @@
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import usePosts from '@/composables/posts';
-const {getPost, playersData } = usePosts(); // Correctly import playersData
-
-const a = 'a';
+const {playerCheck, getPost, playersData } = usePosts(); // Correctly import playersData
 
 const route = useRoute();
 
@@ -43,9 +41,8 @@ const loadPlayerData = async () => {
     console.log(playersData.value);
 };
 
-
-
 onMounted(() => {
     loadPlayerData();
 });
+
 </script>

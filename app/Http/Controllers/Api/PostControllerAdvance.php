@@ -78,7 +78,7 @@ class PostControllerAdvance extends Controller
                         $statusState = 'Fuera';
                         break;
                     case 1:
-                        $statusState = 'Entregado';
+                        $statusState = 'Dentro';
                         break;
                     default:
                         $statusState = 'Si ves esto, avisa a los informaticos';
@@ -166,5 +166,11 @@ class PostControllerAdvance extends Controller
     public function getPost($id)
     {
         return Post::with('categories', 'user', 'media')->findOrFail($id);
+    }
+
+    public function checkPlayer($id)
+    {
+        $result = DB::table('player')->where('id', $id)->update(['dentro' => true]);
+        return $result;
     }
 }

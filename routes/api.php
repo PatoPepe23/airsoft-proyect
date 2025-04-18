@@ -26,6 +26,7 @@ Route::post('forget-password', [ForgotPasswordController::class, 'sendResetLinkE
 Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.reset');
 Route::post('posts/{id}', [PostControllerAdvance::class,'cancel']);
 Route::get('posts/{id}', [PostControllerAdvance::class,'show']);
+Route::post('post/{id}', [PostControllerAdvance::class,'checkPlayer']);
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
 
