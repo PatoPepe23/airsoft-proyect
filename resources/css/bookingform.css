@@ -6,6 +6,7 @@ h1 {
     display: flex;
     justify-content: center;
     margin-top: 2%;
+
 }
 
 .bookingform form {
@@ -13,6 +14,8 @@ h1 {
     flex-direction: row;
     gap: 2%;
 }
+
+
 
 .bookingformleft {
     display: flex;
@@ -102,4 +105,26 @@ select {
 .bookingconfirmation .old {
     text-decoration: line-through;
     font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .bookingform form {
+        flex-direction: column;
+    }
+
+    .bookingformleft {
+        width: 25rem;
+        height: 52rem;
+        flex-direction: column;
+        margin-bottom: 5%;
+    }
+
+    .bookingformleft .bookingtextinput {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .bookingformright {
+        height: 27rem;
+    }
 }
