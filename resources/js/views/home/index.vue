@@ -1,8 +1,8 @@
 <template>
     <section id="banner" class="py-10 px-5">
         <h1>{{ $t('webName') }}</h1>
-        <h2 class="responsive-title text-center text-wrap mx-auto px-3">{{ $t('history_resume') }}</h2>
-        <div class="d-flex flex-column flex-md-row gap-3 mt-4 justify-content-center align-items-center">
+        <h2 class="responsive-title text-center">{{ $t('history_resume') }}</h2>
+        <div class="d-flex flex-column">
             <button class="normal-button">Reservar partida publica Sabado 1</button>
             <button class="normal-button">Reservar partida publica Domingo 2</button>
         </div>
@@ -55,7 +55,6 @@
                             <p>Sábado 1 de Febrero</p>
                             <p>Partida pública</p>
                         </div>
-                        <p>8h - 13h</p>
                     </div>
                     <router-link to="/" class="ticketbutton cutout-image1"><p>></p></router-link>
                 </div>
@@ -65,7 +64,6 @@
                             <p>Sábado 1 de Febrero</p>
                             <p>Partida pública</p>
                         </div>
-                        <p>8h - 13h</p>
                     </div>
                     <router-link to="/" class="ticketbutton cutout-image1"><p>></p></router-link>
                 </div>
@@ -77,7 +75,6 @@
                             <p>Sábado 1 de Febrero</p>
                             <p>Partida pública</p>
                         </div>
-                        <p>8h - 13h</p>
                     </div>
                     <router-link to="/" class="ticketbutton cutout-image1"><p>></p></router-link>
                 </div>
@@ -87,7 +84,6 @@
                             <p>Sábado 1 de Febrero</p>
                             <p>Partida pública</p>
                         </div>
-                        <p>8h - 13h</p>
                     </div>
                     <router-link to="/" class="ticketbutton cutout-image1"><p>></p></router-link>
                 </div>
@@ -114,7 +110,7 @@
                     <a href="https://www.instagram.com/dunkerque.airsoft.camp/" ><img :src="'./images/instagram.svg'" alt="" height="35px"></a>
                 </div>
             </div>
-            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2186.6496725878847!2d1.8500931773698173!3d41.48928309397323!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a4897b77beef6d%3A0x89165515dd8340ce!2sDunkerque%20Airsoft%20Camp!5e1!3m2!1ses!2ses!4v1739816091320!5m2!1ses!2ses" width="800" height="600" style="border:0;" allowfullscreen="false" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe class="hidden md:block" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2186.6496725878847!2d1.8500931773698173!3d41.48928309397323!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a4897b77beef6d%3A0x89165515dd8340ce!2sDunkerque%20Airsoft%20Camp!5e1!3m2!1ses!2ses!4v1739816091320!5m2!1ses!2ses" width="800" height="600" style="border:0;" allowfullscreen="false" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
     </section>
     <section id="colaboradores">
