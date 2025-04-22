@@ -16,13 +16,16 @@
 
         <div class="navigation-buttons">
             <button @click="prevGroup" :disabled="currentGroup === 0"><</button>
+            <p v-if="currentGroup > 0" class="pageNumberBefore">{{ currentGroup}}</p>
+            <p class="pageNumber">{{ currentGroup + 1}}</p>
+            <p v-if="currentGroup < totalGroups - 1" class="pageNumberAfter">{{ currentGroup + 2}}</p>
             <button @click="nextGroup" :disabled="currentGroup === totalGroups - 1">></button>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, onBeforeUnmount } from "vue"; // Import onBeforeUnmount
 import axios from 'axios';
 
 // Estado para almacenar las partidas
@@ -34,6 +37,9 @@ const currentGroup = ref(0);
 // Tamaño del grupo (4 partidas por grupo)
 const groupSize = 4;
 
+// Reactive state for date (if needed for API calls)
+const currentDate = ref(new Date());
+
 // Obtener las partidas visibles según el grupo actual
 const visibleGames = computed(() => {
     const start = currentGroup.value * groupSize;
@@ -44,30 +50,17 @@ const visibleGames = computed(() => {
 // Calcular el número total de grupos
 const totalGroups = computed(() => Math.ceil(partidas.value.length / groupSize));
 
-const data = async () => {
-    return {
-        currentDate: new Date(),
-        daysOfWeek: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
-        partidas: {}, // Almacena todas las partidas por fecha
-        intervalId: null,
-
-    };
-}
-
 // Función para obtener las partidas desde la API
 const fetchPartidas = async () => {
     try {
         const response = await axios.get('/api/partidas?'
-            + 'year=' + this.currentDate.getFullYear()
-            + '&month=' + (this.currentDate.getMonth() + 1)
-            + '&limitMonth=' + (this.currentDate.getMonth() + 4)
+            + 'year=' + currentDate.value.getFullYear()
+            + '&month=' + (currentDate.value.getMonth() + 1)
+            + '&limitMonth=' + (currentDate.value.getMonth() + 4)
         );
 
-        this.partidas = response.data.reduce((acc, item) => {
-            const fecha = item.fecha;
-            acc[fecha] = item;
-            return acc;
-        }, {});
+        partidas.value = response.data; // Assign the array directly
+        console.log('Fetched partidas:', partidas.value); // For debugging
     } catch (error) {
         console.error('Error fetching partidas:', error);
     }
@@ -96,6 +89,8 @@ const getPlazasClass = (partida) => {
         return '';
     }
 
+    console.log(partida.plazas)
+
     if (plazas === 0) {
         return 'card-full'; // Rojo si no hay plazas
     } else if (plazas <= 50) {
@@ -115,12 +110,21 @@ const formatDate = (dateStr, separator = '-') => {
     if (!dateStr) return '';
     const datePart = dateStr.split('T')[0]; // Extract 'YYYY-MM-DD'
     const [year, month, day] = datePart.split('-');
-    return `<span class="math-inline">\{String\(Number\(day\)\)\.padStart\(2, '0'\)\}</span>{separator}<span class="math-inline">\{month\}</span>{separator}${year}`;
+    return `${String(Number(day)).padStart(2, '0')}${separator}${month}${separator}${year}`;
 };
 
-// Cuando el componente se monta, cargar las partidas
+let intervalId = null; // Declare intervalId in the setup scope
+
+// Cuando el componente se monta, cargar las partidas y setear el intervalo
 onMounted(() => {
     fetchPartidas();
+    intervalId = setInterval(() => fetchPartidas(), 5000);
+});
+
+// Antes de que el componente se desmonte, limpiar el intervalo
+onBeforeUnmount(() => { // Use onBeforeUnmount here
+    clearInterval(intervalId);
+    console.log('Interval cleared!'); // For verification
 });
 </script>
 
@@ -262,5 +266,21 @@ onMounted(() => {
 .navigation-buttons button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
+}
+
+.pageNumber{
+    display: flex;
+    color: #ffcc00;
+    border-bottom: 1px solid ;
+}
+
+.pageNumberBefore{
+    display: flex;
+    color: #F8F8F8;
+}
+
+.pageNumberAfter{
+    display: flex;
+    color: #F8F8F8;
 }
 </style>

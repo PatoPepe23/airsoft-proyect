@@ -4,7 +4,7 @@
             <div class="container nav-container">
                 <div class="w-100 w-lg-auto position-relative d-lg-block d-flex flex-row-reverse align-items-center justify-content-between">
                     <!-- Botón del toggler -->
-                    <router-link to="/" class="nav-logo"><img :src="'./images/logo.svg'" alt="Logo Dunkerque"></router-link>
+                    <router-link to="/" class="nav-logo"><img src="/images/logo.svg" alt="Logo Dunkerque"></router-link>
                     <a class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent">
                         <span class="navbar-toggler-icon"></span>
                     </a>
@@ -27,7 +27,7 @@
                                     <router-link to="" class="nav-button">{{ $t('rules') }}</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link to="" class="nav-button">{{ $t('get_here') }}</router-link>
+                                    <router-link to="{path: '/encontrarnos', hash: '#encontrarnos'}" class="nav-button">{{ $t('get_here') }}</router-link>
                                 </li>
                                 <li v-if="authStore().user && authStore().user.roles && authStore().user.roles[0]?.id == 1" class="nav-item">
                                     <router-link to="/admin" class="nav-button">Administrar</router-link>

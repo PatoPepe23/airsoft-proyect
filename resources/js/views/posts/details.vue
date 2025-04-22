@@ -104,6 +104,10 @@
 import axios from 'axios';
 import {ref, onMounted, inject, computed} from 'vue';
 import { useRoute, useRouter } from "vue-router";
+import { authStore} from "@/store/auth.js"
+
+const auth = authStore();
+const authenticated = auth.authenticated;
 
     const post = ref();
     const categories = ref();
@@ -115,12 +119,7 @@ import { useRoute, useRouter } from "vue-router";
 
 
     onMounted(() => {
-        axios.get('/api/get-post/' + route.params.id).then(({ data }) => {
-            post.value = data;
-        })
-        axios.get('/api/category-list').then(({ data }) => {
-            categories.value = data.data
-        })
+
     })
 
         // Variables reactivas
@@ -133,9 +132,17 @@ import { useRoute, useRouter } from "vue-router";
         const bocadillo = ref(1)
         const shift = ref(false);
 
-
         const discountinput = ref("");
         const descuentoPorcentaje = ref(null);
+
+        if (authenticated){
+            const user = auth.user;
+
+            DNI.value = user.DNI;
+            nombrecompleto.value = user.fullname;
+            telefono.value = user.phonenumber;
+            email.value = user.email;
+        }
 
 const base = computed(() => {
     let b = 15;

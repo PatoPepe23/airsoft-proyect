@@ -17,7 +17,7 @@ export const authStore = defineStore("authStore", () => {
             authenticated.value = false
         })
     }
-    async function getUser(data) {
+    async function getUser() {
 
         await axios.get('/api/user').then(response => {
             user.value = response.data.data

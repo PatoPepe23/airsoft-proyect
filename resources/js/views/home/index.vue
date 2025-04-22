@@ -36,12 +36,12 @@
                 </div>
             </router-link>
 
-            <router-link to="/" >
+            <a href="#encontrarnos" >
                 <div class="caja">
                     <div class="imgcaja3"></div>
                     <p>{{ $t('get_here') }}</p>
                 </div>
-            </router-link>
+            </a>
             </div>
         </div>
     </section>

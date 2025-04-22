@@ -12,7 +12,7 @@ const logoUrl = computed(() => {
 <template>
     <div class="layout-footer container">
         <div class="d-none d-lg-flex footerup">
-            <img :src="'./images/logo.svg'" alt="airsoftlogo" width="268px">
+            <img src="/images/logo.svg" alt="airsoftlogo" width="268px">
             <div class="footercontactoyubicacion">
                 <h3>Contacto</h3>
                 <p> Robert: +34 622 42 13 25</p>
