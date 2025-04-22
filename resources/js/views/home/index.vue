@@ -3,8 +3,8 @@
         <h1>{{ $t('webName') }}</h1>
         <h2 class="responsive-title text-center">{{ $t('history_resume') }}</h2>
         <div class="d-flex flex-column">
-            <button class="normal-button">{{$t('boton_banner')}}</button>
-            <button class="normal-button">{{$t('boton_banner2')}}</button>
+            <router-link :to="'/booking/' + nextSaturdayFormatted" class="normal-button">{{ $t('booking') +' '+ $t('boton_banner') + nextSaturdayDay }}</router-link>
+            <router-link :to="'/booking/' + nextSundayFormatted" class="normal-button">{{ $t('booking') +' '+ $t('boton_banner2') + nextSundayDay }}</router-link>
         </div>
     </section>
     <section id="sobrenosotros" class="container">
@@ -20,72 +20,72 @@
                     </div>
                 </router-link>
 
-            <router-link to="/" >
-                <div class="caja">
-                    <div class="imgcaja2"></div>
-                    <p>{{ $t('rules') }}</p>
-                </div>
-            </router-link>
+                <router-link to="/" >
+                    <div class="caja">
+                        <div class="imgcaja2"></div>
+                        <p>{{ $t('rules') }}</p>
+                    </div>
+                </router-link>
             </div>
 
             <div class="sobrenosotros-right sobrenosotros-rightseparation">
-            <router-link to="/booking" >
-                <div class="caja">
-                    <div class="imgcaja1"></div>
-                    <p>{{ $t('booking') }}</p>
-                </div>
-            </router-link>
+                <router-link to="/booking" >
+                    <div class="caja">
+                        <div class="imgcaja1"></div>
+                        <p>{{ $t('booking') }}</p>
+                    </div>
+                </router-link>
 
-            <a href="#encontrarnos" >
-                <div class="caja">
-                    <div class="imgcaja3"></div>
-                    <p>{{ $t('get_here') }}</p>
-                </div>
-            </a>
+                <a href="#encontrarnos" >
+                    <div class="caja">
+                        <div class="imgcaja3"></div>
+                        <p>{{ $t('get_here') }}</p>
+                    </div>
+                </a>
             </div>
         </div>
     </section>
     <section id="tickets">
-    <h2>{{ $t('next_games') }}</h2>
+        <h2>{{ $t('next_games') }}</h2>
         <div class="ticketbody container" >
             <div class="ticketcaja">
                 <div class="ticketconboton">
                     <div class="ticket cutout-image">
                         <div>
-                            <p>Sábado 1 de Febrero</p>
+                            <p>{{ $t('boton_banner') + nextSaturdayDay }}</p>
                             <p>{{$t('ticket_text2')}}</p>
                         </div>
                     </div>
-                    <router-link to="/" class="ticketbutton cutout-image1"><p>></p></router-link>
+                    <router-link :to="'/booking/' + nextSaturdayFormatted" class="ticketbutton cutout-image1"><p>></p></router-link>
                 </div>
                 <div class="ticketconboton">
                     <div class="ticket cutout-image">
                         <div>
-                            <p>Sábado 1 de Febrero</p>
+                            <p>{{ $t('boton_banner') + moreNextSaturdayDay }}</p>
                             <p>{{$t('ticket_text2')}}</p>
                         </div>
                     </div>
-                    <router-link to="/" class="ticketbutton cutout-image1"><p>></p></router-link>
+                    <router-link :to="'/booking/' + moreNextSaturdayFormatted" class="ticketbutton cutout-image1"><p>></p></router-link>
                 </div>
             </div>
             <div class="ticketcaja">
                 <div class="ticketconboton">
                     <div class="ticket cutout-image">
                         <div>
-                            <p>Sábado 1 de Febrero</p>
+                            <p>{{ $t('boton_banner2') + nextSundayDay }}</p>
                             <p>{{$t('ticket_text2')}}</p>
                         </div>
                     </div>
-                    <router-link to="/" class="ticketbutton cutout-image1"><p>></p></router-link>
+                    <router-link :to="'/booking/' + nextSundayFormatted" class="ticketbutton cutout-image1"><p>></p></router-link>
                 </div>
                 <div class="ticketconboton">
                     <div class="ticket cutout-image">
                         <div>
-                            <p>Sábado 1 de Febrero</p>
+                            <p>{{ $t('boton_banner2') + moreNextSundayDay }}</p>
                             <p>{{$t('ticket_text2')}}</p>
                         </div>
                     </div>
-                    <router-link to="/" class="ticketbutton cutout-image1"><p>></p></router-link>
+                    <router-link :to="'/booking/' + moreNextSundayFormatted" class="ticketbutton cutout-image1"><p>></p></router-link>
                 </div>
 
             </div>
@@ -114,7 +114,7 @@
         </div>
     </section>
     <section id="colaboradores">
-    <h2>{{ $t('collaborators') }}</h2>
+        <h2>{{ $t('collaborators') }}</h2>
         <div class="carousel container">
             <div class="group">
                 <div class="carrouCard"><img :src="'./images/BarElCasino.png'" alt="barCasino"></div>
@@ -130,7 +130,7 @@
                 <div class="carrouCard"><img :src="'./images/barnaAirsoft.png'" alt="barnaAirsoft"></div>
                 <div class="carrouCard"><img :src="'./images/DisMatac.png'" alt="disMatac"></div>
                 <div class="carrouCard"><img :src="'./images/hobbyRace.png'" alt="hobbyRace"></div>
-                <div class="carrouCard"><img :src="'./images/SDJairsoft.png'" alt="sdjAirsoft"></div>
+                <div class="carrouCard"><img :src="'./images/SDJairsoft.png'" alt="sdjAirSoft"></div>
                 <div class="carrouCard"><img :src="'./images/TheTacticalCave.png'" alt="theTacticalCave"></div>
             </div>
         </div>
@@ -139,7 +139,76 @@
 <script setup lang="ts">
 
 import { langStore } from "@/store/lang";
+import { ref, onMounted } from 'vue';
 
 const storedLang = langStore().locale;
+
+const nextSaturdayFormatted = ref('');
+const nextSundayFormatted = ref('');
+const moreNextSaturdayFormatted = ref('');
+const moreNextSundayFormatted = ref('');
+const nextSaturdayDay = ref('');
+const nextSundayDay = ref('');
+const moreNextSaturdayDay = ref('');
+const moreNextSundayDay = ref('');
+
+
+onMounted(() => {
+    const date = new Date();
+    const dayOfWeek = date.getDay(); // 0 para Domingo, 1 para Lunes, ..., 6 para Sábado
+
+    let daysUntilNextWeekend;
+
+    if (dayOfWeek === 0 || dayOfWeek === 6) {
+        // Ya estamos en fin de semana, calculamos el siguiente
+        daysUntilNextWeekend = (7 - dayOfWeek) % 7 + 6; // Días hasta el próximo sábado
+    } else {
+        daysUntilNextWeekend = 6 - dayOfWeek; // Días hasta el próximo sábado
+    }
+
+    const nextSaturday = new Date(date);
+
+    nextSaturday.setDate(date.getDate() + daysUntilNextWeekend);
+
+    const moreNextSaturday = new Date(date);
+
+    moreNextSaturday.setDate(date.getDate() + daysUntilNextWeekend + 7);
+
+    const nextSunday = new Date(nextSaturday);
+    nextSunday.setDate(nextSaturday.getDate() + 1);
+
+    const moreNextSunday = new Date(moreNextSaturday);
+    moreNextSunday.setDate(moreNextSaturday.getDate() + 1);
+
+    // Formatear las fechas completas para los links
+    const formatDate = (date: Date): string => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${day}-${month}-${year}`; // Invertir el orden para 'dd-mm-yyyy'
+    };
+
+    nextSaturdayFormatted.value = formatDate(nextSaturday);
+    nextSundayFormatted.value = formatDate(nextSunday);
+    moreNextSaturdayFormatted.value = formatDate(moreNextSaturday);
+    moreNextSundayFormatted.value = formatDate(moreNextSunday);
+
+    // Obtener solo el día para mostrar en el botón
+    nextSaturdayDay.value = String(nextSaturday.getDate()).padStart(2, '0');
+    nextSundayDay.value = String(nextSunday.getDate()).padStart(2, '0');
+
+    moreNextSaturdayDay.value = String(moreNextSaturday.getDate()).padStart(2, '0');
+    moreNextSundayDay.value = String(moreNextSunday.getDate()).padStart(2, '0');
+
+
+    console.log("Fecha del próximo sábado (completa):", nextSaturdayFormatted.value);
+    console.log("Fecha del próximo domingo (completa):", nextSundayFormatted.value);
+    console.log("Día del próximo sábado:", nextSaturdayDay.value);
+    console.log("Día del próximo domingo:", nextSundayDay.value);
+    console.log("Fecha del próximo próximo sábado (completa):", moreNextSaturdayFormatted.value);
+    console.log("Fecha del próximo próximo domingo (completa):", moreNextSundayFormatted.value);
+    console.log("Día del próximo próximo sábado:", moreNextSaturdayDay.value);
+    console.log("Día del próximo próximo domingo:", moreNextSundayDay.value);
+});
 
 </script>

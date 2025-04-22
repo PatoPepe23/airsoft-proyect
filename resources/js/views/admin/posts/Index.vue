@@ -114,8 +114,8 @@ const stateOptions = ref([
 ])
 
 const shiftOptions = ref([
-    { shift: 'Mañana', filter: 1},
-    { shift: 'Tarde', filter: 0},
+    { shift: 'Tarde', filter: 1},
+    { shift: 'Mañana', filter: 0},
 ])
 
 onMounted(() => {
@@ -160,10 +160,10 @@ const getShift = (shift) => {
     let decidedShift = '';
     switch (shift) {
         case 0:
-            decidedShift = 'Tarde';
+            decidedShift = 'Mañana';
             break;
         case 1:
-            decidedShift = 'Mañana';
+            decidedShift = 'Tarde';
             break;
     }
     return decidedShift;

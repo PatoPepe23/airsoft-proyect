@@ -123,7 +123,11 @@
     }
 }
 
-#banner button {
+#banner a {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
     width: 15rem;
     height: 5rem;
     font-size: 20px;
