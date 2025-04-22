@@ -69,6 +69,7 @@ import '../css/login.css';
 import '../css/footer.css'
 import '../css/booking.css';
 import '../css/bookingform.css';
+import '../css/profile.css';
 
 
 const app = createApp({

@@ -1,25 +1,19 @@
 <template>
     <div class="skiny-calendar-container">
         <div class="row row-cols-2 skiny-calendar-div justify-content-center">
-            <!-- Tarjetas de partidas -->
             <div v-for="partida in visibleGames" :key="partida.id" class="col2 game-card">
-                <!-- Plazas con color dinámico -->
                 <p class="plazas" :class="getPlazasClass(partida)">Plazas: {{ partida.plazas }}</p>
-                <!-- Imagen de placeholder -->
                 <div class="image-container" :class="getCancelledStatus(partida)">
                     <img src="/images/placeholder.jpg" alt="" class="game-image">
                 </div>
-                <!-- Título y fecha -->
                 <p class="partida-title">Partida</p>
-                <p class="partida-date">{{ partida.fecha }}</p>
-                <!-- Botón de reservar -->
-                <router-link :to="`/booking/${partida.fecha}`" class="reservar-button" :disabled="partida.plazas === 0">
+                <p class="partida-date">{{ formatDate(partida.fecha) }}</p>
+                <router-link :to="`/booking/${formatDate(partida.fecha, '-')}`" class="reservar-button" :disabled="partida.plazas === 0">
                     {{ $t('booking') }}
                 </router-link>
             </div>
         </div>
 
-        <!-- Botones de navegación -->
         <div class="navigation-buttons">
             <button @click="prevGroup" :disabled="currentGroup === 0"><</button>
             <button @click="nextGroup" :disabled="currentGroup === totalGroups - 1">></button>
@@ -50,13 +44,32 @@ const visibleGames = computed(() => {
 // Calcular el número total de grupos
 const totalGroups = computed(() => Math.ceil(partidas.value.length / groupSize));
 
+const data = async () => {
+    return {
+        currentDate: new Date(),
+        daysOfWeek: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+        partidas: {}, // Almacena todas las partidas por fecha
+        intervalId: null,
+
+    };
+}
+
 // Función para obtener las partidas desde la API
 const fetchPartidas = async () => {
     try {
-        const response = await axios.get('api/partidas');
-        partidas.value = response.data;
+        const response = await axios.get('/api/partidas?'
+            + 'year=' + this.currentDate.getFullYear()
+            + '&month=' + (this.currentDate.getMonth() + 1)
+            + '&limitMonth=' + (this.currentDate.getMonth() + 4)
+        );
+
+        this.partidas = response.data.reduce((acc, item) => {
+            const fecha = item.fecha;
+            acc[fecha] = item;
+            return acc;
+        }, {});
     } catch (error) {
-        console.error('Error while obtaining matches:', error);
+        console.error('Error fetching partidas:', error);
     }
 };
 
@@ -76,12 +89,11 @@ const nextGroup = () => {
 
 // Función para determinar el color de las plazas
 const getPlazasClass = (partida) => {
-
     const plazas = partida.plazas;
     const cancelled = partida.cancelled;
 
-    if (cancelled == 1){
-        return ''
+    if (cancelled == 1) {
+        return '';
     }
 
     if (plazas === 0) {
@@ -93,11 +105,18 @@ const getPlazasClass = (partida) => {
     }
 };
 
-const  getCancelledStatus = (partida) => {
+const getCancelledStatus = (partida) => {
     const cancelled = partida.cancelled;
-
     return cancelled == 1 ? 'cancelled-image-container' : '';
-}
+};
+
+// Formatea la fecha de "yyyy-mm-dd" a "dd-mm-yyyy"
+const formatDate = (dateStr, separator = '-') => {
+    if (!dateStr) return '';
+    const datePart = dateStr.split('T')[0]; // Extract 'YYYY-MM-DD'
+    const [year, month, day] = datePart.split('-');
+    return `<span class="math-inline">\{String\(Number\(day\)\)\.padStart\(2, '0'\)\}</span>{separator}<span class="math-inline">\{month\}</span>{separator}${year}`;
+};
 
 // Cuando el componente se monta, cargar las partidas
 onMounted(() => {
@@ -111,31 +130,39 @@ onMounted(() => {
     flex-direction: column;
     align-items: center;
     background-color: #283227;
-    height: 800px;
-    width: 30vw;
+    height: auto; /* Ajustar altura automáticamente */
+    width: 90vw; /* O el ancho que desees para móvil */
     border-radius: 4px;
     padding: 20px;
+    margin: 20px auto; /* Centrar en la pantalla móvil */
 }
 
 .skiny-calendar-div {
-    gap: 65px;
+    display: flex;
+    flex-wrap: wrap; /* Permitir que las tarjetas se envuelvan */
+    justify-content: center; /* Centrar las tarjetas */
+    gap: 20px;
     margin-bottom: 20px;
 }
 
 .game-card {
     background-color: #F8F8F8;
     border-radius: 4px;
-    height: 300px;
-    width: 200px;
+    height: auto; /* Ajustar altura automáticamente */
+    width: calc(50% - 10px); /* Dos tarjetas por fila con un pequeño espacio */
+    min-width: 150px; /* Ancho mínimo de la tarjeta */
     padding: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .plazas {
-    font-size: 1.2em;
+    font-size: 1.1em;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .card-full {
@@ -150,11 +177,13 @@ onMounted(() => {
     color: #4CAF50; /* Verde si hay muchas plazas */
 }
 
-.image-container{
+.image-container {
     position: relative;
-    display: inline-block;
-    width: 100%;
-    height: 40%;
+    width: 80%;
+    height: auto;
+    aspect-ratio: 1 / 0.6; /* Proporción de la imagen */
+    margin-bottom: 10px;
+    overflow: hidden; /* Recortar la imagen si no coincide la proporción */
 }
 
 .cancelled-image-container::before {
@@ -169,37 +198,40 @@ onMounted(() => {
     background-image: url("/images/cancelled.svg");
     background-repeat: no-repeat;
     background-position: center;
+    background-size: contain; /* Ajustar la imagen completamente dentro */
 }
 
 .game-image {
-    height: 100%;
+    display: block;
     width: 100%;
-    margin-bottom: 10px;
+    height: 100%;
+    object-fit: cover; /* Cubrir el contenedor manteniendo la proporción */
 }
 
 .partida-title {
-    font-size: 1.5em;
+    font-size: 1.2em;
     font-weight: bold;
     color: #283227;
-    margin-bottom: 5px;
+    margin-bottom: 3px;
 }
 
 .partida-date {
-    font-size: 1.1em;
+    font-size: 0.9em;
     color: #555;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .reservar-button {
     background-color: #283227; /* Verde para el botón */
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 8px 16px;
     border-radius: 5px;
-    font-size: 1em;
+    font-size: 0.9em;
     cursor: pointer;
     text-decoration: none;
     display: inline-block;
+    width: 80%;
 }
 
 .reservar-button:disabled {
@@ -214,16 +246,17 @@ onMounted(() => {
 .navigation-buttons {
     display: flex;
     gap: 10px;
+    margin-top: 15px;
 }
 
 .navigation-buttons button {
     background-color: #4CAF50;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 8px 16px;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1em;
+    font-size: 0.9em;
 }
 
 .navigation-buttons button:disabled {

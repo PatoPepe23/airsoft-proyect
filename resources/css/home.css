@@ -3,6 +3,10 @@
     src: url('../fonts/K2D-Regular.ttf') format('truetype');
 }
 
+*{
+    margin: 0;
+}
+
 .breadcrumb-item a{
     color: #158c00 !important;
 }
@@ -37,8 +41,13 @@
     }
 }
 
+@media (min-width: 768px) {
+    .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+        max-width: 1190px;
+    }
+}
 
-@media (min-width: 1400px) {
+@media (min-width: 1560px) {
     .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
         max-width: 1560px;
     }
@@ -96,7 +105,7 @@
 
 @media (min-width: 768px) {
     .responsive-title {
-        font-size: 25px;
+        font-size: 24px;
         width: auto;
         max-width: none;
     }
@@ -238,7 +247,6 @@
 
 @media (min-width: 768px) {
     .sobrenosotros-right:nth-child(1) {
-
         padding-left: 100px;
     }
 
@@ -259,21 +267,22 @@
     }
     .imgcaja, .imgcaja1, .imgcaja2, .imgcaja3 {
         position: relative;
-        width: 380px;
-        height: 400px;
+        width: 100%;
+        height: 100%;
         overflow: hidden;
     }
 
     .caja {
         background-color: #283227;
-        width: 400px;
-        height: 400px;
+        width: 25vw;
+        height: 23vw;
         display: flex;
         align-items: center;
         padding: 2%;
         transition: 0.5s;
         border-radius: 4px;
     }
+
 }
 
 

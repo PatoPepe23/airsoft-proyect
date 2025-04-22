@@ -69,9 +69,9 @@
                                 <img src="./../../../public/images/loginHead.svg" alt="" height="24px" class="button-svg">
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><router-link to="/admin/posts" class="dropdown-item">Post</router-link></li>
+                                <li><router-link to="/profile" class="dropdown-item">{{ $t('profile') }}</router-link></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="javascript:void(0)" @click="logout">Logout</a></li>
+                                <li><a class="dropdown-item" href="javascript:void(0)" @click="logout">{{ $t('logout') }}</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -82,11 +82,35 @@
 </template>
 
 <script setup>
-
 import useAuth from "@/composables/auth";
 import LocaleSwitcher from "../components/LocaleSwitcher.vue";
 import { authStore } from "../store/auth";
+import { useRouter } from 'vue-router';
+import { onMounted } from 'vue';
+
 const { processing, logout } = useAuth();
+const router = useRouter();
+const offcanvasId = 'navbarSupportedContent'; // The ID of your offcanvas div
+
+function closeOffcanvas() {
+    const offcanvasElement = document.getElementById(offcanvasId);
+    if (offcanvasElement && bootstrap.Offcanvas.getInstance(offcanvasElement)) {
+        bootstrap.Offcanvas.getInstance(offcanvasElement).hide();
+    }
+}
+
+// Close the offcanvas after each route navigation
+router.afterEach(() => {
+    closeOffcanvas();
+});
+
+// Ensure Bootstrap's JavaScript is initialized (if not already)
+let bootstrap;
+onMounted(() => {
+    import('bootstrap').then(b => {
+        bootstrap = b;
+    });
+});
 </script>
 
 <style scoped>

@@ -80,7 +80,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function register(RegisterRequest $request)
     {
-        $user = User::where('email', $request['email'])->first();
+        $user = User::where('DNI', $request['DNI'])->first();
 
         if ($user) {
             return response(['error' => 1, 'message' => 'user already exists'], 409);
@@ -89,13 +89,17 @@ class AuthenticatedSessionController extends Controller
         $user = User::create([
             'fullName' => $request['fullName'],
             'email' => $request['email'],
-            'phone' => $request['number'],
+            'phonenumber' => $request['number'],
             'DNI' => $request['DNI'],
-            'role_id' => $request['role_id'],
             'password' => Hash::make($request['password']),
             'remember_token' => Null,
-
         ]);
+
+        $role = Role::find($request['role_id']);
+
+        if ($role) {
+            $user->assignRole($role); // Assuming you are using Spatie Roles & Permissions
+        }
 
         return $this->successResponse($user, 'Registration Successfully');
     }

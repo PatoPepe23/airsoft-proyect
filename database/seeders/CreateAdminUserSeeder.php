@@ -24,7 +24,6 @@ class CreateAdminUserSeeder extends Seeder
             'password' => bcrypt('12345678'),
             'DNI' => '12345678A',
             'phonenumber' => '622421325',
-
             'email' => 'dunkerque.airsoft.camp@gmail.com',
         ]);
 

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('fullname');
             $table->string('password');
-            $table->string('DNI');
+            $table->string('DNI')->unique();
             $table->string('phonenumber')->nullable();
             $table->string('email')->unique();
 

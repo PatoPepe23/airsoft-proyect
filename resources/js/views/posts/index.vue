@@ -12,9 +12,11 @@
                 <h1>{{ $t('booking') }}</h1>
             </div>
         </div>
-        <div class="flex">
+        <div class="d-none d-lg-flex">
             <selfCalendar/>
-<!--            <skinyCalendar />-->
+        </div>
+        <div class="d-lg-none">
+            <skinyCalendar/>
         </div>
     </div>
 </template>
@@ -23,7 +25,7 @@
 import axios from 'axios';
 import {ref, onMounted} from 'vue';
 import selfCalendar from './../../components/Calendar.vue';
-// import skinyCalendar from './../../components/skiny-calendar.vue';
+import skinyCalendar from './../../components/skiny-calendar.vue';
 
 const posts = ref();
 
