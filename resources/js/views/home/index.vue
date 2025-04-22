@@ -3,8 +3,8 @@
         <h1>{{ $t('webName') }}</h1>
         <h2 class="responsive-title text-center">{{ $t('history_resume') }}</h2>
         <div class="d-flex flex-column">
-            <button class="normal-button">Reservar partida publica Sabado 1</button>
-            <button class="normal-button">Reservar partida publica Domingo 2</button>
+            <button class="normal-button">{{$t('boton_banner')}}</button>
+            <button class="normal-button">{{$t('boton_banner2')}}</button>
         </div>
     </section>
     <section id="sobrenosotros" class="container">
@@ -53,7 +53,7 @@
                     <div class="ticket cutout-image">
                         <div>
                             <p>Sábado 1 de Febrero</p>
-                            <p>Partida pública</p>
+                            <p>{{$t('ticket_text2')}}</p>
                         </div>
                     </div>
                     <router-link to="/" class="ticketbutton cutout-image1"><p>></p></router-link>
@@ -62,7 +62,7 @@
                     <div class="ticket cutout-image">
                         <div>
                             <p>Sábado 1 de Febrero</p>
-                            <p>Partida pública</p>
+                            <p>{{$t('ticket_text2')}}</p>
                         </div>
                     </div>
                     <router-link to="/" class="ticketbutton cutout-image1"><p>></p></router-link>
@@ -73,7 +73,7 @@
                     <div class="ticket cutout-image">
                         <div>
                             <p>Sábado 1 de Febrero</p>
-                            <p>Partida pública</p>
+                            <p>{{$t('ticket_text2')}}</p>
                         </div>
                     </div>
                     <router-link to="/" class="ticketbutton cutout-image1"><p>></p></router-link>
@@ -82,7 +82,7 @@
                     <div class="ticket cutout-image">
                         <div>
                             <p>Sábado 1 de Febrero</p>
-                            <p>Partida pública</p>
+                            <p>{{$t('ticket_text2')}}</p>
                         </div>
                     </div>
                     <router-link to="/" class="ticketbutton cutout-image1"><p>></p></router-link>

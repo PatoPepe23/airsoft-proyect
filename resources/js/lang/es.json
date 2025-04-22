@@ -46,5 +46,8 @@
     "register_with": "Registro con",
     "today": "Hoy",
     "booking_instructions": "Pulsa en el dia que quieras resevar",
-    "number": "Numero de telefono"
+    "number": "Numero de telefono",
+    "ticket_text2": "Partida pública",
+    "boton_banner": "Reservar partida publica sabado",
+    "boton_banner2": "Reservar partida publica domingo"
 }
