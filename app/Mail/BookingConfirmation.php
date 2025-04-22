@@ -39,7 +39,7 @@ class BookingConfirmation extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Booking Confirmation',
+            subject: 'Gracias por su reserva en Dunkerque Airsoft Camp',
         );
     }
 
