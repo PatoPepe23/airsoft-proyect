@@ -16,10 +16,7 @@
             <Column field="status" header="Status"></Column>
             <button @click="openCamera" class="btn btn-primary">Abrir Cámara</button><button @click="closeCamera" class="btn btn-danger">Cerrar Cámara</button>
             <div v-if="isCameraOpen" class="camera-container">
-                <QrcodeStream
-                    v-if="isCameraOpen"
-                    @decode="onDecode" @init="onInit" @error="onError" :constraints="{ video: { facingMode: 'environment' } }"
-                />
+                <qrcode-stream @detect="onDetect"></qrcode-stream>
 
             </div>
 
@@ -52,7 +49,7 @@ const closeCamera = () => {
     isCameraOpen.value = false; // Cierra el escáner de QR
 };
 
-const onDecode = (decodedString) => {
+const onDetect = (decodedString) => {
     console.log('Código QR escaneado:', decodedString);
 
     // Llamar directamente a playerCheck pasando el DNI escaneado
