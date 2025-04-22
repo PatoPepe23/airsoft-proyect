@@ -168,9 +168,15 @@ class PostControllerAdvance extends Controller
         return Post::with('categories', 'user', 'media')->findOrFail($id);
     }
 
-    public function checkPlayer($id)
+    public function checkPlayer($ID,$DNI)
     {
-        $result = DB::table('player')->where('id', $id)->update(['dentro' => true]);
-        return $result;
+
+        $game = Partida::findOrFail($ID);
+
+        $playersList = $game->players->firstWhere('DNI', $DNI)->update(['dentro'=>true]);
+
+
+
+        return $playersList;
     }
 }

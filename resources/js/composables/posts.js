@@ -53,14 +53,14 @@ export default function usePosts() {
         }
     }
 
-    const playerCheck = async (player) => {
+    const playerCheck = async (player, id) => {
         swal({
             title: 'Estas seguro?',
             text: 'Quieres confirmar que esta persona ha entrado al campo?',
             icon: 'warning',
             showCancelButton: true,
             cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Si, cancelala',
+            confirmButtonText: 'Si, registrar jugador',
             confirmButtonColor: '#ef4444',
             timer: 20000,
             timerProgressBar: true,
@@ -68,7 +68,7 @@ export default function usePosts() {
         })
             .then(result => {
                 if (result.isConfirmed) {
-                    axios.post(`/api/post/${player}`)
+                    axios.post(`/api/post/${id}/${player}`)
                         .then(response => {
                             getPosts()
                             router.push({name: 'posts.edit'})

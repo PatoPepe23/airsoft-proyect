@@ -15,7 +15,7 @@
             <Column field="status" header="Status"></Column>
             <column header="Opciones">
                 <template #body="player">
-                    <button @click.prevent.stop="playerCheck(player.data.player_id)"
+                    <button @click.prevent.stop="playerCheck(player.data.DNI, route.params.id)"
                             class="btn btn-danger btn-sm ms-2">Verificar
                     </button>
                 </template>
