@@ -1,3 +1,64 @@
 .rules-container{
-    margin-top: 15vh;
+
+}
+
+.rules-page {
+    background-color: #283227;
+    border-radius: 4px;
+    padding: 20px;
+    max-width: 960px;
+    margin: 15vh auto;
+    line-height: 1.6;
+    color: #333;
+}
+
+.rules-page h1 {
+    color: #F8F8F8;
+}
+
+.rules-section {
+    margin-bottom: 30px;
+    padding: 15px;
+    border: 1px solid #F8F8F8;
+    border-radius: 4px;
+    background-color: #F8F8F8;
+}
+
+.rules-section h2 {
+    color: #283227;
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #F8F8F8;
+    padding-bottom: 5px;
+}
+
+.rules-list {
+    margin-bottom: 15px;
+    padding-left: 20px;
+}
+
+.rules-list li {
+    margin-bottom: 8px;
+}
+
+.rules-list.numbered {
+    list-style-type: decimal;
+}
+
+.sub-list {
+    list-style-type: lower-alpha;
+    padding-left: 20px;
+}
+
+.important-note {
+    color: #c0392b;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.sub-note {
+    display: block;
+    font-size: 0.9em;
+    color: #4a5568;
+    margin-top: 5px;
 }
