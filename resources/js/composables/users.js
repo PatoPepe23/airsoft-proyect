@@ -1,5 +1,6 @@
 import { ref, inject } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n';
 
 export default function useUsers() {
     const users = ref([])
@@ -11,6 +12,7 @@ export default function useUsers() {
     const validationErrors = ref({})
     const isLoading = ref(false)
     const swal = inject('$swal')
+    const { t } = useI18n();
 
 
     const getUsers = async (
@@ -100,21 +102,39 @@ export default function useUsers() {
 
         console.log(user)
 
-        axios.post('/api/users', user)
-            .then(response => {
-                //router.push({name: 'users.index'})
+        swal({
+            title: t('user_update_warning_title'),
+            text: t('user_update_warning_text'),
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: t('user_update_warning_accept'),
+            confirmButtonColor: '#41573E',
+            cancelButtonText: t('cancel_button_text'),
+            cancelButtonColor: '#ef4444',
+            timer: 20000,
+            timerProgressBar: true,
+            reverseButtons: true
+        })
+            .then(result => {
+                if (result.isConfirmed){
+                    axios.post('/api/users', user)
+                        .then(response => {
+                            //router.push({name: 'users.index'})
 
-                swal({
-                    icon: 'success',
-                    title: 'User updated successfully'
-                })
-            })
-            .catch(error => {
-                if (error.response?.data) {
-                    validationErrors.value = error.response.data.errors
+                            swal({
+                                icon: 'success',
+                                title: 'User updated successfully'
+                            })
+                        })
+                        .catch(error => {
+                            if (error.response?.data) {
+                                validationErrors.value = error.response.data.errors
+                            }
+                        })
+                        .finally(() => isLoading.value = false)
                 }
+                isLoading.value = false
             })
-            .finally(() => isLoading.value = false)
     }
 
     const deleteUser = async (id, index) => {

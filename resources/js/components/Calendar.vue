@@ -47,6 +47,7 @@ export default {
             daysOfWeek: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
             partidas: {}, // Almacena todas las partidas por fecha
             intervalId: null,
+
         };
     },
     computed: {

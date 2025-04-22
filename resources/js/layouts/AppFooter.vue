@@ -11,7 +11,7 @@ const logoUrl = computed(() => {
 
 <template>
     <div class="layout-footer container">
-        <div class="footerup">
+        <div class="d-none d-lg-flex footerup">
             <img :src="'./images/logo.svg'" alt="airsoftlogo" width="268px">
             <div class="footercontactoyubicacion">
                 <h3>Contacto</h3>

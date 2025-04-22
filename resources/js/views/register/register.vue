@@ -25,7 +25,7 @@
                                   </div>
                                   <!-- DNI -->
                                   <div class="mb-3">
-                                      <label for="email" class="form-label">{{ $t('DNI') }}</label>
+                                      <label for="email" class="form-label">DNI</label>
                                       <input v-model="registerForm.DNI" id="DNI" type="text" class="form-control" autocomplete="DNI">
                                       <!-- Validation Errors -->
                                       <div class="text-danger mt-1">

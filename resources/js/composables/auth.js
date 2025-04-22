@@ -43,7 +43,7 @@ export default function useAuth() {
         number: '',
         password: '',
         password_confirmation: '',
-        role_id: 2
+        role_id: 3
     })
 
     const submitLogin = async () => {
@@ -79,6 +79,7 @@ export default function useAuth() {
     const submitRegister = async () => {
         if (processing.value) return
 
+        console.log('hola')
         console.log(registerForm)
 
         processing.value = true

@@ -45,5 +45,6 @@
     "login_with": "Log In with",
     "register_with": "Register with",
     "today": "Today",
-    "booking_instructions": "Click the day you want to reserve."
+    "booking_instructions": "Click the day you want to reserve.",
+    "number": "Phone Number"
 }

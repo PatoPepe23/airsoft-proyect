@@ -45,5 +45,6 @@
     "login_with": "Iniciar Sesión con",
     "register_with": "Registro con",
     "today": "Hoy",
-    "booking_instructions": "Pulsa en el dia que quieras resevar"
+    "booking_instructions": "Pulsa en el dia que quieras resevar",
+    "number": "Numero de telefono"
 }

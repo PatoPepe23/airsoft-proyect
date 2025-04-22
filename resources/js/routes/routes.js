@@ -30,7 +30,9 @@ function hasAdmin(roles) {
 async function guest(to, from, next) {
     const auth = authStore()
 
-    let isLogin = !!auth.authenticated;
+    let isLogin = auth.authenticated;
+
+    console.log(isLogin);
 
     if (isLogin) {
         next('/')
@@ -88,13 +90,19 @@ export default [
                 path: 'forgot-password',
                 name: 'auth.forgot-password',
                 component: () => import('../views/auth/passwords/Email.vue'),
-                beforeEnter: guest,
+                beforeEnter: requireLogin,
             },
             {
                 path: 'reset-password/:token',
                 name: 'auth.reset-password',
                 component: () => import('../views/auth/passwords/Reset.vue'),
-                beforeEnter: guest,
+                beforeEnter: requireLogin,
+            },
+            {
+              path: 'profile',
+              name: 'user-profile',
+              component: () => import('../views/user/profile.vue'),
+              beforeEnter: requireLogin,
             },
         ]
 
@@ -107,13 +115,11 @@ export default [
                 path: 'login',
                 name: 'auth.login',
                 component: () => import('../views/login/Login.vue'),
-                beforeEnter: guest,
             },
             {
                 path: 'register',
                 name: 'auth.register',
                 component: () => import('../views/register/register.vue'),
-                beforeEnter: guest,
             }
         ]
     },
