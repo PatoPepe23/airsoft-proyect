@@ -27,7 +27,7 @@
                                     <router-link to="" class="nav-button">{{ $t('rules') }}</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link to="{path: '/encontrarnos', hash: '#encontrarnos'}" class="nav-button">{{ $t('get_here') }}</router-link>
+                                    <router-link to="/" class="nav-button">{{ $t('get_here') }}</router-link>
                                 </li>
                                 <li v-if="authStore().user && authStore().user.roles && authStore().user.roles[0]?.id == 1" class="nav-item">
                                     <router-link to="/admin" class="nav-button">Administrar</router-link>
