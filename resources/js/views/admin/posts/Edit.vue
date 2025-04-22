@@ -50,10 +50,10 @@ const closeCamera = () => {
 };
 
 const onDetect = (decodedString) => {
-    console.log('Código QR escaneado:', decodedString);
+    console.log('Código QR escaneado:', decodedString[0].rawValue);
 
     // Llamar directamente a playerCheck pasando el DNI escaneado
-    playerCheck(decodedString, route.params.id);
+    playerCheck(decodedString[0].rawValue, route.params.id );
 
     isCameraOpen.value = false; // Cerrar el escáner después del escaneo
 };
