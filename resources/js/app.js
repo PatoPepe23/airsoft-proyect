@@ -70,6 +70,8 @@ import '../css/footer.css'
 import '../css/booking.css';
 import '../css/bookingform.css';
 import '../css/profile.css';
+import '../css/history.css';
+import '../css/rules.css';
 
 
 const app = createApp({
