@@ -1,9 +1,3 @@
-.login-body{
-    background-color: #232323;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-}
 .center-login-div{
     height: 100vh;
     display: flex;
@@ -11,9 +5,48 @@
     align-items: center;
 }
 
-.login-container{
-    border-radius: 4px;
-    width: 70%;
+@media (min-width: 300px){
+    .login-body{
+        padding-top: 30vh;
+        background-color: #232323;
+        width: 100vw;
+        height: 150vh;
+        /*overflow: hidden;*/
+    }
+
+    .login-container{
+        border-radius: 4px;
+        width: 90%;
+    }
+}
+
+@media (min-width: 325px){
+    .login-body{
+        padding-top: 5vh;
+        background-color: #232323;
+        width: 100vw;
+        height: 110vh;
+        /*overflow: hidden;*/
+    }
+
+    .login-container{
+        border-radius: 4px;
+        width: 90%;
+    }
+}
+
+@media (min-width: 1580px){
+    .login-body{
+        background-color: #232323;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .login-container{
+        border-radius: 4px;
+        width: 70%;
+    }
 }
 
 .login-register-selector{
@@ -86,15 +119,65 @@ input[type=checkbox]:focus{
 
 /* Register */
 
-.register-div{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+@media (min-width: 300px){
+    .register-body{
+        padding-top: 105vh;
+        background-color: #232323;
+        width: 100vw;
+        height: 300vh;
+        overflow: visible;
+    }
+
+    .register-div{
+        gap: 20px;
+    }
+    .register-container{
+        border-radius: 4px;
+        width: 90%;
+        height:auto;
+    }
 }
 
-.register-container{
-    border-radius: 4px;
-    width: 100%;
+
+@media (min-width: 325px){
+    .register-body{
+        padding-top: 50vh;
+        background-color: #232323;
+        width: 100vw;
+        height: 200vh;
+        overflow: visible;
+    }
+
+    .register-div{
+        gap: 20px;
+    }
+    .register-container{
+        border-radius: 4px;
+        width: 90%;
+        height:auto;
+    }
+}
+
+@media (min-width: 1580px) {
+    .register-body{
+        padding-top: 0;
+        background-color: #232323;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .register-div {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .register-container {
+        border-radius: 4px;
+        width: 70%;
+        height: auto;
+    }
 }
 
 .register-checkboxes{

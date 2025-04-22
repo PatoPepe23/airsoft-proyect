@@ -71,6 +71,16 @@ export default [
                 component: () => import('../views/home/index.vue'),
             },
             {
+                path: 'history',
+                name: 'history',
+                component: () => import('../views/history/index.vue'),
+            },
+            {
+                path: 'rules',
+                name: 'rules',
+                component: () => import('../views/rules/index.vue'),
+            },
+            {
                 path: 'booking',
                 name: 'booking.index',
                 component: () => import('../views/posts/index.vue'),
