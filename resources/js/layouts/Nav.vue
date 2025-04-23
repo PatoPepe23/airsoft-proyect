@@ -45,7 +45,7 @@
                                     <router-link to="/rules" class="nav-button">{{ $t('rules') }}</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link to="/" class="nav-button">{{ $t('get_here') }}</router-link>
+                                    <router-link to="/" class="nav-button" @click.prevent="getHereMobile">{{ $t('get_here') }}</router-link>
                                 </li>
                                 <li v-if="authStore().user && authStore().user.roles && authStore().user.roles[0]?.id == 1" class="nav-item">
                                     <router-link to="/admin" class="nav-button">Administrar</router-link>
@@ -66,7 +66,7 @@
                             <router-link to="/rules" class="nav-button">{{ $t('rules') }}</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="" class="nav-button">{{ $t('get_here') }}</router-link>
+                            <router-link to="" class="nav-button" @click.prevent="getHere">{{ $t('get_here') }}</router-link>
                         </li>
                         <li v-if="authStore().user && authStore().user.roles && authStore().user.roles[0]?.id == 1" class="nav-item">
                             <router-link to="/admin" class="nav-button">Administrar</router-link>
@@ -108,6 +108,17 @@ import { onMounted } from 'vue';
 const { processing, logout } = useAuth();
 const router = useRouter();
 const offcanvasId = 'navbarSupportedContent'; // The ID of your offcanvas div
+
+const getHereMobile = () => {
+    router.push({ name: 'home' }).then(() => {
+        window.scrollTo(0, 4600); // Hace scroll al inicio
+    });
+};
+const getHere = () => {
+    router.push({ name: 'home' }).then(() => {
+        window.scrollTo(0, 2800); // Hace scroll al inicio
+    });
+};
 
 function closeOffcanvas() {
     const offcanvasElement = document.getElementById(offcanvasId);
