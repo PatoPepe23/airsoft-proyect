@@ -1,5 +1,11 @@
 .rules-container{
+    margin-top: 15vh;
+    display: flex;
+    flex-direction: column;
+}
 
+.rules-container nav{
+    margin-left: 15vw;
 }
 
 .rules-page {
@@ -7,7 +13,7 @@
     border-radius: 4px;
     padding: 20px;
     max-width: 960px;
-    margin: 15vh auto;
+    margin: 0 auto;
     line-height: 1.6;
     color: #333;
 }

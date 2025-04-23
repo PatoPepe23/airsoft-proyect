@@ -1,5 +1,11 @@
 <template>
     <div class="flex justify-content-center history-father">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><router-link to="/">{{ $t('home') }}</router-link></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ $t('history') }}</li>
+            </ol>
+        </nav>
         <div class="container history-container">
             <h1>Historia</h1>
             <div class="history-image-top">
