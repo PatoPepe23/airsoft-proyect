@@ -50,6 +50,7 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::get('category-list', [CategoryController::class, 'getList']);
     Route::get('/user', [ProfileController::class, 'user']);
     Route::put('/user', [ProfileController::class, 'update']);
+    Route::delete('/user', [ProfileController::class, 'destroy']);
 
 
 

@@ -2,7 +2,7 @@
     <div class="container profile-container">
         <div class="grid justify-content-center">
             <div class="col-12 md:col-8 lg:col-8 xl:col-8">
-                <div class="card mb-3">
+                <div class="card mb-3 profile-info-container">
                     <h6 class="mb-2 text-primary">{{ $t('personal_details') }}</h6>
 
                     <div class="form-group">
@@ -61,6 +61,13 @@
                             <span v-if="isLoading">{{ $t('processing') }}...</span>
                             <span v-else>{{ $t('save') }}</span>
                         </button>
+                    </div>
+                    <div class="flex flex-row-reverse justify-content-between align-items-end">
+                        <router-link class="delete-account-button" to="/">Elminiar cuenta</router-link>
+                        <div class="data-infor">
+                            <p>*Tus datos se utilizaran para autocompletar tus reservas.</p>
+                            <p>*Manten tus datos actualizados.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -135,6 +142,9 @@ watchEffect(() => {
         user.role_id = loggedUser.role_id;
     }
 });
+
+
+
 </script>
 
 <style scoped>

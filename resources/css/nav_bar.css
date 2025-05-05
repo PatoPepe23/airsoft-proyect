@@ -10,8 +10,14 @@
 }
 
 .nav-logo img{
+    transition: 0.5S;
     height: 85px;
     width: 85px;
+}
+
+.nav-logo img:hover{
+    transition: 0.5S;
+    transform: scale(1.1);
 }
 
 .hyper-nav{
