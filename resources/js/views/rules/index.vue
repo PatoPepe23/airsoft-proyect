@@ -1,5 +1,11 @@
-<template class="container">
-    <div class="rules-container">
+<template class="">
+    <div class="container rules-container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><router-link to="/">{{ $t('home') }}</router-link></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ $t('history') }}</li>
+            </ol>
+        </nav>
         <div class="rules-page">
             <h1>{{ $t('rules_title') }}</h1>
             <section class="rules-section">

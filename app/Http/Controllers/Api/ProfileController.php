@@ -37,4 +37,12 @@ class ProfileController extends Controller
 
         return $this->successResponse($user, 'User found');
     }
+
+    public function destroy(User $user)
+    {
+        $this->authorize('user-delete');
+        $user->delete();
+
+        return response()->noContent();
+    }
 }

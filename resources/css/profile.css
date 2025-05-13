@@ -1,3 +1,21 @@
 .profile-container{
     margin-top: 15vh !important;
 }
+
+.profile-info-container{
+    border-radius: 4px;
+    background-color: #283227;
+    color: #F8F8F8;
+}
+
+.data-infor{
+    color: #F1E58B;
+    font-size: 18px;
+}
+
+.delete-account-button{
+    color: #F8F8F8;
+    border-radius: 4px;
+    background-color: #9a0000;
+    padding: 10px;
+}
