@@ -3,8 +3,9 @@
         <h1>{{ $t('webName') }}</h1>
         <h2 class="responsive-title text-center">{{ $t('history_resume') }}</h2>
         <div class="d-flex flex-column">
-            <router-link :to="'/booking/' + nextSaturdayFormatted" class="normal-button">{{ $t('booking') +' '+ $t('boton_banner') + nextSaturdayDay }}</router-link>
-            <router-link :to="'/booking/' + nextSundayFormatted" class="normal-button">{{ $t('booking') +' '+ $t('boton_banner2') + nextSundayDay }}</router-link>
+            <router-link :to="'/booking/' + nextSaturdayFormatted" class="normal-button">{{ $t('booking') +' '+ nextSaturdayDay }}</router-link>
+            <router-link :to="'/booking/' + nextSundayFormatted" class="normal-button">{{ $t('booking') +' '+ nextSundayDay }}</router-link>
+            <router-link :to="'/booking/'" class="normal-button">{{$t('booking')}}</router-link>
         </div>
     </section>
     <section id="sobrenosotros" class="container">
@@ -194,11 +195,12 @@ onMounted(() => {
     moreNextSundayFormatted.value = formatDate(moreNextSunday);
 
     // Obtener solo el día para mostrar en el botón
-    nextSaturdayDay.value = String(nextSaturday.getDate()).padStart(2, '0');
-    nextSundayDay.value = String(nextSunday.getDate()).padStart(2, '0');
+    nextSaturdayDay.value = `${String(nextSaturday.getDate()).padStart(2, '0')}/${String(nextSaturday.getMonth() + 1).padStart(2, '0')}`;
+    nextSundayDay.value = `${String(nextSunday.getDate()).padStart(2, '0')}/${String(nextSunday.getMonth() + 1).padStart(2, '0')}`;
 
-    moreNextSaturdayDay.value = String(moreNextSaturday.getDate()).padStart(2, '0');
-    moreNextSundayDay.value = String(moreNextSunday.getDate()).padStart(2, '0');
+    moreNextSaturdayDay.value = `${String(moreNextSaturday.getDate()).padStart(2, '0')}/${String(moreNextSaturday.getMonth() + 1).padStart(2, '0')}`;
+    moreNextSundayDay.value = `${String(moreNextSunday.getDate()).padStart(2, '0')}/${String(moreNextSunday.getMonth() + 1).padStart(2, '0')}`;
+
 
 
     console.log("Fecha del próximo sábado (completa):", nextSaturdayFormatted.value);
