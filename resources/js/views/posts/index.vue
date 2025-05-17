@@ -8,8 +8,12 @@
                 </ol>
             </nav>
             <div class="booking-title">
+                <h5>🟥 No hay plazas 🟨 Pocas plazas disponibles 🟩 Plazas disponibles</h5>
+                <h4>Leyenda de colores:</h4>
+
                 <h3>{{ $t('booking_instructions') }}</h3>
                 <h1>{{ $t('booking') }}</h1>
+
             </div>
         </div>
         <div class="d-none d-lg-flex">
