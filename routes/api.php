@@ -50,7 +50,7 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::get('category-list', [CategoryController::class, 'getList']);
     Route::get('/user', [ProfileController::class, 'user']);
     Route::put('/user', [ProfileController::class, 'update']);
-    Route::delete('/user', [ProfileController::class, 'destroy']);
+    Route::delete('/user/{user}', [ProfileController::class, 'destroy']);
 
 
 
@@ -64,6 +64,12 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
             ->values()
             ->toArray();
     });
+
+    Route::post('/reservar', [reservarController::class, 'store']);
+
+    Route::post('/send-mail', [SendMailController::class, 'send']);
+
+    Route::post('/discount', [discountController::class, 'store']);
 });
 
 Route::get('category-list', [CategoryController::class, 'getList']);
@@ -72,17 +78,11 @@ Route::get('get-posts', [PostControllerAdvance::class, 'getPosts']);
 Route::get('get-category-posts/{id}', [PostControllerAdvance::class, 'getCategoryByPosts']);
 Route::get('get-post/{id}', [PostControllerAdvance::class, 'getPost']);
 
-Route::get('note', [NoteController::class, 'index'])->name('note.index');
-Route::post('note', [NoteController::class, 'store'])->name('note.store');
-Route::get('note/{id}', [NoteController::class, 'show'])->name('note.show');
-Route::put('note/{id}', [NoteController::class, 'update'])->name('note.update');
-Route::delete('note/{id}', [NoteController::class, 'destroy'])->name('note.destroy');
+//Route::get('note', [NoteController::class, 'index'])->name('note.index');
+//Route::post('note', [NoteController::class, 'store'])->name('note.store');
+//Route::get('note/{id}', [NoteController::class, 'show'])->name('note.show');
+//Route::put('note/{id}', [NoteController::class, 'update'])->name('note.update');
+//Route::delete('note/{id}', [NoteController::class, 'destroy'])->name('note.destroy');
 
 //Route::get('/partidas', [PartidaController::class, 'index']);
 Route::get('/partidas', [PartidaController::class, 'index']);
-
-Route::post('/reservar', [reservarController::class, 'store']);
-
-Route::post('/send-mail', [SendMailController::class, 'send']);
-
-Route::post('/discount', [discountController::class, 'store']);

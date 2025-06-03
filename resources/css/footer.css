@@ -37,3 +37,8 @@
 .footerbottom  img{
     margin: 0px 5px;
 }
+
+.btn-manage-cookies{
+    background: none;
+    border: none;
+}

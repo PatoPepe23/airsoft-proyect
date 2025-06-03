@@ -63,7 +63,7 @@
                         </button>
                     </div>
                     <div class="flex flex-row-reverse justify-content-between align-items-end">
-                        <router-link class="delete-account-button" to="/">Elminiar cuenta</router-link>
+                        <router-link class="delete-account-button" to="" @click="submitDelete" >Elminiar cuenta</router-link>
                         <div class="data-infor">
                             <p>*Tus datos se utilizaran para autocompletar tus reservas.</p>
                             <p>*Manten tus datos actualizados.</p>
@@ -86,8 +86,8 @@ import useAuth from '@/composables/auth'
 defineRule('required', required);
 defineRule('min', min);
 
-const { updateUser, getUser, user: postData, validationErrors, isLoading } = useUsers();
-const { user: loggedUser } = useAuth();
+const {deleteUser, updateUser, getUser, user: postData, validationErrors, isLoading } = useUsers();
+const { user: loggedUser, logout } = useAuth();
 const route = useRoute();
 
 // Define a validation schema
@@ -143,7 +143,13 @@ watchEffect(() => {
     }
 });
 
-
+function submitDelete() {
+    validate().then(form => {
+        if (form.valid) {
+            deleteUser(user.id);
+        }
+    });
+}
 
 </script>
 

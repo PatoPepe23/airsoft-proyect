@@ -1,6 +1,7 @@
 import { ref, inject } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n';
+import useAuth from "@/composables/auth";
 
 export default function useUsers() {
     const users = ref([])
@@ -8,6 +9,7 @@ export default function useUsers() {
         name: ''
     })
 
+    const { logout } = useAuth();
     const router = useRouter()
     const validationErrors = ref({})
     const isLoading = ref(false)
@@ -137,7 +139,7 @@ export default function useUsers() {
             })
     }
 
-    const deleteUser = async (id, index) => {
+    const deleteUser = async (id) => { // Removed 'index' if not needed here
         swal({
             title: 'Are you sure?',
             text: 'You won\'t be able to revert this action!',
@@ -145,28 +147,28 @@ export default function useUsers() {
             showCancelButton: true,
             confirmButtonText: 'Yes, delete it!',
             confirmButtonColor: '#ef4444',
+            cancelButtonText: t('cancel_button_text'), // Use i18n for cancel button text
             timer: 20000,
             timerProgressBar: true,
             reverseButtons: true
         })
             .then(result => {
                 if (result.isConfirmed) {
-                    axios.delete('/api/users/' + id)
+                    axios.delete('/api/user/' + id)
                         .then(response => {
-                            users.value.data.splice(index, 1);
-
-                            //getUsers()
-                            //router.push({name: 'users.index'})
                             swal({
                                 icon: 'success',
                                 title: 'User deleted successfully'
                             })
+                            logout();
+                            router.push({name: 'home'});
                         })
                         .catch(error => {
                             swal({
                                 icon: 'error',
                                 title: 'Something went wrong'
                             })
+                            console.error('Error deleting user:', error);
                         })
                 }
             })

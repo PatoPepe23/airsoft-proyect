@@ -6,7 +6,8 @@
 </head>
 <body>
 <h2>Gracias {{ $data['nombrecompleto'] }} por reservar en Dunkerque Airsoft Camp!</h2>
-<h2>Hora y Dia de reserva: {{ $data['shift'] ? '16:00' : '8:00'}} {{$data['partida_id']}}</h2>
+<h2>Hora: {{ $data['shift'] ? '16:00' : '8:00'}}</h2>
+<h2>Dia: {{$data['partida_id']}}</h2>
 <h3><u>Datos de reserva</u></h3>
 <ul>
     <li><strong>DNI:</strong> {{ $data['DNI'] }}</li>
@@ -16,6 +17,7 @@
     <li><strong>Comida:</strong> {{ $data['food'] ? 'Sí' : 'No' }}</li>
 </ul>
 <h3>- Precio a pagar: {{$data['precio']}} €</h3>
+<h2>Todos los pagos se realizaran en efectivo, una vez en el campo.</h2>
 <img src="cid:qr_cid" width="200"/>
 
 <p><strong>Tienes Adjuntado el QR con el que tendras que pasar el dia de la reserva.</strong></p>

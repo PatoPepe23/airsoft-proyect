@@ -1,9 +1,9 @@
 <template>
     <div class="calendar">
         <div class="calendar-header">
-            <button @click="prevMonth">←</button>
+            <button class="month-selector" @click="prevMonth">←</button>
             <h2>{{ currentMonth }} {{ currentYear }}</h2>
-            <button @click="nextMonth">→</button>
+            <button class="month-selector" @click="nextMonth">→</button>
             <button @click="goToCurrentDate" class="normal-button current-date-button">{{ $t('today') }}</button>
         </div>
         <div class="calendar-grid">
@@ -218,6 +218,11 @@ export default {
     border: none;
     font-size: 32px;
     cursor: pointer;
+}
+
+.month-selector:hover {
+    transition: 0.5S;
+    transform: scale(1.1);
 }
 
 .current-date-button {

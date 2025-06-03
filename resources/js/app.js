@@ -1,8 +1,8 @@
 import 'bootstrap';
 import { createApp } from 'vue';
-import { createPinia } from 'pinia'
-import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
-import router from './routes/index'
+import { createPinia } from 'pinia';
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
+import router from './routes/index';
 import VueSweetalert2 from "vue-sweetalert2";
 import { abilitiesPlugin } from '@casl/vue';
 import ability from './services/ability';
@@ -10,6 +10,8 @@ import useAuth from './composables/auth';
 import { installI18n, loadMessages } from "./plugins/i18n";
 import { langStore } from "@/store/lang";
 import './plugins/axios.js';
+
+import App from './App.vue';
 
 /*PRIMEVUE */
 import PrimeVue from "primevue/config";
@@ -66,27 +68,23 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import '../css/home.css';
 import '../css/nav_bar.css';
 import '../css/login.css';
-import '../css/footer.css'
+import '../css/footer.css';
 import '../css/booking.css';
 import '../css/bookingform.css';
 import '../css/profile.css';
 import '../css/history.css';
 import '../css/rules.css';
 
+const app = createApp(App); // <--- CHANGE: Pass App.vue component here
 
-const app = createApp({
-    created() {
-        useAuth().getUser()
-    }
-});
 
-const pinia = createPinia()
-pinia.use(piniaPluginPersistedstate)
+const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate);
 
-app.use(pinia)
-app.use(router)
-app.use(VueSweetalert2)
-app.use(abilitiesPlugin, ability)
+app.use(pinia);
+app.use(router);
+app.use(VueSweetalert2);
+app.use(abilitiesPlugin, ability);
 app.use(ToastService);
 app.use(DialogService);
 app.use(ConfirmationService);
@@ -94,8 +92,8 @@ app.use(ConfirmationService);
 const i18n = installI18n(app);
 const l = langStore();
 l.$subscribe((_, state) => {
-    console.info('state: '+ state.locale);
-    loadMessages(state.locale)
+    console.info('state: ' + state.locale);
+    loadMessages(state.locale);
 });
 
 /**PRIMEVUE */
@@ -158,5 +156,4 @@ app.directive('tooltip', Tooltip);
 app.directive('ripple', Ripple);
 app.directive('styleclass', StyleClass);
 
-
-app.mount('#app')
+app.mount('#app');

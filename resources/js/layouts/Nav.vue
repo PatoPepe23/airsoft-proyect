@@ -48,7 +48,7 @@
                                     <router-link to="/" class="nav-button" @click.prevent="getHereMobile">{{ $t('get_here') }}</router-link>
                                 </li>
                                 <li v-if="authStore().user && authStore().user.roles && authStore().user.roles[0]?.id == 1" class="nav-item">
-                                    <router-link to="/admin" class="nav-button">Administrar</router-link>
+                                    <router-link to="/admin/posts" class="nav-button">Administrar</router-link>
                                 </li>
                             </ul>
                         </div>
@@ -69,7 +69,7 @@
                             <router-link to="" class="nav-button" @click.prevent="getHere">{{ $t('get_here') }}</router-link>
                         </li>
                         <li v-if="authStore().user && authStore().user.roles && authStore().user.roles[0]?.id == 1" class="nav-item">
-                            <router-link to="/admin" class="nav-button">Administrar</router-link>
+                            <router-link to="/admin/posts" class="nav-button">Administrar</router-link>
                         </li>
                     </ul>
                 </div>

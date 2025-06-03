@@ -16,64 +16,35 @@
                         <div class="formsplit">
                             <div class="form-group bookingtextinput">
                                 <label for="DNI">* DNI</label>
-                                <input type="text" id="DNI" v-model="DNI" required>
+                                <input type="text" id="DNI" v-model="DNI" @input="saveToCookie('DNI')" required>
                             </div>
 
                             <div class="form-group bookingtextinput">
                                 <label for="nombre">* Nombre completo</label>
-                                <input type="text" id="nombre" v-model="nombrecompleto" required>
+                                <input type="text" id="nombre" v-model="nombrecompleto" @input="saveToCookie('nombrecompleto')" required>
                             </div>
 
                             <div class="form-group bookingtextinput">
                                 <label for="email">* Email</label>
-                                <input type="email" id="email" v-model="email" required>
+                                <input type="email" id="email" v-model="email" @input="saveToCookie('email')" required>
                             </div>
 
                             <div class="form-group bookingtextinput">
                                 <label for="telefono">Teléfono</label>
-                                <input type="tel" id="telefono" v-model="telefono" min="18">
+                                <input type="tel" id="telefono" v-model="telefono" @input="saveToCookie('telefono')" min="18">
                             </div>
                         </div>
                         <div class="formsplit">
-                            <div class="form-group bookingcheckinput">
-                                <div>
-                                    <input type="checkbox" id="comida" v-model="food" >
-                                    <label for="comida">Añadir bocadillo?</label>
-                                </div>
-
-                            </div>
-                            <div class="form-group">
-                                <select id="bocadillo"  v-model="bocadillo" :disabled="!food">
-                                    <option value="1">01.- Lomo queso pan con tomate</option>
-                                    <option value="2">02.- Bacon queso pan con tomate</option>
-                                    <option value="3">03.- Tortilla queso pan con tomate</option>
-                                    <option value="4">04.- Salchichas queso pan con tomate</option>
-                                    <option value="7">07.- Fuet pan con tomate</option>
-                                    <option value="8">08.- Jamon serrano pan con tomate</option>
-                                    <option value="17">17.- Jamon serrano pan sin tomate</option>
-                                </select>
-                            </div>
-
                             <div class="form-group bookingtextinput bookingseparationup">
                                 <label for="nombre">Tienes equipo? Escribe el nombre</label>
-                                <input type="text" id="nombre" v-model="team">
+                                <input type="text" id="nombre" v-model="team" @input="saveToCookie('team')">
                             </div>
 
                             <div class="form-group bookingcheckinput bookingseparationup">
                                 <div>
                                     <input type="checkbox" id="alquiler" v-model="alquiler">
                                     <label for="alquiler">Alquilar equipamiento</label>
-
                                 </div>
-                            </div>
-
-                            <div class="form-group bookingcheckinput bookingseparationup">
-                                <div>
-                                    <input type="checkbox" id="shift" v-model="shift">
-                                    <label for="shift">Turno de tarde? (16:00)</label>
-
-                                </div>
-
                             </div>
                         </div>
                     </div>
@@ -84,7 +55,6 @@
                             <p>Alquiler: {{ alquiler ? 'Sí ' : 'No ' }}<span class="precio">{{ alquiler ? '+ 25€' : '+ 0€' }}</span></p>
                             <p>Jugadores: <span class="precio">1</span></p>
                             <p>Hora: <span class="precio">{{ shift ? '16:00' : '8:00' }}</span></p>
-
                         </div>
                         <div class="bookingconfirmation">
                             <form @submit.prevent="discount">
@@ -102,47 +72,143 @@
 
 <script setup>
 import axios from 'axios';
-import {ref, onMounted, inject, computed} from 'vue';
+import { ref, onMounted, inject, computed, watch } from 'vue';
 import { useRoute, useRouter } from "vue-router";
 import { authStore} from "@/store/auth.js"
+import Cookies from 'js-cookie';
+import { useCookieConsentStore } from '@/store/cookieConsent';
+
 
 const auth = authStore();
 const authenticated = auth.authenticated;
 
-    const post = ref();
-    const categories = ref();
-    const route = useRoute()
-    const router = useRouter();
-    const partida_id = route.params.id;
-    const swal = inject('$swal');
+const route = useRoute()
+const router = useRouter();
+const partida_id = route.params.id;
+const swal = inject('$swal');
 
+const cookieConsentStore = useCookieConsentStore();
 
+const DNI = ref("");
+const nombrecompleto = ref("");
+const telefono = ref("");
+const email = ref("");
+const alquiler = ref(false);
+const team = ref("");
+const food = ref(false);
+const bocadillo = ref(1)
+const shift = ref(false); // Checkbox
 
-    onMounted(() => {
+const discountinput = ref("");
+const descuentoPorcentaje = ref(null);
 
-    })
+// Cookie Configuration
+const COOKIE_PREFIX = 'airsoft_booking_';
+const COOKIE_OPTIONS = { expires: 1, sameSite: 'Lax', secure: true };
 
-        // Variables reactivas
-        const DNI = ref("");
-        const nombrecompleto = ref("");
-        const telefono = ref("");
-        const email = ref("");
-        const alquiler = ref(false);
-        const food = ref(false);
-        const bocadillo = ref(1)
-        const shift = ref(false);
+// Cooki Functions
 
-        const discountinput = ref("");
-        const descuentoPorcentaje = ref(null);
+/**
+ * Saves a specific form field's value to a cookie.
+ * @param {string} fieldName - The name of the reactive variable (e.g., 'DNI', 'email').
+ */
+const saveToCookie = (fieldName) => {
+    if (!cookieConsentStore.hasConsentForPreferences){
+        console.log(`Consent not given for saving cookie: ${COOKIE_PREFIX}${fieldName}`);
+        return;
+    }
 
-        if (authenticated){
-            const user = auth.user;
+    const value = eval(fieldName).value; // Access the ref's value
 
-            DNI.value = user.DNI;
-            nombrecompleto.value = user.fullname;
-            telefono.value = user.phonenumber;
-            email.value = user.email;
+    if (value !== null && value !== undefined && value !== '') {
+        Cookies.set(COOKIE_PREFIX + fieldName, value, COOKIE_OPTIONS);
+    } else {
+        Cookies.remove(COOKIE_PREFIX + fieldName);
+    }
+};
+
+/**
+ * Loads values from cookies and populates the form fields.
+ */
+const loadFromCookies = () => {
+    if (!cookieConsentStore.hasConsentForPreferences){
+        console.log('Consent not given for loading preferences cookies.');
+        return;
+    }
+
+    const fieldsToLoad = [
+        'DNI', 'nombrecompleto', 'email', 'telefono', 'team'
+    ];
+
+    fieldsToLoad.forEach(fieldName => {
+        const cookieValue = Cookies.get(COOKIE_PREFIX + fieldName);
+        if (cookieValue) {
+            eval(fieldName).value = cookieValue;
         }
+    });
+
+    const alquilerCookie = Cookies.get(COOKIE_PREFIX + 'alquiler');
+    if (alquilerCookie === 'true') {
+        alquiler.value = true;
+    } else if (alquilerCookie === 'false') {
+        alquiler.value = false;
+    }
+
+    const shiftCookie = Cookies.get(COOKIE_PREFIX + 'shift');
+    if (shiftCookie === 'true') {
+        shift.value = true;
+    } else if (shiftCookie === 'false') {
+        shift.value = false;
+    }
+
+    const foodCookie = Cookies.get(COOKIE_PREFIX + 'food');
+    if (foodCookie === 'true') {
+        food.value = true;
+    } else if (foodCookie === 'false') {
+        food.value = false;
+    }
+
+    const bocadilloCookie = Cookies.get(COOKIE_PREFIX + 'bocadillo');
+    if (bocadilloCookie) {
+        bocadillo.value = parseInt(bocadilloCookie);
+    }
+};
+
+watch(alquiler, (newValue) => {
+    saveToCookie('alquiler');
+});
+
+watch(shift, (newValue) => {
+    saveToCookie('shift');
+});
+
+watch(food, (newValue) => {
+    saveToCookie('food');
+});
+
+watch(bocadillo, (newValue) => {
+    saveToCookie('bocadillo');
+});
+
+watch(() => cookieConsentStore.hasConsentForPreferences, (newValue) => {
+    if (newValue === true) {
+        console.log('Consent just granted. Attempting to load cookies now.');
+        loadFromCookies();
+    }
+});
+
+
+onMounted(() => {
+    if (authenticated && auth.user) {
+        DNI.value = auth.user.DNI || DNI.value;
+        nombrecompleto.value = auth.user.fullname || nombrecompleto.value;
+        telefono.value = auth.user.phonenumber || telefono.value;
+        email.value = auth.user.email || email.value;
+    } else {
+        loadFromCookies();
+    }
+});
+
 
 const base = computed(() => {
     let b = 15;
@@ -172,7 +238,6 @@ const discount = async () => {
         });
 
         descuentoPorcentaje.value = response.data.porcentaje;
-
 
         swal({
             icon: 'success',
@@ -215,7 +280,6 @@ const reservar = async () => {
             timer: 2500
         });
 
-
         await axios.post('/api/send-mail', {
             DNI: DNI.value,
             nombrecompleto: nombrecompleto.value,
@@ -233,12 +297,19 @@ const reservar = async () => {
 
         setTimeout(() => {
             router.push({ name: 'home' }).then(() => {
-                window.scrollTo(0, 0); // Hace scroll al inicio
+                window.scrollTo(0, 0); // Scroll to top
             });
         }, 2500);
 
+        // Clear all pre-population cookies after a successful reservation
+        const fieldsToClear = [
+            'DNI', 'nombrecompleto', 'email', 'telefono', 'team', 'alquiler', 'shift', 'food', 'bocadillo'
+        ];
+        fieldsToClear.forEach(fieldName => {
+            Cookies.remove(COOKIE_PREFIX + fieldName);
+        });
 
-        // Limpiar los campos después de enviar
+        // Reset local reactive variables to their initial state
         DNI.value = "";
         nombrecompleto.value = "";
         telefono.value = "";
@@ -246,6 +317,8 @@ const reservar = async () => {
         food.value = false;
         bocadillo.value = 1;
         shift.value = false;
+        alquiler.value = false;
+        team.value = "";
 
     } catch (error) {
         console.error("Error al enviar el formulario:", error.response?.data || error);
@@ -257,6 +330,4 @@ const reservar = async () => {
         });
     }
 };
-
-
 </script>

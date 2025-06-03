@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container flex">
         <div class="nav-avoid">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -7,21 +7,23 @@
                     <li class="breadcrumb-item active" aria-current="page">{{ $t('booking') }}</li>
                 </ol>
             </nav>
+        </div>
+        <div class="flex">
+            <div class="d-none d-lg-flex">
+                <selfCalendar/>
+            </div>
+            <div class="d-lg-none">
+                <skinyCalendar/>
+            </div>
             <div class="booking-title">
                 <h5>🟥 No hay plazas 🟨 Pocas plazas disponibles 🟩 Plazas disponibles</h5>
                 <h4>Leyenda de colores:</h4>
 
                 <h3>{{ $t('booking_instructions') }}</h3>
                 <h1>{{ $t('booking') }}</h1>
-
             </div>
         </div>
-        <div class="d-none d-lg-flex">
-            <selfCalendar/>
-        </div>
-        <div class="d-lg-none">
-            <skinyCalendar/>
-        </div>
+
     </div>
 </template>
 

@@ -1,12 +1,15 @@
 <script setup>
 import { useLayout } from '../composables/layout';
 import { computed } from 'vue';
+import { useCookieConsentStore } from '../store/cookieConsent.js';
 
 const { layoutConfig } = useLayout();
 
 const logoUrl = computed(() => {
     return `layout/images/${layoutConfig.darkTheme.value ? 'logo-white' : 'logo-dark'}.svg`;
 });
+
+const cookieConsentStore = useCookieConsentStore();
 </script>
 
 <template>
@@ -30,7 +33,13 @@ const logoUrl = computed(() => {
 
         </div>
         <div class="footerbottom">
-            <p>Dunkerque © {{ new Date().getFullYear() }}. Todos los derechos reservados. <img class="icons" :src="'./images/CIRCULO.svg'" alt="" height="4px">   <router-link to="/">Aviso legal</router-link> | <router-link to="/">Política de privacidad</router-link> |  <router-link to="/">Política de cookies</router-link></p>
+            <p>Dunkerque © {{ new Date().getFullYear() }}. Todos los derechos reservados. <img class="icons" :src="'./images/CIRCULO.svg'" alt="" height="4px">
+                <router-link to="/">Aviso legal</router-link> |
+                <router-link to="/">Política de privacidad</router-link> |
+                <button @click="cookieConsentStore.resetConsent" class="btn-manage-cookies">
+                    <router-link to="" >{{ $t('manage_cookies') }}</router-link>
+                </button>
+            </p>
         </div>
     </div>
 </template>
