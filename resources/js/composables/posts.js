@@ -16,6 +16,7 @@ export default function usePosts() {
         search_id = '',
         search_players = '',
         search_shift = '',
+        search_team = '',
         search_state = '',
         order_column = 'created_at',
         order_direction = 'desc'
@@ -30,6 +31,7 @@ export default function usePosts() {
             '&search_id=' + search_id +
             '&search_players=' + search_players +
             '&search_shift=' + search_shift +
+            '$search_team=' + search_team +
             '&search_state=' + search_state +
             '&order_column=' + order_column +
             '&order_direction=' + order_direction)

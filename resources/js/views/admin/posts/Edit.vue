@@ -8,18 +8,6 @@
 
                 </div>
             </template>
-            <Column field="DNI" sortable header="DNI"></Column>
-            <Column field="name" sortable header="Jugador"></Column>
-            <Column field="income" sortable header="Importe"></Column>
-            <Column field="mail" header="Correo"></Column>
-            <Column field="phone" header="Telefono"></Column>
-            <Column field="status" header="Status"></Column>
-            <button @click="openCamera" class="btn btn-primary">Abrir Cámara</button><button @click="closeCamera" class="btn btn-danger">Cerrar Cámara</button>
-            <div v-if="isCameraOpen" class="camera-container">
-                <qrcode-stream @detect="onDetect"></qrcode-stream>
-
-            </div>
-
             <column header="Opciones">
                 <template #body="player">
                     <button @click.prevent.stop="playerCheck(player.data.DNI, route.params.id)"
@@ -27,6 +15,18 @@
                     </button>
                 </template>
             </column>
+            <Column field="name" sortable header="Jugador"></Column>
+            <Column field="DNI" sortable header="DNI"></Column>
+            <Column field="income" sortable header="Importe"></Column>
+            <Column field="mail" header="Correo"></Column>
+            <Column field="phone" header="Telefono"></Column>
+            <Column field="team" header="Equipo"></Column>
+            <Column field="status" header="Status"></Column>
+            <button @click="openCamera" class="btn btn-primary">Abrir Cámara</button><button @click="closeCamera" class="btn btn-danger">Cerrar Cámara</button>
+            <div v-if="isCameraOpen" class="camera-container">
+                <qrcode-stream @detect="onDetect"></qrcode-stream>
+
+            </div>
         </DataTable>
     </div>
 </template>
