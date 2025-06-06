@@ -22,7 +22,7 @@ h1 {
     gap: 5%;
     background-color: #283227;
     color: white;
-    padding: 2%;
+    padding: 2% 5% 2% 2%;
     height: 31rem;
     width: 100%;
     border-radius: 4px;
@@ -47,7 +47,7 @@ h1 {
     flex-direction: column;
     padding: 1%;
     font-size: 20px;
-    gap: 2%;
+    gap: 20%;
     border-radius: 4px;
 }
 
@@ -122,9 +122,5 @@ select {
     .bookingformleft .bookingtextinput {
         display: flex;
         flex-direction: column;
-    }
-
-    .bookingformright {
-        height: 27rem;
     }
 }

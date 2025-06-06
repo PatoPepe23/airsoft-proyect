@@ -1,10 +1,13 @@
 <template>
     <div class="calendar">
         <div class="calendar-header">
-            <button class="month-selector" @click="prevMonth">←</button>
-            <h2>{{ currentMonth }} {{ currentYear }}</h2>
-            <button class="month-selector" @click="nextMonth">→</button>
+            <div class="calendar-buttons">
+                <button class="month-selector" @click="prevMonth">←</button>
+                <h2>{{ currentMonth }} {{ currentYear }}</h2>
+                <button class="month-selector" @click="nextMonth">→</button>
+            </div>
             <button @click="goToCurrentDate" class="normal-button current-date-button">{{ $t('today') }}</button>
+
         </div>
         <div class="calendar-grid">
             <div v-for="day in daysOfWeek" :key="day" class="calendar-day-header">
@@ -211,6 +214,7 @@ export default {
     justify-content: center;
     align-items: center;
     font-size: 1.5em;
+    flex-direction: column;
 }
 
 .calendar-header button {
@@ -220,9 +224,19 @@ export default {
     cursor: pointer;
 }
 
+.calendar-buttons {
+    display: flex;
+    flex-direction: row;
+}
+
+.month-selector {
+    transition: 0.5S;
+
+}
+
 .month-selector:hover {
     transition: 0.5S;
-    transform: scale(1.1);
+    transform: scale(1.5);
 }
 
 .current-date-button {

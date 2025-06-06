@@ -46,19 +46,23 @@
                                     <label for="alquiler">Alquilar equipamiento</label>
                                 </div>
                             </div>
+                            <p>* Si desea comprar un bocadillo, debera ir a recepción del campo</p>
                         </div>
+
                     </div>
+
                     <div class="bookingformright">
                         <div>
                             <h2>Información de la reserva</h2>
-                            <p>Bocata: {{ food ? 'Sí ' : 'No ' }}<span class="precio">{{ food ? '+ 6€' : '+ 0€' }}</span></p>
+                            <!-- <p>Bocata: {{ food ? 'Sí ' : 'No ' }}<span class="precio">{{ food ? '+ 6€' : '+ 0€' }}</span></p> -->
                             <p>Alquiler: {{ alquiler ? 'Sí ' : 'No ' }}<span class="precio">{{ alquiler ? '+ 25€' : '+ 0€' }}</span></p>
-                            <p>Jugadores: <span class="precio">1</span></p>
+                            <!-- <p>Jugadores: <span class="precio">1</span></p> -->
+                            <p>Día: <span class="precio">{{this.$route.params.id}}</span></p>
                             <p>Hora: <span class="precio">{{ shift ? '16:00' : '8:00' }}</span></p>
                         </div>
                         <div class="bookingconfirmation">
-                            <form @submit.prevent="discount">
-                                <input type="text" id="discount" v-model="discountinput" placeholder="Discount code">
+                            <form @submit.prevent="discount" class="formdiscount">
+                                <input type="text" id="discount" v-model="discountinput" placeholder="Discount code"><button type="submit">Aplicar</button>
                             </form>
                             <p>Total: <span class="precio">{{precio}} €</span> <span v-if="descuentoPorcentaje" class="old">{{base}} €</span></p>
                             <button type="submit">Reservar</button>

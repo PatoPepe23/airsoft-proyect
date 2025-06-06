@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('DNI')->unique();
             $table->string('phonenumber')->nullable();
             $table->string('email')->unique();
+            $table->string('qrimg')->unique();
 
             $table->rememberToken();
             $table->timestamps();

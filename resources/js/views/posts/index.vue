@@ -15,12 +15,23 @@
             <div class="d-lg-none">
                 <skinyCalendar/>
             </div>
-            <div class="booking-title">
-                <h5>🟥 No hay plazas 🟨 Pocas plazas disponibles 🟩 Plazas disponibles</h5>
-                <h4>Leyenda de colores:</h4>
+            <div class="booking-title d-none d-lg-flex">
 
-                <h3>{{ $t('booking_instructions') }}</h3>
-                <h1>{{ $t('booking') }}</h1>
+                <div class="booking-backgroundtitle">
+
+                    <div class="booking-whitebackgroundtitle">
+                        <h1>{{ $t('how_to_book') }}:</h1>
+                        <h3>{{ $t('booking_instructions') }}</h3>{{ $t('booking_instructions1') }}
+                        <h3>Presiona ← o → para navegar por los meses</h3>
+                        <h3>Presiona "Hoy" para redirigirte al mes que estamos</h3>
+                    </div>
+                    <div class="booking-whitebackgroundtitle">
+                        <h1>Leyenda de colores:</h1>
+                        <h3>🟩 Plazas disponibles</h3>
+                        <h3>🟨 Pocas plazas disponibles</h3>
+                        <h3>🟥 No hay plazas </h3>
+                    </div>
+                </div>
             </div>
         </div>
 

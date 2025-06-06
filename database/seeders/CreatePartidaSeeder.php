@@ -28,14 +28,6 @@ class CreatePartidaSeeder extends Seeder
                 'shift' => 0
             ]);
 
-            Partida::create([
-                'fecha' => $fechaInicio,
-                'plazas' => 220,
-                'tipo' => "dominguera",
-                'cancelled' => false,
-                'shift' => 1
-            ]);
-
             // Domingo
             $fechaInicio->addDay();
             Partida::create([

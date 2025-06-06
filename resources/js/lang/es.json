@@ -45,7 +45,7 @@
     "login_with": "Iniciar Sesión con",
     "register_with": "Registro con",
     "today": "Hoy",
-    "booking_instructions": "Pulsa en el dia que quieras resevar",
+    "booking_instructions": "Pulsa en el día que quieras resevar",
     "number": "Numero de telefono",
     "ticket_text2": "Partida pública",
     "boton_banner": "Sabado: ",
@@ -136,5 +136,10 @@
     "behavior_no_shooting_props": "<strong>Prohibido</strong> disparar a bombillas, fluorescentes, attrezzo y cristales.",
     "behavior_no_littering": "<strong>Tirar carcasas</strong> vacías de granadas, capsulas de co2 y cualquier tipo de residuo generada por el jugador al campo. Estos residuos serán guardados por el jugador hasta depositarlos en papeleras repartidas 2  por todo el campo.",
     "behavior_no_dishonest_behavior": "<strong>No está permitido</strong> cualquier actitud y comportamiento considerado ingenioso o astuto, siendo poco honroso como engañar acerca de tu color o bando ante una pregunta, parecer que se está eliminado cuando no lo estás, tirar cualquier elemento simulando 3  una granada, etc.",
-    "behavior_consequences": "El incumplimiento de estas normas, en función de la gravedad de la misma, podrá provocar la expulsión automática del campo de juego sin devolución de la aportación 4  a la partida."
+    "behavior_consequences": "El incumplimiento de estas normas, en función de la gravedad de la misma, podrá provocar la expulsión automática del campo de juego sin devolución de la aportación 4  a la partida.",
+    "accept_cookies": "Acceptar cookies",
+    "reject_cookies": "Rechazar cookies",
+    "cookie_consent_message": "Si aceptas las cookies usaremos los datos que hayas rellenado en los formularios para guardarlos por si se equivoca de reserva!",
+    "how_to_book": "Como reservar",
+    "booking_instructions1": ""
 }

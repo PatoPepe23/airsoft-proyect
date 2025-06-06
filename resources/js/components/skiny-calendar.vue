@@ -2,12 +2,13 @@
     <div class="skiny-calendar-container">
         <div class="row row-cols-2 skiny-calendar-div justify-content-center">
             <div v-for="partida in visibleGames" :key="partida.id" class="col2 game-card">
-                <p class="plazas" :class="getPlazasClass(partida)">Plazas: {{ partida.plazas }}</p>
+                <p class="plazas" :class="getPlazasClass(partida)"><span v-if="partida.plazas === 0">No hay plazas disponibles</span><span v-else-if="partida.plazas < 50">Pocas plazas disponibles </span><span v-else>Plazas disponibles</span></p>
+
                 <div class="image-container" :class="getCancelledStatus(partida)">
-                    <img src="/images/placeholder.jpg" alt="" class="game-image">
+                    <img src="/images/masiabach.webp" alt="" class="game-image">
                 </div>
-                <p class="partida-title">Partida</p>
-                <p class="partida-date">{{ formatDate(partida.fecha) }}</p>
+                <p class="partida-title">{{ formatDate(partida.fecha) }}</p>
+                <p class="partida-date">{{$t('ticket_text2')}}</p>
                 <router-link :to="`/booking/${formatDate(partida.fecha, '-')}`" class="reservar-button" :disabled="partida.plazas === 0">
                     {{ $t('booking') }}
                 </router-link>
