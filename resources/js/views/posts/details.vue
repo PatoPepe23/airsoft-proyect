@@ -273,6 +273,7 @@ const reservar = async () => {
             food_id: bocadillo.value,
             partida_id: partida_id,
             shift: shift.value,
+            team: team.value,
             precio: precio.value,
             dentro: false
         });

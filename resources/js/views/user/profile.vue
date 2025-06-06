@@ -2,6 +2,17 @@
     <div class="container profile-container">
         <div class="grid justify-content-center">
             <div class="col-12 md:col-8 lg:col-8 xl:col-8">
+                <div class="flex justify-content-around">
+                    <div class="profile-buttons">
+                        <router-link to="">Info</router-link>
+                    </div>
+                    <div>
+                        <router-link to="">Reservas</router-link>
+                    </div>
+                    <div>
+                        <router-link to="">QR</router-link>
+                    </div>
+                </div>
                 <div class="card mb-3 profile-info-container">
                     <h6 class="mb-2 text-primary">{{ $t('personal_details') }}</h6>
 

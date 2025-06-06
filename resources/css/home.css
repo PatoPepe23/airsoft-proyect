@@ -1,6 +1,11 @@
 @font-face {
     font-family: 'K2D';
-    src: url('../fonts/K2D-Regular.ttf') format('truetype');
+    src: url('../fonts/K2D/K2D-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'AB';
+    src: url('../fonts/AB/Amboqia Boriango.otf') format('truetype');
 }
 
 *{
@@ -86,6 +91,7 @@
 
 
 #banner h1 {
+    font-family: AB;
     font-size: 60px;
     border-bottom: 4px solid #F8F8F8;
 }

@@ -93,6 +93,7 @@ class PostControllerAdvance extends Controller
                     'mail' => $player->email,
                     'food_name' => $productName,
                     'income' => $pedido->cost,
+                    'team' => $player->team,
                     'status' => $statusState,
                 ];
             });

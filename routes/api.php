@@ -64,13 +64,11 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
             ->values()
             ->toArray();
     });
-
-    Route::post('/reservar', [reservarController::class, 'store']);
-
-    Route::post('/send-mail', [SendMailController::class, 'send']);
-
-    Route::post('/discount', [discountController::class, 'store']);
 });
+
+Route::post('/send-mail', [SendMailController::class, 'send']);
+Route::post('/discount', [discountController::class, 'store']);
+Route::post('/reservar', [reservarController::class, 'store']);
 
 Route::get('category-list', [CategoryController::class, 'getList']);
 

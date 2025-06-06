@@ -10,18 +10,11 @@
                 </div>
                 <div class="card-body shadow-sm">
                     <div class="mb-4">
-                        <IconField>
+                        <IconField class="flex">
                             <InputText v-model="filters['global'].value" placeholder="Buscar..." class="form-control w-25" />
-                            <div>
+                            <div class="flex w-100">
                                 <InputText v-model="filters['day'].value" placeholder="Filtrar por Dia" class="form-control w-2" />
                                 <InputText v-model="filters['players'].value" placeholder="Filtrar por Jugadores" class="form-control w-2" />
-                                <Select v-model="filters['shift'].value" showClear :options="shiftOptions" optionLabel="shift" optionValue="filter" placeholder="Turno de la partida" style="min-width: 14rem" :maxSelectedLabels="1">
-                                    <template #option="slotProps">
-                                        <div class="flex items-center gap-2">
-                                            <span>{{ slotProps.option.shift }}</span>
-                                        </div>
-                                    </template>
-                                </Select>
                             </div>
                         </IconField>
                     </div>
@@ -40,6 +33,15 @@
                                 <Button icon="pi pi-refresh" rounded raised />
                             </div>
                         </template>
+                        <Column header="Acciones" style="min-width: 8rem">
+                            <template #body="{ data }">
+                                <router-link v-if="can('post-edit')"
+                                             :to="{ name: 'posts.edit', params: { id: data.id } }" class="btn btn-primary btn-sm">Detalles
+                                </router-link>
+                                <button v-if="can('post-delete')" @click.prevent="cancelPost(data.id)"
+                                        class="btn btn-danger btn-sm ms-2">Cancelar</button>
+                            </template>
+                        </Column>
                         <Column field="day" header="Dia" sortable filterField="day" style="min-width: 10rem">
                             <template #body="{ data }">{{ data.day }}</template>
                         </Column>
@@ -54,15 +56,6 @@
                                 <div class="flex items-center gap-2">
                                     <span>{{ getState(data.day, data.state) }}</span>
                                 </div>
-                            </template>
-                        </Column>
-                        <Column header="Acciones" style="min-width: 8rem">
-                            <template #body="{ data }">
-                                <router-link v-if="can('post-edit')"
-                                             :to="{ name: 'posts.edit', params: { id: data.id } }" class="btn btn-primary btn-sm">Detalles
-                                </router-link>
-                                <button v-if="can('post-delete')" @click.prevent="cancelPost(data.id)"
-                                        class="btn btn-danger btn-sm ms-2">Cancelar</button>
                             </template>
                         </Column>
                     </DataTable>
