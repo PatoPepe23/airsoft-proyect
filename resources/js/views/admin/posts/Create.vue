@@ -1,96 +1,60 @@
 <template>
-    <form @submit.prevent="submitForm">
-        <div class="row my-5">
-            <div class="col-md-8">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body">
+    <div class="bookingform">
+        <form @submit.prevent="reservar">
+            <div class="bookingformleft">
+                <div class="formsplit">
+                    <div class="form-group bookingtextinput">
+                        <label for="DNI">* DNI</label>
+                        <input type="text" id="DNI" v-model="DNI" @input="saveToCookie('DNI')" required>
+                    </div>
 
-                        <!-- Title -->
-                        <div class="mb-3">
-                            <label for="post-title" class="form-label">
-                                Title
-                            </label>
-                            <input v-model="post.title" id="post-title" type="text" class="form-control">
-                            <div class="text-danger mt-1">
-                                {{ errors.title }}
-                            </div>
-                            <div class="text-danger mt-1">
-                                <div v-for="message in validationErrors?.title">
-                                    {{ message }}
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Content -->
-                        <div class="mb-3">
-                            <label for="post-content" class="form-label">
-                                Content
-                            </label>
+                    <div class="form-group bookingtextinput">
+                        <label for="nombre">* Nombre completo</label>
+                        <input type="text" id="nombre" v-model="nombrecompleto" @input="saveToCookie('nombrecompleto')" required>
+                    </div>
 
-                            <Editor v-model="post.content" editorStyle="height: 320px" />
-                            <div class="text-danger mt-1">
-                                {{ errors.content }}
-                            </div>
-                            <div class="text-danger mt-1">
-                                <div v-for="message in validationErrors?.content">
-                                    {{ message }}
-                                </div>
-                            </div>
+                    <div class="form-group bookingtextinput">
+                        <label for="email">* Email</label>
+                        <input type="email" id="email" v-model="email" @input="saveToCookie('email')" required>
+                    </div>
+
+                    <div class="form-group bookingtextinput">
+                        <label for="telefono">Teléfono</label>
+                        <input type="tel" id="telefono" v-model="telefono" @input="saveToCookie('telefono')" min="18">
+                    </div>
+                </div>
+                <div class="formsplit">
+                    <div class="form-group bookingtextinput bookingseparationup">
+                        <label for="nombre">Tienes equipo? Escribe el nombre</label>
+                        <input type="text" id="nombre" v-model="team" @input="saveToCookie('team')">
+                    </div>
+
+                    <div class="form-group bookingcheckinput bookingseparationup">
+                        <div>
+                            <input type="checkbox" id="alquiler" v-model="alquiler">
+                            <label for="alquiler">Alquilar equipamiento</label>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body">
-                        <h6>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-square" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 2.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
-                            </svg> Action
-                        </h6>
-                        <div class="mt-3 text-center">
-                            <button :disabled="isLoading" class="btn btn-primary">
-                                <div v-show="isLoading" class=""></div>
-                                <span v-if="isLoading">Processing...</span>
-                                <span v-else>Publish</span>
-                            </button>
-                        </div>
-                        <h6 class="mt-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-square" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 2.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
-                            </svg> Category
-                        </h6>
-
-                        <!-- Category -->
-                        <div class="mb-3">
-                            <MultiSelect v-model="post.categories" :options="categoryList" optionLabel="name" modelValue="id" optionValue="id" filter placeholder="Select category" :maxSelectedLabels="3" class="w-full md:w-80" />
-                            <div class="text-danger mt-1">
-                                {{ errors.categories }}
-                            </div>
-                            <div class="text-danger mt-1">
-                                <div v-for="message in validationErrors?.categories">
-                                    {{ message }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <h6 class="mt-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-square" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 2.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
-                                </svg> Thumbnail
-                            </h6>
-                            <DropZone v-model="post.thumbnail"/>
-                            <div class="text-danger mt-1">
-                                <div v-for="message in validationErrors?.thumbnail">
-                                    {{ message }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="bookingformright">
+                <div>
+                    <h2>Información de la reserva</h2>
+                    <p>Bocata: {{ food ? 'Sí ' : 'No ' }}<span class="precio">{{ food ? '+ 6€' : '+ 0€' }}</span></p>
+                    <p>Alquiler: {{ alquiler ? 'Sí ' : 'No ' }}<span class="precio">{{ alquiler ? '+ 25€' : '+ 0€' }}</span></p>
+                    <p>Jugadores: <span class="precio">1</span></p>
+                    <p>Hora: <span class="precio">{{ shift ? '16:00' : '8:00' }}</span></p>
+                </div>
+                <div class="bookingconfirmation">
+                    <form @submit.prevent="discount">
+                        <input type="text" id="discount" v-model="discountinput" placeholder="Discount code">
+                    </form>
+                    <p>Total: <span class="precio">{{precio}} €</span> <span v-if="descuentoPorcentaje" class="old">{{base}} €</span></p>
+                    <button type="submit">Reservar</button>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </template>
 <script setup>
 import {onMounted, reactive, ref} from "vue";
