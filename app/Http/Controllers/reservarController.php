@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\pedido;
-use App\Models\player;
+use App\Models\Player;
 use Illuminate\Http\Request;
 use App\Models\partida;
 use Carbon\Carbon;
