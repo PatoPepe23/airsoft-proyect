@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
+use App\Services\QrGeneratorService;
 
 class UserController extends Controller
 {
@@ -43,6 +44,8 @@ class UserController extends Controller
         return UserResource::collection($users);
     }
 
+
+
     public function store(StoreUserRequest $request)
     {
         $role = Role::find($request->role_id);
@@ -51,8 +54,8 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->surname1 = $request->surname1;
         $user->surname2 = $request->surname2;
-
         $user->password = Hash::make($request->password);
+
 
         if ($user->save()) {
             if ($role) {

@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use App\Services\QrGeneratorService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
@@ -78,6 +79,13 @@ class AuthenticatedSessionController extends Controller
      * @param RegisterRequest $request
      * @return JsonResponse
      */
+
+    protected $qrService;
+
+    public function __construct(QrGeneratorService $qrService)
+    {
+        $this->qrService = $qrService;
+    }
     public function register(RegisterRequest $request)
     {
         $user = User::where('DNI', $request['DNI'])->first();
@@ -86,12 +94,16 @@ class AuthenticatedSessionController extends Controller
             return response(['error' => 1, 'message' => 'user already exists'], 409);
         }
 
+
+        $qr = $this->qrService->generate($request['DNI']);
+
         $user = User::create([
             'fullName' => $request['fullName'],
             'email' => $request['email'],
             'phonenumber' => $request['number'],
             'DNI' => $request['DNI'],
             'password' => Hash::make($request['password']),
+            'qrimg' => $qr['filename'],
             'remember_token' => Null,
         ]);
 
