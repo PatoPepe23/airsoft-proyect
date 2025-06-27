@@ -20,6 +20,7 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'phonenumber' => $this->phonenumber,
             'DNI' => $this->DNI,
+            'qrimg' => $this->qrimg,
             'role_id' => $this->roles,
             'roles' => $this->roles,
             'avatar' => count($this->getMedia('*')) > 0 ? $this->getMedia('*')[0]->getUrl() : null,

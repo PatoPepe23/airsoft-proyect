@@ -23,6 +23,7 @@ class User extends Authenticatable implements HasMedia
         'password',
         'phonenumber',
         'DNI',
+        'qrimg',
         'role_id'
     ];
 

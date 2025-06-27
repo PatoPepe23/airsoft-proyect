@@ -272,14 +272,7 @@ const reservar = async () => {
             dentro: false
         });
 
-        swal({
-            icon: 'success',
-            title: 'Reserva realizada con exito',
-            showConfirmButton: false,
-            timer: 2500
-        });
-
-        await axios.post('/api/send-mail', {
+        axios.post('/api/send-mail', {
             DNI: DNI.value,
             nombrecompleto: nombrecompleto.value,
             telefono: telefono.value,
@@ -294,11 +287,17 @@ const reservar = async () => {
             partida_id: partida_id
         })
 
-        setTimeout(() => {
-            router.push({ name: 'home' }).then(() => {
-                window.scrollTo(0, 0); // Scroll to top
-            });
-        }, 2500);
+        await swal({
+            icon: 'success',
+            title: 'Reserva realizada con éxito',
+            text: 'Se le enviará un correo con la reserva.',
+            confirmButtonText: 'Aceptar'
+        });
+
+        router.push({ name: 'home' }).then(() => {
+            window.scrollTo(0, 0);
+        });
+
 
         // Clear all pre-population cookies after a successful reservation
         const fieldsToClear = [

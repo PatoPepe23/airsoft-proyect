@@ -25,6 +25,7 @@ class CreateAdminUserSeeder extends Seeder
             'DNI' => '12345678A',
             'phonenumber' => '622421325',
             'email' => 'dunkerque.airsoft.camp@gmail.com',
+            'qrimg' => 'test1.png'
         ]);
 
         $user2 = User::create([
@@ -34,6 +35,7 @@ class CreateAdminUserSeeder extends Seeder
             'DNI' => '1111111A',
             'phonenumber' => '632421325',
             'email' => 'dunkerque.airsoft2.camp@gmail.com',
+            'qrimg' => 'test2.png'
         ]);
         $user3 = User::create([
             'id' => 3,
@@ -42,6 +44,7 @@ class CreateAdminUserSeeder extends Seeder
             'DNI' => '1111111B',
             'phonenumber' => '632421326',
             'email' => 'dunkerque.airsoft3.camp@gmail.com',
+            'qrimg' => 'test3.png'
         ]);
 
         $role = Role::create(['name' => 'admin']);
