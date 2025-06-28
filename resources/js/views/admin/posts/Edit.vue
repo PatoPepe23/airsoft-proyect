@@ -22,7 +22,9 @@
             <Column field="phone" header="Telefono"></Column>
             <Column field="team" header="Equipo"></Column>
             <Column field="status" header="Status"></Column>
+            <router-link :to="'/admin/posts/'" style="width:100px;margin-right:20px;padding:18px 20px;background-color: lightgreen;border-radius: 50%;color: #333;"><i class="pi pi-arrow-left"></i></router-link>
             <button @click="openCamera" class="btn btn-primary">Abrir Cámara</button><button @click="closeCamera" class="btn btn-danger">Cerrar Cámara</button>
+
             <div v-if="isCameraOpen" class="camera-container">
                 <qrcode-stream @detect="onDetect"></qrcode-stream>
 
@@ -38,6 +40,7 @@ import { QrcodeStream, QrcodeDropZone, QrcodeCapture } from 'vue-qrcode-reader';
 const {playerCheck, getPost, playersData } = usePosts(); // Correctly import playersData
 
 const route = useRoute();
+
 const isCameraOpen = ref(false); // Estado para manejar la cámara
 const scannedCode = ref(null); // Almacena el código escaneado
 
@@ -48,6 +51,10 @@ const openCamera = () => {
 const closeCamera = () => {
     isCameraOpen.value = false; // Cierra el escáner de QR
 };
+
+const goBack = () => {
+    router.push('/posts');
+}
 
 const onDetect = (decodedString) => {
     console.log('Código QR escaneado:', decodedString[0].rawValue);

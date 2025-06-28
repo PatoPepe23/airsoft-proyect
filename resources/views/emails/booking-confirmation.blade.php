@@ -20,8 +20,8 @@
 <h2>Todos los pagos se realizaran en efectivo, una vez en el campo.</h2>
 <img src="cid:qr_cid" width="200"/>
 
-<p><strong>Tienes Adjuntado el QR con el que tendras que pasar el dia de la reserva.</strong></p>
-<p><strong>Si desea un bocadillo, nada mas entrar en la nave a mano izquierda tendra la recepción.</strong></p>
+<p><strong>Tienes adjuntado el QR con el que tendras que pasar el día de la reserva.</strong></p>
+<p><strong>Si deseas un bocadillo, nada mas entrar en la nave a mano izquierda tendras la recepción.</strong></p>
 <p>¡Nos vemos en el campo!</p>
 </body>
 </html>

@@ -174,10 +174,16 @@ class PostControllerAdvance extends Controller
 
         $game = Partida::findOrFail($ID);
 
-        $playersList = $game->players->firstWhere('DNI', $DNI)->update(['dentro'=>true]);
+        //$playersList = $game->players->firstWhere('DNI', $DNI)->update(['dentro'=>true]);
 
+        $playersList = $game->players->firstWhere('DNI', $DNI);
 
+        if ($playersList && $playersList->dentro === false) {
+            $playersList->update(['dentro' => true]);
+            return response()->json(false);
+        }
 
-        return $playersList;
+        return response()->json(true);
+
     }
 }

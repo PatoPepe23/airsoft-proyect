@@ -74,15 +74,23 @@ export default function usePosts() {
                         .then(response => {
                             getPosts()
                             router.push({name: 'posts.edit'})
-                            swal({
-                                icon: 'success',
-                                title: 'Registrado con exito'
-                            })
+                            if (response.data === true) {
+                                swal({
+                                    icon: 'error',
+                                    title: 'El jugador ya esta dentro'
+                                })
+                            } else {
+                                swal({
+                                    icon: 'success',
+                                    title: 'Registrado con exito'
+                                })
+                            }
+
                         })
                         .catch(error => {
                             swal({
                                 icon: 'error',
-                                title: 'Something went wrong'
+                                title: 'El jugador no existe en la partida'
                             })
                         })
                 }

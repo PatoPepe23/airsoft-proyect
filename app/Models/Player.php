@@ -11,6 +11,10 @@ class Player extends Model
 
     protected $table = 'player';
 
+    protected $casts = [
+        'dentro' => 'boolean',
+    ];
+
     protected $fillable = ['DNI','nombrecompleto', 'telefono', 'email', 'team', 'alquiler', 'dentro'];
 
     public function partidas()
