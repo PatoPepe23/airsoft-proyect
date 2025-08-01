@@ -7,6 +7,7 @@
                     <router-link v-if="can('post-create')" :to="{ name: 'posts.create' }" class="btn btn-primary btn-sm float-end">
                         Create Post
                     </router-link>
+                    
                 </div>
                 <div class="card-body shadow-sm">
                     <div class="mb-4">

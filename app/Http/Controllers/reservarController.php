@@ -23,7 +23,12 @@ class reservarController extends Controller
             'shift' => 'required|boolean'
         ]);
 
-        $player = player::create($validated);
+        $playervalidation = player::where($validated)->first();
+
+
+        if (!$playervalidation) {
+            $player = player::create($validated);
+        }
 
         $pedido = Pedido::create([
             'cost' => $request->precio
@@ -45,5 +50,54 @@ class reservarController extends Controller
 
         // Retornar una respuesta JSON
         return response()->json($player, 201);
+    }
+
+    public function cancel($dni, $partida)
+    {
+        $partidaFecha = Carbon::createFromFormat('d-m-Y', $partida)->format('Y-m-d');
+
+
+
+
+        $player = Player::where('DNI', $dni)->first();
+
+        if (! $player) {
+            return response('Jugador no encontrado', 404);
+        }
+
+        $partida = Partida::where('fecha', $partidaFecha)
+            ->where('shift', 0)
+            ->first();
+
+        if (! $partida) {
+            return response('Partida no encontrada', 404);
+        }
+
+        $pivotData = $player->partidas()
+            ->where('partida_id', $partida->id)
+            ->first()
+            ->pivot;
+
+        if (!$pivotData) {
+            return response()->json(['message' => 'No se encontró la reserva.'], 404);
+        }
+
+        $player->partidas()->detach($partida->id);
+
+
+        pedido::destroy($pivotData->pedido_id);
+
+
+        $partida->plazas += 1;
+        $partida->save();
+
+        // 7. (Opcional) eliminar al player si no tiene más partidas
+        if ($player->partidas()->count() === 0) {
+            $player->delete();
+        }
+
+        return redirect('/')->with('success', 'Reserva cancelada correctamente.');
+
+
     }
 }

@@ -8,9 +8,10 @@
 
                 </div>
             </template>
+
             <column header="Opciones">
                 <template #body="player">
-                    <button @click.prevent.stop="playerCheck(player.data.DNI, route.params.id)"
+                    <button @click.prevent.stop="playerCheck(player.data.DNI, route.params.id, player.data.name, player.data.income)"
                             class="btn btn-danger btn-sm ms-2">Verificar
                     </button>
                 </template>
@@ -60,7 +61,7 @@ const onDetect = (decodedString) => {
     console.log('Código QR escaneado:', decodedString[0].rawValue);
 
     // Llamar directamente a playerCheck pasando el DNI escaneado
-    playerCheck(decodedString[0].rawValue, route.params.id );
+    playerCheck(decodedString[0].rawValue, route.params.id,  player.data.name, player.data.income);
 
     isCameraOpen.value = false; // Cerrar el escáner después del escaneo
 };
@@ -82,6 +83,8 @@ const loadPlayerData = async () => {
     }
     console.log(playersData.value);
 };
+
+
 
 onMounted(() => {
     loadPlayerData();

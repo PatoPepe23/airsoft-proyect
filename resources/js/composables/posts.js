@@ -55,10 +55,11 @@ export default function usePosts() {
         }
     }
 
-    const playerCheck = async (player, id) => {
+    const playerCheck = async (player, id, name, importe) => {
+
         swal({
             title: 'Estas seguro?',
-            text: 'Quieres confirmar que esta persona ha entrado al campo?',
+            text: `Quieres confirmar que esta ${name} con DNI ${player} entre al campo? Importe que debe pagar es de ${importe} €`,
             icon: 'warning',
             showCancelButton: true,
             cancelButtonText: 'Cancelar',

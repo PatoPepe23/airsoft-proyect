@@ -23,5 +23,10 @@
 <p><strong>Tienes adjuntado el QR con el que tendras que pasar el día de la reserva.</strong></p>
 <p><strong>Si deseas un bocadillo, nada mas entrar en la nave a mano izquierda tendras la recepción.</strong></p>
 <p>¡Nos vemos en el campo!</p>
+
+<p><strong>Si desea cancelar la partida presione el link para cancelar reserv.!</strong></p>
+<a href="{{ url('/cancelar-reserva/' . $data['DNI'] . '/' . $data['partida_id'] . '/' . 0) }}">
+    Cancelar mi reserva
+</a>
 </body>
 </html>
