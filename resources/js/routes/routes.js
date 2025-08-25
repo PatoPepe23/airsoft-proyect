@@ -188,7 +188,7 @@ export default [
             },
             {
                 name: 'posts.edit',
-                path: 'posts/edit/:id',
+                path: 'posts/:id/edit',
                 component: PostsEdit,
                 meta: { breadCrumb: 'Edit post' }
             },
