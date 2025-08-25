@@ -23,12 +23,14 @@ class reservarController extends Controller
             'shift' => 'required|boolean'
         ]);
 
-        $playervalidation = player::where($validated)->first();
+//        $playervalidation = player::where($validated)->first();
+//
+//
+//        if (!$playervalidation) {
+//            $player = player::create($validated);
+//        }
 
-
-        if (!$playervalidation) {
-            $player = player::create($validated);
-        }
+        $player = player::create($validated);
 
         $pedido = Pedido::create([
             'cost' => $request->precio
@@ -39,7 +41,13 @@ class reservarController extends Controller
             $pedido->save();  // Guarda los cambios en el pedido
         }
 
-        $partidafecha = Carbon::createFromFormat('d-m-Y', $request->partida_id)->format('Y-m-d');
+        $partidafecha = null;
+        try {
+            $partidafecha = Carbon::createFromFormat('d-m-Y', $request->partida_id)->format('Y-m-d');
+        } catch (\Throwable $th) {
+            $partidafecha = $request->partida_id;
+        }
+
 
         $partida = partida::where('fecha', $partidafecha)->where('shift', $request->shift)->first();
 

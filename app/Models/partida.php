@@ -18,14 +18,14 @@ class partida extends Model
     public function players()
     {
         return $this->belongsToMany(Player::class, 'partida_player_pedido')
-            ->withPivot('pedido_id')
+            ->withPivot('entrada', 'pedido_id')
             ->withTimestamps();
     }
 
     public function pedidos()
     {
         return $this->belongsToMany(Pedido::class, 'partida_player_pedido')
-            ->withPivot('player_id')
+            ->withPivot('entrada', 'player_id')
             ->withTimestamps();
     }
 }

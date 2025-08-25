@@ -27,7 +27,7 @@ Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('
 Route::post('posts/{id}', [PostControllerAdvance::class,'cancel']);
 Route::get('posts/{id}', [PostControllerAdvance::class,'show']);
 Route::post('/post', [PostControllerAdvance::class, 'checkPlayer']);
-Route::post('post/{id}/{dni}', [PostControllerAdvance::class,'checkPlayer']);
+Route::post('post/{id}/{pid}', [PostControllerAdvance::class,'checkPlayer']);
 
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
@@ -51,8 +51,6 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::get('/user', [ProfileController::class, 'user']);
     Route::put('/user', [ProfileController::class, 'update']);
     Route::delete('/user/{user}', [ProfileController::class, 'destroy']);
-
-
 
     Route::get('abilities', function(Request $request) {
         return $request->user()->roles()->with('permissions')

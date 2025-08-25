@@ -55,7 +55,7 @@ export default function usePosts() {
         }
     }
 
-    const playerCheck = async (player, id, name, importe) => {
+    const playerCheck = async (player, id, name, importe, player_id) => {
 
         swal({
             title: 'Estas seguro?',
@@ -71,7 +71,7 @@ export default function usePosts() {
         })
             .then(result => {
                 if (result.isConfirmed) {
-                    axios.post(`/api/post/${id}/${player}`)
+                    axios.post(`/api/post/${id}/${player_id}`)
                         .then(response => {
                             getPosts()
                             router.push({name: 'posts.edit'})
