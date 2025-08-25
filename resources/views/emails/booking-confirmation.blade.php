@@ -25,7 +25,7 @@
 <p>¡Nos vemos en el campo!</p>
 
 <p><strong>Si desea cancelar la partida presione el link para cancelar reserv.!</strong></p>
-<a href="{{ url('/cancelar-reserva/' . $data['DNI'] . '/' . $data['partida_id'] . '/' . 0) }}">
+<a href="{{ url('/cancelar-reserva/' . $data['DNI'] . '/' . $data['partida_id'] . '/' . $data['email']) }}">
     Cancelar mi reserva
 </a>
 </body>

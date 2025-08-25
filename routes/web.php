@@ -4,6 +4,8 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\reservarController;
 
+use App\Http\Controllers\Api\SendMailController;
+
 // classe2 pas4
 
 
@@ -24,7 +26,7 @@ Route::post('logout', [AuthenticatedSessionController::class, 'logout']);
 
 Route::post('/booking/{id}', [reservarController::class, 'store']);
 
-Route::get('/cancelar-reserva/{dni}/{fecha}/{shift}', [reservarController::class, 'cancel']);
+Route::get('/cancelar-reserva/{dni}/{fecha}/{email}', [reservarController::class, 'cancel']);
 
 //Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

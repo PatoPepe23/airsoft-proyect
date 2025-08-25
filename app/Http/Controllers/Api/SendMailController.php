@@ -3,9 +3,11 @@ namespace App\Http\Controllers\Api;
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\BookingCanceled;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\BookingConfirmation;
+use App\Models\partida;
 
 
 use Endroid\QrCode\QrCode;

@@ -84,5 +84,7 @@ Route::get('get-post/{id}', [PostControllerAdvance::class, 'getPost']);
 
 //Route::get('/partidas', [PartidaController::class, 'index']);
 Route::get('/partidas', [PartidaController::class, 'index']);
+Route::get('/misReservas/{dni}', [reservarController::class, 'misReservas']);
 
-//Route::get('/cancelar-reserva/{dni}/{fecha}/{shift}', [ReservarController::class, 'cancel']);
+Route::get('/getQR/{dni}', [ProfileController::class, 'getQR']);
+

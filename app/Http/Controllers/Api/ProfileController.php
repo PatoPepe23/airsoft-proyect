@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
-
+use App\Models\Player;
 class ProfileController extends Controller
 {
     /**
@@ -45,5 +45,15 @@ class ProfileController extends Controller
         Auth::guard('web')->logout();
 
         return response()->noContent();
+    }
+
+    public function getQR($dni){
+        $player = User::where('DNI', $dni)->first();
+
+        if (!$player || !$player->qrimg) {
+            return response()->json(['qrimg' => 'noexiste']);
+        }
+
+        return response()->json(['qrimg' => $player->qrimg]);
     }
 }

@@ -19,3 +19,26 @@
     background-color: #9a0000;
     padding: 10px;
 }
+.profile-buttons{
+    display: flex;
+    margin: 0;
+    width: 100%;
+}
+
+.buttons{
+    margin: 0;
+    width: 100%;
+    height: 55px;
+    color: #283227;
+    border: none;
+    transition: 0.2s;
+}
+.buttons:hover{
+    transition: 0.2s;
+    background-color: #283227;
+    color: white;
+}
+.buttons.active {
+    background-color: #283227;
+    color: white;
+}

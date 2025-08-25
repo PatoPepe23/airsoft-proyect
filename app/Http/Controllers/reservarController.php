@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\BookingCanceled;
 use App\Models\pedido;
 use App\Models\Player;
 use Illuminate\Http\Request;
 use App\Models\partida;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 class reservarController extends Controller
 {
@@ -20,14 +22,15 @@ class reservarController extends Controller
             'team' => 'nullable|string',
             'alquiler' => 'required|boolean',
             'dentro' => 'required|boolean',
-            'shift' => 'required|boolean'
         ]);
 
-        $playervalidation = player::where($validated)->first();
+        $playervalidation = Player::where($validated)->first();
 
 
         if (!$playervalidation) {
-            $player = player::create($validated);
+            $player = Player::create($validated);
+        } else {
+            $player = $playervalidation;
         }
 
         $pedido = Pedido::create([
@@ -52,16 +55,13 @@ class reservarController extends Controller
         return response()->json($player, 201);
     }
 
-    public function cancel($dni, $partida)
+    public function cancel($dni, $partida, $email)
     {
         $partidaFecha = Carbon::createFromFormat('d-m-Y', $partida)->format('Y-m-d');
 
-
-
-
         $player = Player::where('DNI', $dni)->first();
 
-        if (! $player) {
+        if (!$player) {
             return response('Jugador no encontrado', 404);
         }
 
@@ -96,8 +96,44 @@ class reservarController extends Controller
             $player->delete();
         }
 
-        return redirect('/')->with('success', 'Reserva cancelada correctamente.');
+        $data = [
+            'dni' => $dni,
+            'partida_id' => $partidaFecha,
+        ];
+
+        Mail::to($email)->send(new BookingCanceled($data));
+        return response('Reserva cancelada correctamente, se le ha enviado un correo conforme se ha cancelado, ya puede cerrar esta pestaña', 200);
 
 
     }
+
+    public function misReservas($dni)
+    {
+        // Buscar el jugador por el DNI pasado como parámetro
+        $player = Player::where('DNI', $dni)->first();
+
+        // Si no existe, devolvemos un array vacío
+        if (!$player) {
+            return response()->json('no se encuentra al player');
+        }
+
+
+
+        // Sacamos las reservas del jugador
+        $reservas = $player->partidas()->withPivot('pedido_id')->get()->map(function($partida) use ($player) {
+            $fecha = $partida->fecha ? Carbon::parse($partida->fecha)->format('d-m-Y') : null;
+
+            return [
+                'DNI' => $player->DNI,
+                'nombrecompleto' => $player->nombrecompleto,
+                'fecha' => $fecha,
+                'hora' => '8:00',
+                'pedido_id' => $partida->pivot->pedido_id
+            ];
+        });
+
+        return response()->json($reservas);
+    }
+
+
 }
