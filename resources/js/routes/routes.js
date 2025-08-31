@@ -21,7 +21,7 @@ async function requireLogin(to, from, next) {
 
 function hasAdmin(roles) {
     for (let rol of roles) {
-        if (rol.name && rol.name.toLowerCase().includes('admin')) {
+        if (rol.name && rol.name.toLowerCase().includes('admin') || rol.name && rol.name.toLowerCase().includes('moderator')) {
             return true;
         }
     }
@@ -160,7 +160,7 @@ export default [
         //     name: 'admin.index'
         // },
         beforeEnter: requireAdmin,
-        meta: { breadCrumb: 'Dashboard' },
+        meta: { breadCrumb: 'Panel de Control' },
         children: [
             {
                 name: 'admin.index',
@@ -178,7 +178,7 @@ export default [
                 name: 'posts.index',
                 path: 'posts',
                 component: PostsIndex,
-                meta: { breadCrumb: 'Posts' }
+                meta: { breadCrumb: 'Partidas' }
             },
             {
                 name: 'posts.create',

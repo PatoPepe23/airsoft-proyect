@@ -55,19 +55,27 @@ export default function usePosts() {
         }
     }
 
-    const playerCheck = async (player, id, name, importe, player_id) => {
+    const playerCheck = async (player, id, name, importe, player_id, status) => {
+
+        const swalText = status === 'Dentro' ? `Quieres sacar a ${name} con DNI ${player} del campo?` : `Quieres confirmar que ${name} con DNI ${player} entre al campo? Importe que debe pagar es de ${importe} €`;
+        const swalButton = status === 'Dentro' ? `Si, sacalo.` : 'Si, registrar jugador';
+        const swalSuccess = status === 'Dentro' ? 'Expulsado con exito' : 'Registrado con exito'
+        const swalIcon = status === 'Dentro' ? 'warning' : 'success';
+        const swalTitle = status === 'Dentro' ? 'Ya está dentro' : 'Puede pasar';
+        const swalClass = status === 'Dentro' ? 'denniedSwal' : 'succesSwal';
 
         swal({
-            title: 'Estas seguro?',
-            text: `Quieres confirmar que esta ${name} con DNI ${player} entre al campo? Importe que debe pagar es de ${importe} €`,
-            icon: 'warning',
+            title: swalTitle,
+            text: swalText,
+            icon: swalIcon,
             showCancelButton: true,
             cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Si, registrar jugador',
+            confirmButtonText: swalButton,
             confirmButtonColor: '#ef4444',
             timer: 20000,
             timerProgressBar: true,
-            reverseButtons: true
+            reverseButtons: true,
+            customClass: swalClass
         })
             .then(result => {
                 if (result.isConfirmed) {
@@ -83,7 +91,7 @@ export default function usePosts() {
                             } else {
                                 swal({
                                     icon: 'success',
-                                    title: 'Registrado con exito'
+                                    title: swalSuccess
                                 })
                             }
 

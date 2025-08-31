@@ -119,7 +119,7 @@
         <div class="carousel container">
             <div class="group">
                 <div class="carrouCard"><img :src="'./images/BarElCasino.png'" alt="barCasino"></div>
-                <div class="carrouCard"><img :src="'./images/barnaAirsoft.png'" alt="barnaAirsoft"></div>
+                <div class="carrouCard"><img :src="'./images/AirsoftNation.png'" alt="barnaAirsoft"></div>
                 <div class="carrouCard"><img :src="'./images/DisMatac.png'" alt="disMatac"></div>
                 <div class="carrouCard"><img :src="'./images/hobbyRace.png'" alt="hobbyRace"></div>
                 <div class="carrouCard"><img :src="'./images/SDJairsoft.png'" alt="sdjAirsoft"></div>
@@ -128,7 +128,7 @@
 
             <div class="group">
                 <div class="carrouCard"><img :src="'./images/BarElCasino.png'" alt="barCasino"></div>
-                <div class="carrouCard"><img :src="'./images/barnaAirsoft.png'" alt="barnaAirsoft"></div>
+                <div class="carrouCard"><img :src="'./images/AirsoftNation.png'" alt="barnaAirsoft"></div>
                 <div class="carrouCard"><img :src="'./images/DisMatac.png'" alt="disMatac"></div>
                 <div class="carrouCard"><img :src="'./images/hobbyRace.png'" alt="hobbyRace"></div>
                 <div class="carrouCard"><img :src="'./images/SDJairsoft.png'" alt="sdjAirSoft"></div>

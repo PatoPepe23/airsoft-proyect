@@ -13,18 +13,31 @@
 
             <column header="Opciones">
                 <template #body="player">
-                    <button @click.prevent.stop="playerCheck(player.data.DNI, route.params.id, player.data.name, player.data.income, player.data.player_id)"
+                    <button @click.prevent.stop="playerCheck(player.data.DNI, route.params.id, player.data.name, player.data.income, player.data.player_id, player.data.status)"
                             class="btn btn-success btn-sm ms-2">{{ player.data.status === 'Dentro' ? 'Sacar' : 'Verificar' }}
                     </button>
                 </template>
             </column>
+
             <Column field="name" sortable header="Jugador"></Column>
             <Column field="DNI" sortable header="DNI"></Column>
-            <Column field="income" sortable header="Importe"></Column>
+
+            <Column field="income" sortable header="Importe">
+                <template #body="player">
+                    {{ player.data.income === 15 ? 'Normal' : 'Alquiler' }}
+                </template>
+            </Column>
+
             <Column field="mail" header="Correo"></Column>
             <Column field="phone" header="Telefono"></Column>
             <Column field="team" header="Equipo"></Column>
-            <Column field="status" sortable header="Status"></Column>
+
+            <Column field="status" sortable header="Status">
+                <template #body="player">
+                    {{ player.data.status === 'Dentro' ? 'Dentro' : 'Fuera' }}
+                </template>
+            </Column>
+
             <router-link :to="'/admin/posts/'" style="width:100px;margin-right:20px;padding:18px 20px;background-color: lightgreen;border-radius: 50%;color: #333;"><i class="pi pi-arrow-left"></i></router-link>
             <button @click="openCamera" class="btn btn-primary">Abrir Cámara</button><button @click="closeCamera" class="btn btn-danger">Cerrar Cámara</button>
 
@@ -103,8 +116,17 @@ const newPlayer = ref({
 });
 
 const exportCSV = () => {
-    // 2. Llama al método exportCSV del componente referenciado
+    // 1. Clonar los datos para no modificar el original
+    playersData.value.forEach(item => {
+        item.income = item.income === 15 ? 'Normal' : 'Alquiler';
+        item.status = item.status === 'Dentro' ? 'Dentro' : 'Fuera';
+    });
+
+    // 2. Llamar al método de exportación sin parámetros.
+    // Esto exportará los datos que ya están modificados en la tabla.
     dt.value.exportCSV();
+
+    loadPlayerData();
 };
 
 const openCamera = () => {
@@ -126,16 +148,11 @@ const onInit = (initStatus) => {
 };
 
 const formatDate = (dateString) => {
-    // Si la fecha es null o no está definida, devuelve un string vacío
     if (!dateString) return '';
-
-    // Crea un objeto Date. Asume que la fecha está en formato YYYY-MM-DD
     const date = new Date(dateString);
-
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
-
     return `${day}-${month}-${year}`;
 };
 
@@ -172,7 +189,6 @@ const openAddPlayerDialog = () => {
 
 const addPlayer = async () => {
     try {
-        // Adaptado para enviar los datos del nuevo jugador
         const response = await axios.post('/api/reservar', {
             DNI: newPlayer.value.DNI,
             nombrecompleto: newPlayer.value.nombrecompleto,
@@ -182,11 +198,10 @@ const addPlayer = async () => {
             alquiler: newPlayer.value.alquiler,
             dentro: newPlayer.value.dentro,
             shift: newPlayer.value.shift,
-            partida_id: route.query.date, // Pasas el ID de la partida
+            partida_id: route.query.date,
             precio: '15',
         });
 
-        // Mostrar notificación de éxito usando swal
         await swal({
             icon: 'success',
             title: 'Jugador agregado con éxito',
@@ -194,16 +209,12 @@ const addPlayer = async () => {
             confirmButtonText: 'Aceptar'
         });
 
-        // Cierra el pop-up
         displayAddPlayerDialog.value = false;
-
-        // Recarga los datos para mostrar el nuevo jugador en la tabla
         loadPlayerData();
 
     } catch (error) {
         console.error("Error al enviar el formulario:", error.response?.data || error);
 
-        // Mostrar notificación de error usando swal
         swal({
             icon: 'error',
             title: 'Error al agregar el jugador',
@@ -218,3 +229,15 @@ onMounted(() => {
     loadPlayerData();
 });
 </script>
+
+<style>
+.succesSwal{
+    background-color: green;
+    color: white;
+}
+
+.denniedSwal{
+    background-color: #8c0000;
+    color: black;
+}
+</style>

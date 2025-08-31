@@ -29,12 +29,6 @@ class ProfileController extends Controller
     public function user(Request $request)
     {
         $user = $request->user()->load('roles');
-        $avatar = '';
-        if (count($user->media) > 0) {
-            $avatar = $user->media[0]->original_url;
-        }
-        $user->avatar = $avatar;
-
 
         return $this->successResponse($user, 'User found');
     }
