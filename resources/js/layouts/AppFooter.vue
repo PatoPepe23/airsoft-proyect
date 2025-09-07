@@ -35,7 +35,7 @@ const cookieConsentStore = useCookieConsentStore();
         <div class="footerbottom">
             <p>Dunkerque © {{ new Date().getFullYear() }}. Todos los derechos reservados. <img class="icons" :src="'./images/CIRCULO.svg'" alt="" height="4px">
                 <router-link to="/">Aviso legal</router-link> |
-                <router-link to="/">Política de privacidad</router-link> |
+                <router-link to="privacypolitics">Política de privacidad</router-link> |
                 <button @click="cookieConsentStore.resetConsent" class="btn-manage-cookies">
                     <router-link to="" >{{ $t('manage_cookies') }}</router-link>
                 </button>

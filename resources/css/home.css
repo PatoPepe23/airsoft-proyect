@@ -92,7 +92,7 @@
 
 #banner h1 {
     font-family: AB;
-    font-size: 60px;
+    font-size: 44px;
     border-bottom: 4px solid #F8F8F8;
 }
 
@@ -284,7 +284,7 @@
 
     .caja {
         background-color: #283227;
-        width: 25vw;
+        width: 23vw;
         height: 23vw;
         display: flex;
         align-items: center;

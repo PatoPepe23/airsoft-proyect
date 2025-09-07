@@ -114,6 +114,11 @@ export default [
               component: () => import('../views/user/profile.vue'),
               beforeEnter: requireLogin,
             },
+            {
+                path: 'privacypolitics',
+                name: 'privacypolitics',
+                component: () => import('../views/rules/privacypolitics.vue'),
+            },
         ]
 
     },
