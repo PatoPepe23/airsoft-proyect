@@ -106,7 +106,9 @@
                     </div>
                 </div>
                 <div v-if="tab === 3" class="card mb-3 profile-info-container">
-                    <img v-if="qrImage" :src="`/storage/${qrImage}`" alt="QR" width="500" height="500" style="display: block; margin: 0 auto; height: auto;"/>
+                    <img v-if="qrImage" :src="qrImage" alt="QR" width="500" height="500" style="display: block; margin: 0 auto; height: auto;"/>
+                    <p v-if="qrImage" >{{qrImage}}</p>
+
                 </div>
             </div>
         </div>

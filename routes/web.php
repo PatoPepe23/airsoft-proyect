@@ -33,3 +33,9 @@ Route::get('/cancelar-reserva/{dni}/{fecha}/{email}', [reservarController::class
 Route::view('/{any?}', 'main-view')
     ->name('dashboard')
     ->where('any', '.*');
+
+Route::get('/qr/{filename}', function ($filename) {
+    $path = storage_path('app/public/' . $filename);
+
+    return response()->file($path); // muestra la imagen directamente
+});

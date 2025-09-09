@@ -36,7 +36,7 @@ class SendMailController extends Controller
         // Si el usuario está autenticado, usamos su QR almacenado
         if (auth()->check() && auth()->user()->qrimg) {
             // Ruta al QR ya existente
-            $qr = storage_path("app/public/" . auth()->user()->qrimg);
+            $qr = public_path("images/QR/" . auth()->user()->qrimg);
             Mail::to($data['email'])->send(new BookingConfirmation($data, $qr));
         } else {
             // Si no está autenticado o no tiene QR, generamos uno nuevo con su DNI

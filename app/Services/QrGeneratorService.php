@@ -14,9 +14,9 @@ class QrGeneratorService
         $writer = new PngWriter();
         $result = $writer->write($qrCode);
 
-        // Guardar imagen temporal
+
         $filename = 'qr_' . Str::random(10) . '.png';
-        $tempPath = storage_path("app/public/$filename");
+        $tempPath = public_path("images/QR/$filename");
         $result->saveToFile($tempPath);
 
         return [
