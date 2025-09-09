@@ -136,7 +136,7 @@ class reservarController extends Controller
             return [
                 'DNI' => $player->DNI,
                 'nombrecompleto' => $player->nombrecompleto,
-                'fecha' => $fecha,
+                'fecha' => $partida->fecha,
                 'hora' => '8:00',
                 'pedido_id' => $partida->pivot->pedido_id
             ];
