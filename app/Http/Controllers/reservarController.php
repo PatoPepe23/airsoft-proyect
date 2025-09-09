@@ -123,9 +123,9 @@ class reservarController extends Controller
         $player = Player::where('DNI', $dni)->first();
 
         // Si no existe, devolvemos un array vacío
-        if (!$player) {
-            return response()->json('no se encuentra al player');
-        }
+       // if (!$player) {
+       //     return response()->json('no se encuentra al player');
+       // }
 
 
 
