@@ -22,7 +22,7 @@ onMounted(async () => {
     const sessionIsValid = await initSession();
 
     // Check if the current route is not 'login' to avoid an infinite loop
-    if (!sessionIsValid && router.currentRoute.value.name !== 'login') {
+    if (!sessionIsValid && router.currentRoute.value.name !== 'login' && router.currentRoute.value.name !== 'home') {
         router.push({ name: 'login' });
     }
 });

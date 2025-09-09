@@ -6,7 +6,7 @@ use App\Jobs\DeletePartida;
 use App\Http\Controllers\Controller;
 use http\Params;
 use Illuminate\Http\Request;
-use App\Models\Partida;
+use App\Models\partida;
 use App\Models\RegistroPartida;
 
 class PartidaController extends Controller

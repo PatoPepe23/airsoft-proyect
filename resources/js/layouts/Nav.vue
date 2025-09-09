@@ -13,7 +13,7 @@
                     <div class="d-flex d-lg-none offcanvas offcanvas-start" tabindex="-1" id="navbarSupportedContent" aria-labelledby="offcanvasLabel">
                         <div class="offcanvas-header">
                             <h5 class="offcanvas-title" id="offcanvasLabel">Menú</h5>
-                            <LocaleSwitcher class="langSwitcher"/>
+<!--                            <LocaleSwitcher class="langSwitcher"/>-->
                             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div class="offcanvas-body">
@@ -58,7 +58,7 @@
 
                 <div>
                     <ul class=" d-none d-lg-flex navbar-nav mt-2 mt-lg-0 ms-auto login-lang-div">
-                        <LocaleSwitcher class="langSwitcher"/>
+<!--                        <LocaleSwitcher class="langSwitcher"/>-->
                         <li v-if="!authStore().user?.fullname" class="nav-item">
                             <router-link to="/login" class="nav-button nav-login-button ">{{ $t('login') }}
                                 <img src="./../../../public/images/loginHead.svg" alt="" height="24px" class="button-svg">

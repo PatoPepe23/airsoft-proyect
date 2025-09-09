@@ -14,14 +14,14 @@
 
         <div class="sobrenosotros-right">
             <div class="sobrenosotros-right sobrenosotros-rightseparation">
-                <router-link to="/">
+                <router-link to="/history">
                     <div class="caja">
                         <div class="imgcaja"></div>
                         <p>{{ $t('history') }}</p>
                     </div>
                 </router-link>
 
-                <router-link to="/" >
+                <router-link to="/rules" >
                     <div class="caja">
                         <div class="imgcaja2"></div>
                         <p>{{ $t('rules') }}</p>

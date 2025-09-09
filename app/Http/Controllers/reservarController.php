@@ -51,6 +51,11 @@ class reservarController extends Controller
 
         $partida = partida::where('fecha', $partidafecha)->where('shift', $request->shift)->first();
 
+        $existingReservation = $player->partidas()->where('partida_id', $partida->id)->first();
+        if ($existingReservation) {
+            return response()->json(['error' => 'Este jugador ya tiene una reserva para esta partida.'], 409);
+        }
+
         $partida->plazas -= 1;
         $partida->save();
 
