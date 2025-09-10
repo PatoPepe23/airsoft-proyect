@@ -131,12 +131,12 @@ class reservarController extends Controller
 
         // Sacamos las reservas del jugador
         $reservas = $player->partidas()->withPivot('pedido_id')->get()->map(function($partida) use ($player) {
-            //$fecha = $partida->fecha ? Carbon::parse($partida->fecha)->format('d-m-Y') : null;
+            $fecha = $partida->fecha ? Carbon::parse($partida->fecha)->format('d-m-Y') : null;
 
             return [
                 'DNI' => $player->DNI,
                 'nombrecompleto' => $player->nombrecompleto,
-                'fecha' => $partida->fecha,
+                'fecha' => $fecha,
                 'hora' => '8:00',
                 'pedido_id' => $partida->pivot->pedido_id
             ];
