@@ -1,29 +1,46 @@
 <template>
     <div>
-        <router-view></router-view>
-
-        <CookieConsent />
-
+        <!-- Muestra el contenido solo si la carga ha finalizado -->
+        <div v-if="!isLoading">
+            <router-view></router-view>
+            <CookieConsent />
+        </div>
+        <!-- Opcional: Puedes agregar un spinner de carga aquí -->
+        <div v-else class="loading-container">
+            Cargando...
+        </div>
     </div>
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-import useAuth from './composables/auth.js'; // Adjust the path as needed
+import { onMounted, ref } from 'vue';
+import useAuth from './composables/auth.js'; // Ajusta la ruta si es necesario
 
-// Your existing component import
+// Importación del componente existente
 import CookieConsent from './components/CookieConsent.vue';
 
-const router = useRouter();
+// Estado para manejar la carga de la autenticación
+const isLoading = ref(true);
+
 const { initSession } = useAuth();
 
 onMounted(async () => {
-    const sessionIsValid = await initSession();
+    // Inicia la sesión de forma asíncrona
+    await initSession();
 
-    // Check if the current route is not 'login' to avoid an infinite loop
-    if (!sessionIsValid && router.currentRoute.value.name !== 'login' && router.currentRoute.value.name !== 'home') {
-        router.push({ name: 'login' });
-    }
+    // Una vez que la sesión se ha inicializado, la carga ha terminado
+    isLoading.value = false;
 });
 </script>
+
+<style>
+/* Estilos básicos para el mensaje de carga */
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: 1.5rem;
+    color: #333;
+}
+</style>

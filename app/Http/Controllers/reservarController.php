@@ -51,9 +51,18 @@ class reservarController extends Controller
 
         $partida = partida::where('fecha', $partidafecha)->where('shift', $request->shift)->first();
 
-        $existingReservation = $player->partidas()->where('partida_id', $partida->id)->first();
+        $existingReservation = $partida->players()->where('DNI', $request->DNI)->exists();
+
         if ($existingReservation) {
             return response()->json(['error' => 'Este jugador ya tiene una reserva para esta partida.'], 409);
+        }
+
+        $plazasAlquiler = $partida->players()->where('alquiler', true)->count();
+
+        if ($request->alquiler) {
+            if ($plazasAlquiler >=25) {
+                return response()->json(['error' => 'Limite de alquileres alcanzado'], 409);
+            }
         }
 
         $partida->plazas -= 1;

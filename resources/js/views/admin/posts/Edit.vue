@@ -1,6 +1,9 @@
 <template>
     <div class="card">
-        <DataTable :value="playersData" tableStyle="min-width: 50rem" ref="dt">
+        <DataTable :value="playersData"  ref="dt"
+                   v-model:filters="filters"
+                   :globalFilterFields="['nombrecompleto' , 'name','DNI','mail']"
+                   tableStyle="min-width: 50rem">
             <template #header>
                 <div class="flex flex-wrap items-center justify-between gap-2">
                     <span class="text-xl font-bold">Jugadores</span>
@@ -8,6 +11,7 @@
                     <Button icon="pi pi-refresh" rounded raised @click="handleRefresh" />
                     <Button icon="pi pi-plus" rounded raised @click="openAddPlayerDialog" />
                     <Button icon="pi pi-external-link" label="Export" @click="exportCSV($event)" />
+                    <InputText v-model="filters['global'].value" placeholder="Buscar ..." />
                 </div>
             </template>
 
@@ -94,6 +98,8 @@ import Dialog from 'primevue/dialog';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import Checkbox from 'primevue/checkbox';
+import { FilterMatchMode, FilterOperator } from '@primevue/core/api';
+
 const swal = inject('$swal');
 const dt = ref();
 
@@ -114,6 +120,12 @@ const newPlayer = ref({
     dentro: false,
     shift: false
 });
+
+const filters = ref({
+        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+        nombrecompleto: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+        DNI: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] }
+    });
 
 const exportCSV = () => {
     // 1. Clonar los datos para no modificar el original
@@ -138,9 +150,27 @@ const closeCamera = () => {
 };
 
 const onDetect = (decodedString) => {
-    console.log('Código QR escaneado:', decodedString[0].rawValue);
-    playerCheck(decodedString[0].rawValue, route.params.id, playersData.value[0].name, playersData.value[0].income);
+    const dni = decodedString[0].rawValue; // El valor del QR escaneado
+    console.log('Código QR escaneado:', dni);
+
+    // Buscar al jugador en la lista usando el DNI
+    const jugador = playersData.value.find(p => p.DNI === dni);
+
+    if (jugador) {
+        playerCheck(jugador.DNI, route.params.id, jugador.name, jugador.income, jugador.player_id, jugador.status);
+    } else {
+        console.error("No se encontró jugador con el DNI escaneado:", dni);
+        swal({
+            icon: 'error',
+            title: 'Jugador no encontrado',
+            text: `El DNI ${dni} no corresponde a ningún jugador en la lista.`,
+            showConfirmButton: true
+        });
+    }
+
     isCameraOpen.value = false;
+    loadPlayerData();
+
 };
 
 const onInit = (initStatus) => {

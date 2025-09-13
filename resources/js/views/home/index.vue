@@ -201,16 +201,6 @@ onMounted(() => {
     moreNextSaturdayDay.value = `${String(moreNextSaturday.getDate()).padStart(2, '0')}/${String(moreNextSaturday.getMonth() + 1).padStart(2, '0')}`;
     moreNextSundayDay.value = `${String(moreNextSunday.getDate()).padStart(2, '0')}/${String(moreNextSunday.getMonth() + 1).padStart(2, '0')}`;
 
-
-
-    console.log("Fecha del próximo sábado (completa):", nextSaturdayFormatted.value);
-    console.log("Fecha del próximo domingo (completa):", nextSundayFormatted.value);
-    console.log("Día del próximo sábado:", nextSaturdayDay.value);
-    console.log("Día del próximo domingo:", nextSundayDay.value);
-    console.log("Fecha del próximo próximo sábado (completa):", moreNextSaturdayFormatted.value);
-    console.log("Fecha del próximo próximo domingo (completa):", moreNextSundayFormatted.value);
-    console.log("Día del próximo próximo sábado:", moreNextSaturdayDay.value);
-    console.log("Día del próximo próximo domingo:", moreNextSundayDay.value);
 });
 
 </script>
