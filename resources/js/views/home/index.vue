@@ -3,8 +3,8 @@
         <h1>{{ $t('webName') }}</h1>
         <h2 class="responsive-title text-center">{{ $t('history_resume') }}</h2>
         <div class="d-flex flex-column">
-            <router-link :to="'/booking/' + nextSaturdayFormatted" class="normal-button">{{ $t('booking') +' '+ nextSaturdayDay }}</router-link>
-            <router-link :to="'/booking/' + nextSundayFormatted" class="normal-button">{{ $t('booking') +' '+ nextSundayDay }}</router-link>
+            <router-link :to="'/booking/' + nextSaturdayFormatted" class="normal-button">{{ $t('booking') +' '+ nextSaturdayDay +" " +$t('boton_banner')}} </router-link>
+            <router-link :to="'/booking/' + nextSundayFormatted" class="normal-button">{{ $t('booking') +' '+ nextSundayDay + " "+$t('boton_banner2')}}</router-link>
             <router-link :to="'/booking/'" class="normal-button">{{$t('booking')}}</router-link>
         </div>
     </section>
@@ -73,7 +73,7 @@
                 <div class="ticketconboton">
                     <div class="ticket cutout-image">
                         <div>
-                            <p>{{ $t('boton_banner2') + nextSundayDay }}</p>
+                            <p>{{ $t('boton_banner2')+ ":" + nextSundayDay }}</p>
                             <p>{{$t('ticket_text2')}}</p>
                         </div>
                     </div>
@@ -82,7 +82,7 @@
                 <div class="ticketconboton">
                     <div class="ticket cutout-image">
                         <div>
-                            <p>{{ $t('boton_banner2') + moreNextSundayDay }}</p>
+                            <p>{{ $t('boton_banner2')+ ":"+ moreNextSundayDay }}</p>
                             <p>{{$t('ticket_text2')}}</p>
                         </div>
                     </div>

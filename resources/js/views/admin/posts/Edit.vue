@@ -219,6 +219,8 @@ const openAddPlayerDialog = () => {
 
 const addPlayer = async () => {
     try {
+        displayAddPlayerDialog.value = false;
+
         const response = await axios.post('/api/reservar', {
             DNI: newPlayer.value.DNI,
             nombrecompleto: newPlayer.value.nombrecompleto,
@@ -238,8 +240,6 @@ const addPlayer = async () => {
             text: 'El jugador ha sido registrado en la partida.',
             confirmButtonText: 'Aceptar'
         });
-
-        displayAddPlayerDialog.value = false;
         loadPlayerData();
 
     } catch (error) {

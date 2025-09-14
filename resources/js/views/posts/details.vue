@@ -33,7 +33,7 @@
                     </div>
                     <div class="formsplit">
                         <div class="form-group bookingtextinput bookingseparationup">
-                            <label for="nombre">Tienes equipo? Escribe el nombre</label>
+                            <label for="nombre">¿Tienes equipo? Escribe el nombre</label>
                             <input type="text" id="nombre" v-model="team" @input="saveToCookie('team')">
                         </div>
 
@@ -43,7 +43,7 @@
                                 <label for="alquiler">Alquilar equipamiento</label>
                             </div>
                         </div>
-                        <p>* Si desea comprar un bocadillo, debera ir a recepción del campo</p>
+                        <p>* Si deseas comprar un bocadillo, deberás ir a Organización del campo.</p>
                     </div>
 
                 </div>
