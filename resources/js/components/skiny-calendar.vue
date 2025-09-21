@@ -2,16 +2,28 @@
     <div class="skiny-calendar-container">
         <div class="row row-cols-2 skiny-calendar-div justify-content-center">
             <div v-for="partida in visibleGames" :key="partida.id" class="col2 game-card">
-                <p class="plazas" :class="getPlazasClass(partida)"><span v-if="partida.plazas === 0">No hay plazas disponibles</span><span v-else-if="partida.plazas < 50">Pocas plazas disponibles </span><span v-else>Plazas disponibles</span></p>
+                <p class="plazas" :class="getPlazasClass(partida)">
+                    <span v-if="partida.plazas === 0">No hay plazas disponibles</span>
+                    <span v-else-if="partida.plazas < 50">Pocas plazas disponibles </span>
+                    <span v-else>Plazas disponibles</span>
+                </p>
 
                 <div class="image-container" :class="getCancelledStatus(partida)">
                     <img src="/images/masiabach.webp" alt="" class="game-image">
                 </div>
                 <p class="partida-title">{{ formatDate(partida.fecha) }}</p>
                 <p class="partida-date">{{$t('ticket_text2')}}</p>
-                <router-link :to="`/booking/${formatDate(partida.fecha, '-')}`" class="reservar-button" :disabled="partida.plazas === 0">
+                <router-link
+                    :to="`/booking/${formatDate(partida.fecha, '-')}`"
+                    class="reservar-button"
+                    :class="{ 'disabled-link':isPastDate(partida.fecha) }"
+                >
                     {{ $t('booking') }}
                 </router-link>
+
+                <p v-if="isPastDate(partida.fecha)" class="expired-text">
+                    Partida expirada
+                </p>
             </div>
         </div>
 
@@ -26,32 +38,43 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from "vue"; // Import onBeforeUnmount
+import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import axios from 'axios';
 
-// Estado para almacenar las partidas
 const partidas = ref([]);
-
-// Índice del grupo actual
 const currentGroup = ref(0);
-
-// Tamaño del grupo (4 partidas por grupo)
 const groupSize = 4;
-
-// Reactive state for date (if needed for API calls)
 const currentDate = ref(new Date());
 
-// Obtener las partidas visibles según el grupo actual
+const upcomingGames = computed(() => {
+    const now = new Date();
+
+    return partidas.value.filter(partida => {
+        if (!partida.fecha) return false;
+
+        const partidaDate = new Date(partida.fecha);
+
+        // Establecemos la hora límite: domingo a las 12:00
+        // Si es domingo, fijamos horas a las 12:00 del mediodía
+        if (partidaDate.getDay() === 0) { // domingo = 0
+            partidaDate.setHours(12, 0, 0, 0);
+        } else {
+            // Para otros días, se considera hasta final del día
+            partidaDate.setHours(23, 59, 59, 999);
+        }
+
+        return partidaDate >= now;
+    });
+});
+
 const visibleGames = computed(() => {
     const start = currentGroup.value * groupSize;
     const end = start + groupSize;
-    return partidas.value.slice(start, end);
+    return upcomingGames.value.slice(start, end);
 });
 
-// Calcular el número total de grupos
-const totalGroups = computed(() => Math.ceil(partidas.value.length / groupSize));
+const totalGroups = computed(() => Math.ceil(upcomingGames.value.length / groupSize));
 
-// Función para obtener las partidas desde la API
 const fetchPartidas = async () => {
     try {
         const response = await axios.get('/api/partidas?'
@@ -60,28 +83,25 @@ const fetchPartidas = async () => {
             + '&limitMonth=' + (currentDate.value.getMonth() + 4)
         );
 
-        partidas.value = response.data; // Assign the array directly
-        console.log('Fetched partidas:', partidas.value); // For debugging
+        partidas.value = response.data;
+        console.log('Fetched partidas:', partidas.value);
     } catch (error) {
         console.error('Error fetching partidas:', error);
     }
 };
 
-// Navegar al grupo anterior
 const prevGroup = () => {
     if (currentGroup.value > 0) {
         currentGroup.value--;
     }
 };
 
-// Navegar al siguiente grupo
 const nextGroup = () => {
     if (currentGroup.value < totalGroups.value - 1) {
         currentGroup.value++;
     }
 };
 
-// Función para determinar el color de las plazas
 const getPlazasClass = (partida) => {
     const plazas = partida.plazas;
     const cancelled = partida.cancelled;
@@ -90,14 +110,12 @@ const getPlazasClass = (partida) => {
         return '';
     }
 
-    console.log(partida.plazas)
-
     if (plazas === 0) {
-        return 'card-full'; // Rojo si no hay plazas
+        return 'card-full';
     } else if (plazas <= 50) {
-        return 'card-almost-full'; // Amarillo si quedan pocas plazas
+        return 'card-almost-full';
     } else {
-        return 'card-not-full'; // Verde si hay muchas plazas
+        return 'card-not-full';
     }
 };
 
@@ -106,26 +124,35 @@ const getCancelledStatus = (partida) => {
     return cancelled == 1 ? 'cancelled-image-container' : '';
 };
 
-// Formatea la fecha de "yyyy-mm-dd" a "dd-mm-yyyy"
 const formatDate = (dateStr, separator = '-') => {
     if (!dateStr) return '';
-    const datePart = dateStr.split('T')[0]; // Extract 'YYYY-MM-DD'
+    const datePart = dateStr.split('T')[0];
     const [year, month, day] = datePart.split('-');
     return `${String(Number(day)).padStart(2, '0')}${separator}${month}${separator}${year}`;
 };
 
-let intervalId = null; // Declare intervalId in the setup scope
+// Función para comprobar si la fecha ya pasó
+const isPastDate = (fechaStr) => {
+    if (!fechaStr) return false;
 
-// Cuando el componente se monta, cargar las partidas y setear el intervalo
+    const partidaDate = new Date(fechaStr);
+    partidaDate.setHours(12, 0, 0, 0);
+
+    const now = new Date();
+
+    return partidaDate < now;
+};
+
+let intervalId = null;
+
 onMounted(() => {
     fetchPartidas();
     intervalId = setInterval(() => fetchPartidas(), 5000);
 });
 
-// Antes de que el componente se desmonte, limpiar el intervalo
-onBeforeUnmount(() => { // Use onBeforeUnmount here
+onBeforeUnmount(() => {
     clearInterval(intervalId);
-    console.log('Interval cleared!'); // For verification
+    console.log('Interval cleared!');
 });
 </script>
 
@@ -135,17 +162,17 @@ onBeforeUnmount(() => { // Use onBeforeUnmount here
     flex-direction: column;
     align-items: center;
     background-color: #283227;
-    height: auto; /* Ajustar altura automáticamente */
-    width: 90vw; /* O el ancho que desees para móvil */
+    height: auto;
+    width: 90vw;
     border-radius: 4px;
     padding: 20px;
-    margin: 20px auto; /* Centrar en la pantalla móvil */
+    margin: 20px auto;
 }
 
 .skiny-calendar-div {
     display: flex;
-    flex-wrap: wrap; /* Permitir que las tarjetas se envuelvan */
-    justify-content: center; /* Centrar las tarjetas */
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 20px;
     margin-bottom: 20px;
 }
@@ -153,9 +180,9 @@ onBeforeUnmount(() => { // Use onBeforeUnmount here
 .game-card {
     background-color: #F8F8F8;
     border-radius: 4px;
-    height: auto; /* Ajustar altura automáticamente */
-    width: calc(50% - 10px); /* Dos tarjetas por fila con un pequeño espacio */
-    min-width: 150px; /* Ancho mínimo de la tarjeta */
+    height: auto;
+    width: calc(50% - 10px);
+    min-width: 150px;
     padding: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -171,24 +198,24 @@ onBeforeUnmount(() => { // Use onBeforeUnmount here
 }
 
 .card-full {
-    color: #ff0000; /* Rojo si no hay plazas */
+    color: #ff0000;
 }
 
 .card-almost-full {
-    color: #ffcc00; /* Amarillo si quedan pocas plazas */
+    color: #ffcc00;
 }
 
 .card-not-full {
-    color: #4CAF50; /* Verde si hay muchas plazas */
+    color: #4CAF50;
 }
 
 .image-container {
     position: relative;
     width: 80%;
     height: auto;
-    aspect-ratio: 1 / 0.6; /* Proporción de la imagen */
+    aspect-ratio: 1 / 0.6;
     margin-bottom: 10px;
-    overflow: hidden; /* Recortar la imagen si no coincide la proporción */
+    overflow: hidden;
 }
 
 .cancelled-image-container::before {
@@ -203,14 +230,14 @@ onBeforeUnmount(() => { // Use onBeforeUnmount here
     background-image: url("/images/cancelled.svg");
     background-repeat: no-repeat;
     background-position: center;
-    background-size: contain; /* Ajustar la imagen completamente dentro */
+    background-size: contain;
 }
 
 .game-image {
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Cubrir el contenedor manteniendo la proporción */
+    object-fit: cover;
 }
 
 .partida-title {
@@ -227,7 +254,7 @@ onBeforeUnmount(() => { // Use onBeforeUnmount here
 }
 
 .reservar-button {
-    background-color: #283227; /* Verde para el botón */
+    background-color: #283227;
     color: white;
     border: none;
     padding: 8px 16px;
@@ -237,15 +264,16 @@ onBeforeUnmount(() => { // Use onBeforeUnmount here
     text-decoration: none;
     display: inline-block;
     width: 80%;
+    text-align: center;
 }
 
 .reservar-button:disabled {
-    background-color: #ccc; /* Gris cuando está deshabilitado */
+    background-color: #ccc;
     cursor: not-allowed;
 }
 
 .reservar-button:hover:not(:disabled) {
-    background-color: #45a049; /* Verde más oscuro al pasar el mouse */
+    background-color: #45a049;
 }
 
 .navigation-buttons {
@@ -283,5 +311,17 @@ onBeforeUnmount(() => { // Use onBeforeUnmount here
 .pageNumberAfter{
     display: flex;
     color: #F8F8F8;
+}
+
+.expired-text {
+    color: #ff0000;
+    font-size: 0.8em;
+    margin-top: 5px;
+}
+
+.disabled-link {
+    pointer-events: none;  /* Desactiva clics */
+    background-color: #ccc;
+    cursor: not-allowed;
 }
 </style>
