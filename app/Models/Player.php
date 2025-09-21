@@ -13,6 +13,7 @@ class Player extends Model
 
     protected $casts = [
         'dentro' => 'boolean',
+        'alquiler' => 'boolean',
     ];
 
     protected $fillable = ['DNI','nombrecompleto', 'telefono', 'email', 'team', 'alquiler', 'dentro'];

@@ -57,11 +57,11 @@ export default function usePosts() {
 
     const playerCheck = async (player, id, name, importe, player_id, status) => {
 
-        const swalText = status === 'Dentro' ? `Quieres sacar a ${name} con DNI ${player} del campo?` : `Quieres confirmar que ${name} con DNI ${player} entre al campo? Importe que debe pagar es de ${importe} €`;
+        const swalText = status === 'Dentro' ? `Quieres sacar a ${name} con DNI ${player} del campo?` : `Quieres confirmar que ${name} con DNI ${player} entre al campo?`;
         const swalButton = status === 'Dentro' ? `Si, sacalo.` : 'Si, registrar jugador';
         const swalSuccess = status === 'Dentro' ? 'Expulsado con exito' : 'Registrado con exito'
         const swalIcon = status === 'Dentro' ? 'warning' : 'success';
-        const swalTitle = status === 'Dentro' ? 'Ya está dentro' : 'Puede pasar';
+        const swalTitle = status === 'Dentro' ? 'Ya está dentro ' : `Puede pasar ${importe}€`;
         const swalClass = status === 'Dentro' ? 'denniedSwal' : 'succesSwal';
 
         swal({
