@@ -3,8 +3,8 @@
         <h1>{{ $t('webName') }}</h1>
         <h2 class="responsive-title text-center">{{ $t('history_resume') }}</h2>
         <div class="d-flex flex-column">
-            <router-link :to="'/booking/' + nextSaturdayFormatted" class="normal-button">{{ $t('booking') +' '+ nextSaturdayDay }}</router-link>
-            <router-link :to="'/booking/' + nextSundayFormatted" class="normal-button">{{ $t('booking') +' '+ nextSundayDay }}</router-link>
+            <router-link :to="'/booking/' + nextSaturdayFormatted" class="normal-button">{{ $t('booking') +' '+ nextSaturdayDay +" " +$t('boton_banner')}} </router-link>
+            <router-link :to="'/booking/' + nextSundayFormatted" class="normal-button">{{ $t('booking') +' '+ nextSundayDay + " "+$t('boton_banner2')}}</router-link>
             <router-link :to="'/booking/'" class="normal-button">{{$t('booking')}}</router-link>
         </div>
     </section>
@@ -14,14 +14,14 @@
 
         <div class="sobrenosotros-right">
             <div class="sobrenosotros-right sobrenosotros-rightseparation">
-                <router-link to="/">
+                <router-link to="/history">
                     <div class="caja">
                         <div class="imgcaja"></div>
                         <p>{{ $t('history') }}</p>
                     </div>
                 </router-link>
 
-                <router-link to="/" >
+                <router-link to="/rules" >
                     <div class="caja">
                         <div class="imgcaja2"></div>
                         <p>{{ $t('rules') }}</p>
@@ -73,7 +73,7 @@
                 <div class="ticketconboton">
                     <div class="ticket cutout-image">
                         <div>
-                            <p>{{ $t('boton_banner2') + nextSundayDay }}</p>
+                            <p>{{ $t('boton_banner2')+ ":" + nextSundayDay }}</p>
                             <p>{{$t('ticket_text2')}}</p>
                         </div>
                     </div>
@@ -82,7 +82,7 @@
                 <div class="ticketconboton">
                     <div class="ticket cutout-image">
                         <div>
-                            <p>{{ $t('boton_banner2') + moreNextSundayDay }}</p>
+                            <p>{{ $t('boton_banner2')+ ":"+ moreNextSundayDay }}</p>
                             <p>{{$t('ticket_text2')}}</p>
                         </div>
                     </div>
@@ -119,7 +119,7 @@
         <div class="carousel container">
             <div class="group">
                 <div class="carrouCard"><img :src="'./images/BarElCasino.png'" alt="barCasino"></div>
-                <div class="carrouCard"><img :src="'./images/barnaAirsoft.png'" alt="barnaAirsoft"></div>
+                <div class="carrouCard"><img :src="'./images/AirsoftNation.png'" alt="barnaAirsoft"></div>
                 <div class="carrouCard"><img :src="'./images/DisMatac.png'" alt="disMatac"></div>
                 <div class="carrouCard"><img :src="'./images/hobbyRace.png'" alt="hobbyRace"></div>
                 <div class="carrouCard"><img :src="'./images/SDJairsoft.png'" alt="sdjAirsoft"></div>
@@ -128,7 +128,7 @@
 
             <div class="group">
                 <div class="carrouCard"><img :src="'./images/BarElCasino.png'" alt="barCasino"></div>
-                <div class="carrouCard"><img :src="'./images/barnaAirsoft.png'" alt="barnaAirsoft"></div>
+                <div class="carrouCard"><img :src="'./images/AirsoftNation.png'" alt="barnaAirsoft"></div>
                 <div class="carrouCard"><img :src="'./images/DisMatac.png'" alt="disMatac"></div>
                 <div class="carrouCard"><img :src="'./images/hobbyRace.png'" alt="hobbyRace"></div>
                 <div class="carrouCard"><img :src="'./images/SDJairsoft.png'" alt="sdjAirSoft"></div>
@@ -201,16 +201,6 @@ onMounted(() => {
     moreNextSaturdayDay.value = `${String(moreNextSaturday.getDate()).padStart(2, '0')}/${String(moreNextSaturday.getMonth() + 1).padStart(2, '0')}`;
     moreNextSundayDay.value = `${String(moreNextSunday.getDate()).padStart(2, '0')}/${String(moreNextSunday.getMonth() + 1).padStart(2, '0')}`;
 
-
-
-    console.log("Fecha del próximo sábado (completa):", nextSaturdayFormatted.value);
-    console.log("Fecha del próximo domingo (completa):", nextSundayFormatted.value);
-    console.log("Día del próximo sábado:", nextSaturdayDay.value);
-    console.log("Día del próximo domingo:", nextSundayDay.value);
-    console.log("Fecha del próximo próximo sábado (completa):", moreNextSaturdayFormatted.value);
-    console.log("Fecha del próximo próximo domingo (completa):", moreNextSundayFormatted.value);
-    console.log("Día del próximo próximo sábado:", moreNextSaturdayDay.value);
-    console.log("Día del próximo próximo domingo:", moreNextSundayDay.value);
 });
 
 </script>

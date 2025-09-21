@@ -73,7 +73,7 @@ class PostControllerAdvance extends Controller
                 }
 
                 $statusState = null;
-                switch ($player->dentro) {
+                switch ($player->pivot->entrada) {
                     case 0:
                         $statusState = 'Fuera';
                         break;
@@ -169,15 +169,32 @@ class PostControllerAdvance extends Controller
         return Post::with('categories', 'user', 'media')->findOrFail($id);
     }
 
-    public function checkPlayer($ID,$DNI)
+    public function checkPlayer($partidaId, $playerId)
     {
+        // Usa un nombre de variable más descriptivo
+        $game = Partida::findOrFail($partidaId);
 
-        $game = Partida::findOrFail($ID);
+        // Encuentra el jugador específico por su ID.
+        // Esto es más directo y eficiente que buscar por DNI.
+        $player = $game->players->firstWhere('id', $playerId);
 
-        $playersList = $game->players->firstWhere('DNI', $DNI)->update(['dentro'=>true]);
+        if ($player) {
+            // Accede al valor actual de 'dentro' desde la tabla pivote.
+            $currentStatus = $player->pivot->entrada;
 
+            // Invierte el estado.
+            $newStatus = !$currentStatus;
 
+            // Actualiza el campo 'dentro' en la tabla pivote para este jugador y partida.
+            $game->players()->updateExistingPivot($player->id, ['entrada' => $newStatus]);
 
-        return $playersList;
+            if ($newStatus) {
+                return response()->json(['message' => 'Jugador puesto como "dentro".']);
+            } else {
+                return response()->json(['message' => 'Jugador puesto como "fuera".']);
+            }
+        } else {
+            return response()->json(['message' => 'Jugador no encontrado en esta partida.'], 404);
+        }
     }
 }

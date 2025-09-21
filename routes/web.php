@@ -4,6 +4,8 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\reservarController;
 
+use App\Http\Controllers\Api\SendMailController;
+
 // classe2 pas4
 
 
@@ -24,8 +26,16 @@ Route::post('logout', [AuthenticatedSessionController::class, 'logout']);
 
 Route::post('/booking/{id}', [reservarController::class, 'store']);
 
+Route::get('/cancelar-reserva/{dni}/{fecha}/{email}', [reservarController::class, 'cancel']);
+
 //Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::view('/{any?}', 'main-view')
     ->name('dashboard')
     ->where('any', '.*');
+
+Route::get('/qr/{filename}', function ($filename) {
+    $path = storage_path('app/public/' . $filename);
+
+    return response()->file($path); // muestra la imagen directamente
+});

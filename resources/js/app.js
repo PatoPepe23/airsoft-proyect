@@ -92,7 +92,7 @@ app.use(ConfirmationService);
 const i18n = installI18n(app);
 const l = langStore();
 l.$subscribe((_, state) => {
-    console.info('state: ' + state.locale);
+    // console.info('state: ' + state.locale);
     loadMessages(state.locale);
 });
 

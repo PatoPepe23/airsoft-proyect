@@ -21,11 +21,11 @@ export default function usePosts() {
         order_column = 'created_at',
         order_direction = 'desc'
     ) => {
-        console.log('day: '+search_day);
-        console.log('id: '+search_id);
-        console.log('player: '+search_players);
-        console.log('shift: '+search_shift);
-        console.log('state: '+search_state);
+        // console.log('day: '+search_day);
+        // console.log('id: '+search_id);
+        // console.log('player: '+search_players);
+        // console.log('shift: '+search_shift);
+        // console.log('state: '+search_state);
         axios.get('/api/posts?page=' + page +
             '&search_day=' + search_day +
             '&search_id=' + search_id +
@@ -55,34 +55,51 @@ export default function usePosts() {
         }
     }
 
-    const playerCheck = async (player, id) => {
+    const playerCheck = async (player, id, name, importe, player_id, status) => {
+
+        const swalText = status === 'Dentro' ? `Quieres sacar a ${name} con DNI ${player} del campo?` : `Quieres confirmar que ${name} con DNI ${player} entre al campo? Importe que debe pagar es de ${importe} €`;
+        const swalButton = status === 'Dentro' ? `Si, sacalo.` : 'Si, registrar jugador';
+        const swalSuccess = status === 'Dentro' ? 'Expulsado con exito' : 'Registrado con exito'
+        const swalIcon = status === 'Dentro' ? 'warning' : 'success';
+        const swalTitle = status === 'Dentro' ? 'Ya está dentro' : 'Puede pasar';
+        const swalClass = status === 'Dentro' ? 'denniedSwal' : 'succesSwal';
+
         swal({
-            title: 'Estas seguro?',
-            text: 'Quieres confirmar que esta persona ha entrado al campo?',
-            icon: 'warning',
+            title: swalTitle,
+            text: swalText,
+            icon: swalIcon,
             showCancelButton: true,
             cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Si, registrar jugador',
+            confirmButtonText: swalButton,
             confirmButtonColor: '#ef4444',
             timer: 20000,
             timerProgressBar: true,
-            reverseButtons: true
+            reverseButtons: true,
+            customClass: swalClass
         })
             .then(result => {
                 if (result.isConfirmed) {
-                    axios.post(`/api/post/${id}/${player}`)
+                    axios.post(`/api/post/${id}/${player_id}`)
                         .then(response => {
                             getPosts()
                             router.push({name: 'posts.edit'})
-                            swal({
-                                icon: 'success',
-                                title: 'Registrado con exito'
-                            })
+                            if (response.data === true) {
+                                swal({
+                                    icon: 'error',
+                                    title: 'El jugador ya esta dentro'
+                                })
+                            } else {
+                                swal({
+                                    icon: 'success',
+                                    title: swalSuccess
+                                })
+                            }
+
                         })
                         .catch(error => {
                             swal({
                                 icon: 'error',
-                                title: 'Something went wrong'
+                                title: 'El jugador no existe en la partida'
                             })
                         })
                 }

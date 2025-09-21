@@ -18,6 +18,33 @@ export default function useAuth() {
     const ability = inject(ABILITY_TOKEN)
     const auth = authStore()
 
+    const initSession = async () => {
+        try {
+            // Call the Pinia store's getUser action to fetch data from /api/user
+            await auth.getUser();
+
+            // If getUser() succeeded, the Pinia store is updated.
+            // Now, get the user's permissions and update CASL.
+            await getAbilities();
+
+            // Update the local reactive user object
+            user.id = auth.user.id;
+            user.name = auth.user.name;
+            user.email = auth.user.email;
+            user.fullname = auth.user.fullname;
+            user.DNI = auth.user.DNI;
+            user.phonenumber = auth.user.phonenumber;
+
+
+            return true; // Session is valid
+        } catch (error) {
+            // The getUser call failed (e.g., 401 Unauthorized)
+            console.error('Session initialization failed:', error);
+            // Clear all authentication data
+            auth.logout();
+            return false; // Session is invalid
+        }
+    };
 
     const loginForm = reactive({
         email: '',
@@ -228,5 +255,6 @@ export default function useAuth() {
         getUser,
         logout,
         getAbilities,
+        initSession,
     }
 }

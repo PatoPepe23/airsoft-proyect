@@ -88,22 +88,24 @@
                               <div class="register-buttons">
                                 <div class="register-checkboxes">
                                   <div>
-                                    <input class="form-check-input" type="checkbox" name="termsConditions" id="termsAndConditions">
+                                    <input class="form-check-input" type="checkbox" name="termsConditions" id="termsAndConditions" v-model="checkboxaccepted">
                                     <label class="form-check-label" for="termsAndConditions">
-                                      {{ $t('terms_and_conditions') }}
+                                        <router-link to="privacypolitics">Política de privacidad</router-link>
                                     </label>
+
                                   </div>
-                                  <div>
+                                  <!--<div>
                                     <input class="form-check-input" type="checkbox" name="sendMails" id="sendMails">
                                     <label class="form-check-label" for="sendMails">
                                       {{ $t('sendMails') }}
                                     </label>
-                                  </div>
+                                  </div>-->
                                 </div>
                                 <div class="flex items-center justify-end mt-4">
-                                    <button class="normal-button submit-login-button" :class="{ 'opacity-25': processing }" :disabled="processing">
+                                    <button class="normal-button submit-login-button" :class="{ 'opacity-25': processing }" :disabled="processing || !checkboxaccepted"  @click="handleRegister">
                                         {{ $t('register') }}
                                     </button>
+
                                 </div>
                               </div>
                             </div>
@@ -118,7 +120,19 @@
 <script setup>
 
 import useAuth from '@/composables/auth'
+import { ref } from 'vue'
+
 
 const { registerForm, validationErrors, processing, submitRegister} = useAuth();
+
+const checkboxaccepted = ref(false);
+
+const handleRegister = () => {
+    if (!checkboxaccepted.value) {
+        alert("Debes aceptar la Política de Privacidad para registrarte.")
+        return
+    }
+    submitRegister()
+}
 
 </script>

@@ -3,8 +3,8 @@
         <div class="nav-avoid">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><router-link to="/">{{ $t('home') }}</router-link></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ $t('booking') }}</li>
+                    <li class="d-none breadcrumb-item"><router-link to="/">{{ $t('home') }}</router-link></li>
+                    <li class="d-none breadcrumb-item active" aria-current="page">{{ $t('booking') }}</li>
                 </ol>
             </nav>
         </div>
@@ -12,7 +12,7 @@
             <div class="d-none d-lg-flex">
                 <selfCalendar/>
             </div>
-            <div class="d-lg-none">
+            <div class="skinycalendar d-lg-none">
                 <skinyCalendar/>
             </div>
             <div class="booking-title d-none d-lg-flex">

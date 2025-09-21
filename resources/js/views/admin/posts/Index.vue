@@ -4,9 +4,10 @@
             <div class="card border-0">
                 <div class="card-header bg-transparent">
                     <h5 class="float-start">Partidas</h5>
-                    <router-link v-if="can('post-create')" :to="{ name: 'posts.create' }" class="btn btn-primary btn-sm float-end">
-                        Create Post
-                    </router-link>
+<!--                    <router-link v-if="can('post-create')" :to="{ name: 'posts.create' }" class="btn btn-primary btn-sm float-end">-->
+<!--                        Create Post-->
+<!--                    </router-link>-->
+
                 </div>
                 <div class="card-body shadow-sm">
                     <div class="mb-4">
@@ -36,14 +37,14 @@
                         <Column header="Acciones" style="min-width: 8rem">
                             <template #body="{ data }">
                                 <router-link v-if="can('post-edit')"
-                                             :to="{ name: 'posts.edit', params: { id: data.id } }" class="btn btn-primary btn-sm">Detalles
+                                             :to="{ name: 'posts.edit', params: { id: data.id }, query: { date: data.day} }" class="btn btn-primary btn-sm">Detalles
                                 </router-link>
                                 <button v-if="can('post-delete')" @click.prevent="cancelPost(data.id)"
                                         class="btn btn-danger btn-sm ms-2">Cancelar</button>
                             </template>
                         </Column>
                         <Column field="day" header="Dia" sortable filterField="day" style="min-width: 10rem">
-                            <template #body="{ data }">{{ data.day }}</template>
+                            <template #body="{ data }">{{ formatDate(data.day) }}</template>
                         </Column>
                         <Column field="players" header="JUGADORES" sortable filterField="players" style="min-width: 12rem">
                             <template #body="{ data }">{{ ((data.players - 220) * -1) }} / 220</template>
@@ -110,6 +111,20 @@ const shiftOptions = ref([
     { shift: 'Tarde', filter: 1},
     { shift: 'Mañana', filter: 0},
 ])
+
+const formatDate = (dateString) => {
+    // Si la fecha es null o no está definida, devuelve un string vacío
+    if (!dateString) return '';
+
+    // Crea un objeto Date. Asume que la fecha está en formato YYYY-MM-DD
+    const date = new Date(dateString);
+
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+
+    return `${day}-${month}-${year}`;
+};
 
 onMounted(() => {
     fetchPosts();

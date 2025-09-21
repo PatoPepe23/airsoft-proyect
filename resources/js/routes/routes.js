@@ -21,7 +21,7 @@ async function requireLogin(to, from, next) {
 
 function hasAdmin(roles) {
     for (let rol of roles) {
-        if (rol.name && rol.name.toLowerCase().includes('admin')) {
+        if (rol.name && rol.name.toLowerCase().includes('admin') || rol.name && rol.name.toLowerCase().includes('arbitro')) {
             return true;
         }
     }
@@ -114,42 +114,43 @@ export default [
               component: () => import('../views/user/profile.vue'),
               beforeEnter: requireLogin,
             },
+            {
+                path: 'privacypolitics',
+                name: 'privacypolitics',
+                component: () => import('../views/rules/privacypolitics.vue'),
+            },
         ]
 
     },
+
     {
-        path: '/',
-        // redirect: { name: 'login' },
-        children: [
-            {
-                path: 'login',
-                name: 'auth.login',
-                component: () => import('../views/login/Login.vue'),
-            },
-            {
-                path: 'register',
-                name: 'auth.register',
-                component: () => import('../views/register/register.vue'),
-            }
-        ]
+        path: '/login',
+        name: 'auth.login',
+        component: () => import('../views/login/Login.vue'),
     },
     {
-        path: '/app',
-        component: AuthenticatedUserLayout,
-        // redirect: {
-        //     name: 'admin.index'
-        // },
-        //name: 'user.index',
-        beforeEnter: requireLogin,
-        meta: { breadCrumb: 'Dashboard' },
-        children: [
-            {
-                name: 'user.index',
-                path: '',
-                component: () => import('../views/home/index.vue'),
-                meta: { breadCrumb: 'home' }
-            }
-        ]
+        path: '/register',
+        name: 'auth.register',
+        component: () => import('../views/register/register.vue'),
+    },
+
+    {
+        // path: '/app',
+        // component: AuthenticatedUserLayout,
+        // // redirect: {
+        // //     name: 'admin.index'
+        // // },
+        // //name: 'user.index',
+        // beforeEnter: requireLogin,
+        // meta: { breadCrumb: 'Dashboard' },
+        // children: [
+        //     {
+        //         name: 'user.index',
+        //         path: '',
+        //         component: () => import('../views/home/index.vue'),
+        //         meta: { breadCrumb: 'home' }
+        //     }
+        // ]
     },
 
 
@@ -160,7 +161,7 @@ export default [
         //     name: 'admin.index'
         // },
         beforeEnter: requireAdmin,
-        meta: { breadCrumb: 'Dashboard' },
+        meta: { breadCrumb: 'Panel de Control' },
         children: [
             {
                 name: 'admin.index',
@@ -178,7 +179,7 @@ export default [
                 name: 'posts.index',
                 path: 'posts',
                 component: PostsIndex,
-                meta: { breadCrumb: 'Posts' }
+                meta: { breadCrumb: 'Partidas' }
             },
             {
                 name: 'posts.create',
@@ -188,7 +189,7 @@ export default [
             },
             {
                 name: 'posts.edit',
-                path: 'posts/edit/:id',
+                path: 'posts/:id/edit',
                 component: PostsEdit,
                 meta: { breadCrumb: 'Edit post' }
             },

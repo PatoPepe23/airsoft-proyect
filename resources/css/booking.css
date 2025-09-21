@@ -24,6 +24,12 @@
     /* Add other styles as needed */
 }
 
+.skinycalendar {
+    margin-top: 20%;
+    display: flex;
+    margin-left: 2%;
+}
+
 
 
 table {

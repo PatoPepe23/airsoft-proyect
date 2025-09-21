@@ -11,12 +11,16 @@ class Player extends Model
 
     protected $table = 'player';
 
+    protected $casts = [
+        'dentro' => 'boolean',
+    ];
+
     protected $fillable = ['DNI','nombrecompleto', 'telefono', 'email', 'team', 'alquiler', 'dentro'];
 
     public function partidas()
     {
-        return $this->belongsToMany(Partida::class, 'partida_player_pedido')
-            ->withPivot('pedido_id')
+        return $this->belongsToMany(partida::class, 'partida_player_pedido')
+            ->withPivot('entrada','pedido_id')
             ->withTimestamps();
     }
 

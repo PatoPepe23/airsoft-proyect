@@ -33,12 +33,12 @@ const model = ref([
     {
         label: 'Home',
         permision: 'all',
-        items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/admin', permision: 'all'}]
+        items: [{ label: 'Panel de Control', icon: 'pi pi-fw pi-home', to: '/admin', permision: 'all'}]
     },
     {
         label: 'Usuarios',
         items: [
-            { label: 'Users', icon: 'pi pi-fw pi-id-card', to: '/admin/users', permision: 'user-list' },
+            { label: 'Usuarios', icon: 'pi pi-fw pi-id-card', to: '/admin/users', permision: 'user-list' },
             { label: 'Roles', icon: 'pi pi-fw pi-check-square', to: '/admin/roles', permision:'role-list' },
             { label: 'Permisos', icon: 'pi pi-fw pi-bookmark', to: '/admin/permissions', permision:'permission-list' }
         ]
