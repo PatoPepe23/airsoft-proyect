@@ -14,65 +14,83 @@ class reservarController extends Controller
 {
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'DNI' => 'required|string|max:20',
-            'nombrecompleto' => 'required|string|max:100',
-            'telefono' => 'nullable|numeric',
-            'email' => 'required|email',
-            'team' => 'nullable|string',
-            'alquiler' => 'required|boolean',
-            'dentro' => 'required|boolean',
-        ]);
-
-        $playervalidation = Player::where($validated)->first();
-
-
-        if (!$playervalidation) {
-            $player = Player::create($validated);
+        // Validación según skip
+        if ($request->skip) {
+            $validated = $request->validate([
+                'DNI' => 'required|string|max:20',
+                'nombrecompleto' => 'required|string|max:100',
+                'alquiler' => 'required|boolean',
+                'dentro' => 'required|boolean',
+            ]);
         } else {
-            $player = $playervalidation;
+            $validated = $request->validate([
+                'DNI' => 'required|string|max:20',
+                'nombrecompleto' => 'required|string|max:100',
+                'telefono' => 'nullable|numeric',
+                'email' => 'required|email',
+                'team' => 'nullable|string',
+                'alquiler' => 'required|boolean',
+                'dentro' => 'required|boolean',
+            ]);
         }
 
+        // Buscar jugador existente o crearlo
+        $player = Player::where($validated)->first();
+        if (!$player) {
+            $player = Player::create($validated);
+        }
+
+        // Crear pedido
         $pedido = Pedido::create([
             'cost' => $request->precio
         ]);
+
         if ($request->food && $request->food_id) {
-            // Aquí actualizas la relación, no es necesario usar `attach`, solo asignas el `food_id`
             $pedido->food_id = $request->food_id;
-            $pedido->save();  // Guarda los cambios en el pedido
+            $pedido->save();
         }
 
-        $partidafecha = null;
+        // Obtener partida
         try {
             $partidafecha = Carbon::createFromFormat('d-m-Y', $request->partida_id)->format('Y-m-d');
         } catch (\Throwable $th) {
             $partidafecha = $request->partida_id;
         }
 
-        $partida = partida::where('fecha', $partidafecha)->where('shift', $request->shift)->first();
+        $partida = Partida::where('fecha', $partidafecha)
+            ->where('shift', $request->shift)
+            ->first();
 
+        if (!$partida) {
+            return response()->json(['error' => 'Partida no encontrada'], 404);
+        }
+
+        // Validar reserva existente
         $existingReservation = $partida->players()->where('DNI', $request->DNI)->exists();
-
         if ($existingReservation) {
             return response()->json(['error' => 'Este jugador ya tiene una reserva para esta partida.'], 409);
         }
 
+        // Validar límite de alquileres
         $plazasAlquiler = $partida->players()->where('alquiler', true)->count();
-
-        if ($request->alquiler) {
-            if ($plazasAlquiler >=25) {
-                return response()->json(['error' => 'Limite de alquileres alcanzado'], 409);
-            }
+        if ($request->alquiler && $plazasAlquiler >= 25) {
+            return response()->json(['error' => 'Límite de alquileres alcanzado'], 409);
         }
 
+        // Reducir plazas
         $partida->plazas -= 1;
         $partida->save();
 
-        $player->partidas()->attach($partida->id, ['pedido_id' => $pedido->id]);
+        // Adjuntar jugador a la partida
+        $pivotData = ['pedido_id' => $pedido->id];
+        if ($request->skip) {
+            $pivotData['entrada'] = true;
+        }
+        $player->partidas()->attach($partida->id, $pivotData);
 
-        // Retornar una respuesta JSON
         return response()->json($player, 201);
     }
+
 
     public function cancel($dni, $partida, $email)
     {

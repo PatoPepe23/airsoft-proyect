@@ -57,11 +57,11 @@ export default function usePosts() {
 
     const playerCheck = async (player, id, name, importe, player_id, status) => {
 
-        const swalText = status === 'Dentro' ? `Quieres sacar a ${name} con DNI ${player} del campo?` : `Quieres confirmar que ${name} con DNI ${player} entre al campo? Importe que debe pagar es de ${importe} €`;
+        const swalText = status === 'Dentro' ? `Quieres sacar a ${name} con DNI ${player} del campo?` : `Quieres confirmar que ${name} con DNI ${player} entre al campo?`;
         const swalButton = status === 'Dentro' ? `Si, sacalo.` : 'Si, registrar jugador';
         const swalSuccess = status === 'Dentro' ? 'Expulsado con exito' : 'Registrado con exito'
         const swalIcon = status === 'Dentro' ? 'warning' : 'success';
-        const swalTitle = status === 'Dentro' ? 'Ya está dentro' : 'Puede pasar';
+        const swalTitle = status === 'Dentro' ? 'Ya está dentro ' : `Puede pasar ${importe}€`;
         const swalClass = status === 'Dentro' ? 'denniedSwal' : 'succesSwal';
 
         swal({
@@ -101,6 +101,56 @@ export default function usePosts() {
                                 icon: 'error',
                                 title: 'El jugador no existe en la partida'
                             })
+                        })
+                }
+            })
+
+    }
+
+    const playerChange = async (player, id, name, player_id, status) => {
+
+        const swalText = status ? `Cambiar a ${name} con DNI ${player} a <b>Alquiler</b>?` : `Cambiar a ${name} con DNI ${player} a <b>Normal</b>?`;
+        const swalTitle = status ? `Cambiar a Alquiler?` : `Cambiar a Normal?`;
+
+        swal({
+            title: swalTitle,
+            html: swalText,
+            icon: 'question',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Si, cambialo',
+            confirmButtonColor: '#ef4444',
+            timer: 20000,
+            timerProgressBar: true,
+            reverseButtons: true,
+        })
+            .then(result => {
+                if (result.isConfirmed) {
+                    axios.post(`/api/postChange/${id}/${player_id}`)
+                        .then(response => {
+                            getPosts()
+                            router.push({name: 'posts.edit'})
+                            if (response.data === true) {
+                                swal({
+                                    icon: 'error',
+                                    title: 'El jugador ya esta dentro'
+                                })
+                                return false;
+                            } else {
+                                swal({
+                                    icon: 'success',
+                                    title: 'Cambiado con éxito'
+                                })
+                                return true;
+                            }
+
+                        })
+                        .catch(error => {
+                            swal({
+                                icon: 'error',
+                                title: 'El jugador no existe en la partida'
+                            })
+                            return false;
                         })
                 }
             })
@@ -207,6 +257,7 @@ export default function usePosts() {
         validationErrors,
         isLoading,
         playersData,
-        playerCheck
+        playerCheck,
+        playerChange
     }
 }

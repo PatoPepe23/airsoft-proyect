@@ -28,7 +28,9 @@
 
             <Column field="income" sortable header="Importe">
                 <template #body="player">
-                    {{ player.data.income === 15 ? 'Normal' : 'Alquiler' }}
+                    <button @click.prevent.stop="playerChange(player.data.DNI, route.params.id, player.data.name, player.data.player_id, player.data.income === 15)"
+                            class="btn btn-success btn-sm ms-2">{{ player.data.income === 15 ? 'Normal' : 'Alquiler' }}
+                    </button>
                 </template>
             </Column>
 
@@ -59,26 +61,10 @@
                 <label for="nombrecompleto">Nombre Completo</label>
                 <InputText id="nombrecompleto" v-model="newPlayer.nombrecompleto" required />
             </div>
-            <div class="field">
-                <label for="telefono">Teléfono</label>
-                <InputText id="telefono" v-model="newPlayer.telefono" />
-            </div>
-            <div class="field">
-                <label for="email">Correo</label>
-                <InputText id="email" v-model="newPlayer.email" required />
-            </div>
-            <div class="field">
-                <label for="team">Equipo</label>
-                <InputText id="team" v-model="newPlayer.team" />
-            </div>
 
             <div class="field-checkbox">
                 <label for="alquiler">Alquiler</label>
                 <Checkbox id="alquiler" v-model="newPlayer.alquiler" :binary="true" />
-            </div>
-            <div class="field-checkbox">
-                <label for="dentro">Dentro</label>
-                <Checkbox id="dentro" v-model="newPlayer.dentro" :binary="true" />
             </div>
 
             <template #footer>
@@ -103,7 +89,7 @@ import { FilterMatchMode, FilterOperator } from '@primevue/core/api';
 const swal = inject('$swal');
 const dt = ref();
 
-const { playerCheck, getPost, playersData } = usePosts();
+const {playerChange, playerCheck, getPost, playersData } = usePosts();
 const route = useRoute();
 
 const isCameraOpen = ref(false);
@@ -207,11 +193,8 @@ const openAddPlayerDialog = () => {
     newPlayer.value = {
         DNI: '',
         nombrecompleto: '',
-        telefono: '',
-        email: '',
-        team: '',
         alquiler: false,
-        dentro: false,
+        dentro: true,
         shift: false
     };
     displayAddPlayerDialog.value = true;
@@ -219,20 +202,18 @@ const openAddPlayerDialog = () => {
 
 const addPlayer = async () => {
     try {
-        displayAddPlayerDialog.value = false;
-
         const response = await axios.post('/api/reservar', {
+            skip:true,
             DNI: newPlayer.value.DNI,
             nombrecompleto: newPlayer.value.nombrecompleto,
-            telefono: newPlayer.value.telefono,
-            email: newPlayer.value.email,
-            team: newPlayer.value.team,
             alquiler: newPlayer.value.alquiler,
             dentro: newPlayer.value.dentro,
             shift: newPlayer.value.shift,
             partida_id: route.query.date,
-            precio: '15',
+            precio: newPlayer.value.alquiler ? '40' : '15',
         });
+
+        displayAddPlayerDialog.value = false;
 
         await swal({
             icon: 'success',
@@ -240,6 +221,7 @@ const addPlayer = async () => {
             text: 'El jugador ha sido registrado en la partida.',
             confirmButtonText: 'Aceptar'
         });
+
         loadPlayerData();
 
     } catch (error) {

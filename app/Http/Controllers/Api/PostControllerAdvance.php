@@ -13,6 +13,7 @@ use App\Models\Post;
 use App\Http\Resources\GameResource;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PostControllerAdvance extends Controller
 {
@@ -192,6 +193,41 @@ class PostControllerAdvance extends Controller
                 return response()->json(['message' => 'Jugador puesto como "dentro".']);
             } else {
                 return response()->json(['message' => 'Jugador puesto como "fuera".']);
+            }
+        } else {
+            return response()->json(['message' => 'Jugador no encontrado en esta partida.'], 404);
+        }
+    }
+
+    public function changePlayer($partidaId, $playerId)
+    {
+        // Usa un nombre de variable más descriptivo
+        $game = Partida::findOrFail($partidaId);
+
+        // Encuentra el jugador específico por su ID.
+        // Esto es más directo y eficiente que buscar por DNI.
+        $player = $game->players->firstWhere('id', $playerId);
+
+        $pedidoId = $player->pivot->pedido_id;
+
+        Log::info($pedidoId);
+
+        if ($player) {
+            // Accede al valor actual de 'dentro' desde la tabla pivote.
+            $currentStatus = $player->alquiler;
+
+            // Invierte el estado.
+            $newStatus = !$currentStatus;
+
+            // Actualiza el campo 'dentro' en la tabla pivote para este jugador y partida.
+            $game->players()->where('player.id', $player->id)->update(['alquiler' => $newStatus]);
+
+            if ($newStatus) {
+                Pedido::where('id', $pedidoId)->update(['cost' => 45]);
+                return response()->json(['message' => 'Jugador puesto como "alquiler".']);
+            } else {
+                Pedido::where('id', $pedidoId)->update(['cost' => 15]);
+                return response()->json(['message' => 'Jugador puesto como "normal".']);
             }
         } else {
             return response()->json(['message' => 'Jugador no encontrado en esta partida.'], 404);

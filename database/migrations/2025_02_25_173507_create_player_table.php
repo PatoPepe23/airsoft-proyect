@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('DNI');
             $table->string('nombrecompleto');
-            $table->string('email');
+            $table->string('email')->nullable();;
             $table->integer('telefono')->nullable();
             $table->string('team')->nullable();
             $table->boolean('alquiler');
