@@ -20,6 +20,9 @@
                     <button @click.prevent.stop="playerCheck(player.data.DNI, route.params.id, player.data.name, player.data.income, player.data.player_id, player.data.status)"
                             class="btn btn-success btn-sm ms-2">{{ player.data.status === 'Dentro' ? 'Sacar' : 'Verificar' }}
                     </button>
+                    <button @click.prevent.stop="deletePost(false, player.data.DNI, route.query.date, null)"
+                            class="btn btn-danger btn-sm ms-2">Eliminar
+                    </button>
                 </template>
             </column>
 
@@ -89,7 +92,7 @@ import { FilterMatchMode, FilterOperator } from '@primevue/core/api';
 const swal = inject('$swal');
 const dt = ref();
 
-const {playerChange, playerCheck, getPost, playersData } = usePosts();
+const {playerChange, playerCheck, getPost, playersData, deletePost } = usePosts();
 const route = useRoute();
 
 const isCameraOpen = ref(false);
@@ -202,6 +205,7 @@ const openAddPlayerDialog = () => {
 
 const addPlayer = async () => {
     try {
+
         const response = await axios.post('/api/reservar', {
             skip:true,
             DNI: newPlayer.value.DNI,
@@ -226,7 +230,7 @@ const addPlayer = async () => {
 
     } catch (error) {
         console.error("Error al enviar el formulario:", error.response?.data || error);
-
+        displayAddPlayerDialog.value = false;
         swal({
             icon: 'error',
             title: 'Error al agregar el jugador',

@@ -92,8 +92,9 @@ class reservarController extends Controller
     }
 
 
-    public function cancel($dni, $partida, $email)
+    public function cancel($sendmail, $dni, $partida, $email)
     {
+
         $partidaFecha = Carbon::createFromFormat('d-m-Y', $partida)->format('Y-m-d');
 
         $player = Player::where('DNI', $dni)->first();
@@ -102,18 +103,17 @@ class reservarController extends Controller
             return response('Jugador no encontrado', 404);
         }
 
-        $partida = Partida::where('fecha', $partidaFecha)
+        $partida = partida::where('fecha', $partidaFecha)
             ->where('shift', 0)
             ->first();
 
-        if (! $partida) {
+        if (!$partida) {
             return response('Partida no encontrada', 404);
         }
 
         $pivotData = $player->partidas()
             ->where('partida_id', $partida->id)
-            ->first()
-            ->pivot;
+            ->first()?->pivot;
 
         if (!$pivotData) {
             return response()->json(['message' => 'No se encontró la reserva.'], 404);
@@ -138,7 +138,10 @@ class reservarController extends Controller
             'partida_id' => $partidaFecha,
         ];
 
-        Mail::to($email)->send(new BookingCanceled($data));
+        if ($sendmail) {
+            Mail::to($email)->send(new BookingCanceled($data));
+        }
+
         return response('Reserva cancelada correctamente, se le ha enviado un correo conforme se ha cancelado, ya puede cerrar esta pestaña', 200);
 
 

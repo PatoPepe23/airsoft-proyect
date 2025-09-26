@@ -62,4 +62,6 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
             ->values()
             ->toArray();
     });
+
+    Route::get('/cancelar-reserva/{sendmail}/{dni}/{fecha}/{email}', [reservarController::class, 'deleteUser']);
 });

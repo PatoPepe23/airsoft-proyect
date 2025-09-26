@@ -247,6 +247,41 @@ export default function usePosts() {
 
     }
 
+    const deletePost = async (sendmail, dni, fecha, email) => {
+        swal({
+            title: 'Quieres Eliminar este jugador?',
+            text: 'Una vez eliminado se borrara permamentemente los datos!',
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Si, eliminar',
+            confirmButtonColor: '#ef4444',
+            timer: 20000,
+            timerProgressBar: true,
+            reverseButtons: true
+        })
+            .then(result => {
+                if (result.isConfirmed) {
+                    axios.get(`/api/deleteUser/${sendmail}/${dni}/${fecha}/${email}`)
+                        .then(response => {
+                            getPosts()
+                            router.push({name: 'posts.index'})
+                            swal({
+                                icon: 'success',
+                                title: 'Jugador eliminado correctamente'
+                            })
+                        })
+                        .catch(error => {
+                            swal({
+                                icon: 'error',
+                                title: 'Something went wrong'
+                            })
+                        })
+                }
+            })
+
+    }
+
     return {
         posts,
         getPosts,
@@ -258,6 +293,7 @@ export default function usePosts() {
         isLoading,
         playersData,
         playerCheck,
-        playerChange
+        playerChange,
+        deletePost
     }
 }
