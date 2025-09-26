@@ -262,7 +262,7 @@ export default function usePosts() {
         })
             .then(result => {
                 if (result.isConfirmed) {
-                    axios.get(`/api/deleteUser/${sendmail}/${dni}/${fecha}/${email}`)
+                    axios.get(`/api/cancelar-reserva/${sendmail}/${dni}/${fecha}/${email}`)
                         .then(response => {
                             getPosts()
                             router.push({name: 'posts.index'})

@@ -20,7 +20,7 @@
                     <button @click.prevent.stop="playerCheck(player.data.DNI, route.params.id, player.data.name, player.data.income, player.data.player_id, player.data.status)"
                             class="btn btn-success btn-sm ms-2">{{ player.data.status === 'Dentro' ? 'Sacar' : 'Verificar' }}
                     </button>
-                    <button @click.prevent.stop="deletePost(false, player.data.DNI, route.query.date, null)"
+                    <button @click.prevent.stop="deletePost(false, player.data.DNI, route.query.date, 'dunkerque.airsoftcamp@gmail.com')"
                             class="btn btn-danger btn-sm ms-2">Eliminar
                     </button>
                 </template>
