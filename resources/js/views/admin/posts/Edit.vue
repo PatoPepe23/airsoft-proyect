@@ -28,7 +28,9 @@
 
             <Column field="income" sortable header="Importe">
                 <template #body="player">
-                    {{ player.data.income === 15 ? 'Normal' : 'Alquiler' }}
+                    <button @click.prevent.stop="playerChange(player.data.DNI, route.params.id, player.data.name, player.data.player_id, player.data.income === 15)"
+                            class="btn btn-success btn-sm ms-2">{{ player.data.income === 15 ? 'Normal' : 'Alquiler' }}
+                    </button>
                 </template>
             </Column>
 
@@ -87,7 +89,7 @@ import { FilterMatchMode, FilterOperator } from '@primevue/core/api';
 const swal = inject('$swal');
 const dt = ref();
 
-const { playerCheck, getPost, playersData } = usePosts();
+const {playerChange, playerCheck, getPost, playersData } = usePosts();
 const route = useRoute();
 
 const isCameraOpen = ref(false);

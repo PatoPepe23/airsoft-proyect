@@ -107,6 +107,56 @@ export default function usePosts() {
 
     }
 
+    const playerChange = async (player, id, name, player_id, status) => {
+
+        const swalText = status ? `Cambiar a ${name} con DNI ${player} a <b>Alquiler</b>?` : `Cambiar a ${name} con DNI ${player} a <b>Normal</b>?`;
+        const swalTitle = status ? `Cambiar a Alquiler?` : `Cambiar a Normal?`;
+
+        swal({
+            title: swalTitle,
+            html: swalText,
+            icon: 'question',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Si, cambialo',
+            confirmButtonColor: '#ef4444',
+            timer: 20000,
+            timerProgressBar: true,
+            reverseButtons: true,
+        })
+            .then(result => {
+                if (result.isConfirmed) {
+                    axios.post(`/api/postChange/${id}/${player_id}`)
+                        .then(response => {
+                            getPosts()
+                            router.push({name: 'posts.edit'})
+                            if (response.data === true) {
+                                swal({
+                                    icon: 'error',
+                                    title: 'El jugador ya esta dentro'
+                                })
+                                return false;
+                            } else {
+                                swal({
+                                    icon: 'success',
+                                    title: 'Cambiado con éxito'
+                                })
+                                return true;
+                            }
+
+                        })
+                        .catch(error => {
+                            swal({
+                                icon: 'error',
+                                title: 'El jugador no existe en la partida'
+                            })
+                            return false;
+                        })
+                }
+            })
+
+    }
+
     const storePost = async (post) => {
         if (isLoading.value) return;
 
@@ -207,6 +257,7 @@ export default function usePosts() {
         validationErrors,
         isLoading,
         playersData,
-        playerCheck
+        playerCheck,
+        playerChange
     }
 }

@@ -36,6 +36,7 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::get('posts/{id}', [PostControllerAdvance::class,'show']);
     Route::post('/post', [PostControllerAdvance::class, 'checkPlayer']);
     Route::post('post/{id}/{pid}', [PostControllerAdvance::class,'checkPlayer']);
+    Route::post('postChange/{id}/{pid}', [PostControllerAdvance::class,'changePlayer']);
 
     Route::post('users', [UserController::class,'update']);
     Route::get('users', [UserController::class,'index']);
