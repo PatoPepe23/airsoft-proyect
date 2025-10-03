@@ -72,12 +72,18 @@ class reservarController extends Controller
         }
 
         // Validar límite de alquileres
-        $plazasAlquiler = $partida->players()->where('alquiler', true)->count();
+        /*$plazasAlquiler = $partida->players()->where('alquiler', true)->count();
         if ($request->alquiler && $plazasAlquiler >= 25) {
             return response()->json(['error' => 'Límite de alquileres alcanzado'], 409);
-        }
+        }*/
 
         // Reducir plazas
+
+        if ($request->alquiler) {
+            $partida->alquiler -=1;
+            $partida->save();
+        }
+
         $partida->plazas -= 1;
         $partida->save();
 

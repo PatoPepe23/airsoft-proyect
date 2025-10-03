@@ -23,6 +23,7 @@ class CreatePartidaSeeder extends Seeder
             Partida::create([
                 'fecha' => $fechaInicio,
                 'plazas' => 220,
+                'alquiler' => 25,
                 'tipo' => "dominguera",
                 'cancelled' => false,
                 'shift' => 0
@@ -33,6 +34,7 @@ class CreatePartidaSeeder extends Seeder
             Partida::create([
                 'fecha' => $fechaInicio,
                 'plazas' => 220,
+                'alquiler' => 25,
                 'tipo' => "dominguera",
                 'cancelled' => false,
                 'shift' => 0
