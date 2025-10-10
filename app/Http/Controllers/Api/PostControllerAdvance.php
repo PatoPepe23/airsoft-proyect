@@ -57,6 +57,9 @@ class PostControllerAdvance extends Controller
 //        } else {
             $game = Partida::findOrFail($post);
 
+            Log::info('show');
+            Log::info($post);
+
             $playersList = $game->players;
 
             $players = $playersList->map(function ($player) {

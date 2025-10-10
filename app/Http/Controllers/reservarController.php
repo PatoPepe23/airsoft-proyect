@@ -71,21 +71,29 @@ class reservarController extends Controller
             return response()->json(['error' => 'Este jugador ya tiene una reserva para esta partida.'], 409);
         }
 
-        // Validar límite de alquileres
-        /*$plazasAlquiler = $partida->players()->where('alquiler', true)->count();
-        if ($request->alquiler && $plazasAlquiler >= 25) {
-            return response()->json(['error' => 'Límite de alquileres alcanzado'], 409);
-        }*/
-
         // Reducir plazas
 
-        if ($request->alquiler) {
-            $partida->alquiler -=1;
-            $partida->save();
-        }
 
-        $partida->plazas -= 1;
-        $partida->save();
+        $plazasPartida = $partida->plazas > 0;
+
+        $plazasAlquiler = $partida->alquiler > 0;
+
+        if ($plazasPartida) {
+            if ($request->alquiler) {
+                if ($plazasAlquiler) {
+                    $partida->alquiler -=1;
+                    $partida->plazas -= 1;
+                    $partida->save();
+                } else {
+                    return response()->json(['error' => 'Límite de alquileres alcanzado'], 409);
+                }
+            } else {
+                $partida->plazas -= 1;
+                $partida->save();
+            }
+        } else {
+            return response()->json(['error' => 'No quedan plazas disponibles'], 409);
+        }
 
         // Adjuntar jugador a la partida
         $pivotData = ['pedido_id' => $pedido->id];

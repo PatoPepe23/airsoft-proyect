@@ -19,6 +19,7 @@ class GameResource extends JsonResource
             'id' => $this->id,
             'day' => $this->fecha,
             'players' => $this->plazas,
+            'alquiler' => $this->alquiler,
             'shift' => $this->shift,
             'state' => $this->cancelled,
             'created_at' => $this->created_at->toDateString()

@@ -11,6 +11,7 @@
                     <Button icon="pi pi-refresh" rounded raised @click="handleRefresh" />
                     <Button icon="pi pi-plus" rounded raised @click="openAddPlayerDialog" />
                     <Button icon="pi pi-external-link" label="Export" @click="exportCSV($event)" />
+                    <span class="text-xl">{{playersData.filter(player => player.status === 'Dentro').length + ' / ' + playersData.length + ' Jugadores dentro'}}</span>
                     <InputText v-model="filters['global'].value" placeholder="Buscar ..." />
                 </div>
             </template>
