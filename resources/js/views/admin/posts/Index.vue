@@ -82,40 +82,16 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import InputText from 'primevue/inputtext';
 import IconField from 'primevue/iconfield';
-import InputIcon from 'primevue/inputicon';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-// const filters = ref({
-//     'global': { value: null, matchMode: 'contains' },
-//     'day': { value: null, matchMode: 'contains' },
-//     'players': { value: null, matchMode: 'contains' },
-//     'shift': { value: null, matchMode: 'contains' },
-//     'state': { value: null, matchMode: 'contains' },
-// });
 
-
-// const loading = ref(false);
-// const currentPage = ref(1);
-// const totalRecords = ref(0);
 const rowsPerPage = ref(10);
-// const orderColumn = ref('created_at');
-// const orderDirection = ref('desc');
+
 const { posts= ref([]), getPosts, cancelPost } = usePosts();
 const { categoryList, getCategoryList } = useCategories();
 const { can } = useAbility();
-const {filters, loading, currentPage, totalRecords, orderColumn, orderDirection, fetchPosts } = datatables();
-
-const stateOptions = ref([
-    { state: 'Abierta', filter: 2},
-    { state: 'Cerrada', filter: 0},
-    { state: 'Cancelada', filter: 1},
-])
-
-const shiftOptions = ref([
-    { shift: 'Tarde', filter: 1},
-    { shift: 'Mañana', filter: 0},
-])
+const {filters, loading, currentPage, totalRecords, orderColumn, orderDirection, onPage, onSort, fetchPosts } = datatables();
 
 const formatDate = (dateString) => {
     // Si la fecha es null o no está definida, devuelve un string vacío
@@ -135,37 +111,6 @@ onMounted(() => {
     fetchPosts();
     getCategoryList();
 });
-
-// const fetchPosts = (page = 1, sortField = orderColumn.value, sortOrder = orderDirection.value) => {
-//     loading.value = true;
-//     currentPage.value = page;
-//     getPosts(
-//         page,
-//         filters.value.day.value,
-//         '', // search_id no se usa
-//         filters.value.players.value,
-//         filters.value.shift.value,
-//         filters.value.state.value,
-//         sortField,
-//         sortOrder,
-//         filters.value.global.value
-//     ).then(() => {
-//         totalRecords.value = posts.value.meta.total;
-//         loading.value = false;
-//     }).catch(() => {
-//         loading.value = false;
-//     });
-// };
-
-const onSort = (event) => {
-    orderColumn.value = event.sortField;
-    orderDirection.value = event.sortOrder === 1 ? 'asc' : 'desc';
-    fetchPosts(currentPage.value, orderColumn.value, orderDirection.value);
-};
-
-const onPage = (event) => {
-    fetchPosts(event.page + 1);
-};
 
 watch(filters, _.debounce(() => fetchPosts(1), 200), { deep: true });
 

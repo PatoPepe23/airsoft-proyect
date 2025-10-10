@@ -37,13 +37,25 @@ export default function datatables () {
         });
     };
 
+    const onSort = (event) => {
+        orderColumn.value = event.sortField;
+        orderDirection.value = event.sortOrder === 1 ? 'asc' : 'desc';
+        fetchPosts(currentPage.value, orderColumn.value, orderDirection.value);
+    };
+
+    const onPage = (event) => {
+        fetchPosts(event.page + 1);
+    };
+
     return {
-        fetchPosts,
         loading,
         currentPage,
         totalRecords,
         orderColumn,
         orderDirection,
-        filters
+        filters,
+        fetchPosts,
+        onSort,
+        onPage
     }
 }

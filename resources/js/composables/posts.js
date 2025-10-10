@@ -1,8 +1,8 @@
 import { ref, inject } from 'vue'
 import { useRouter } from 'vue-router'
 
+const posts = ref({})
 export default function usePosts() {
-    const posts = ref({})
     const playersData = ref([]);
 
     const router = useRouter()
