@@ -51,6 +51,12 @@ class reservarController extends Controller
         }
 
         // Obtener partida
+
+        if (is_int($request->partida_id)){
+            $game = Partida::findOrFail($request->partida_id);
+            $request->partida_id = $game->fecha;
+        }
+
         try {
             $partidafecha = Carbon::createFromFormat('d-m-Y', $request->partida_id)->format('Y-m-d');
         } catch (\Throwable $th) {
@@ -62,6 +68,7 @@ class reservarController extends Controller
             ->first();
 
         if (!$partida) {
+            return response()->json(['error' => $partidafecha], 404);
             return response()->json(['error' => 'Partida no encontrada'], 404);
         }
 

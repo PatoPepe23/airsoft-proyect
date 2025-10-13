@@ -1,5 +1,6 @@
 <template>
     <div class="card">
+
         <DataTable :value="playersData"  ref="dt"
                    v-model:filters="filters"
                    :globalFilterFields="['nombrecompleto' , 'name','DNI','mail']"
@@ -73,7 +74,7 @@
 
             <template #footer>
                 <Button label="Cancelar" icon="pi pi-times" class="p-button-text" @click="displayAddPlayerDialog = false" />
-                <Button label="Agregar" icon="pi pi-check" @click="addPlayer" />
+                <Button label="Agregar" icon="pi pi-check" @click="addPlayer()" />
             </template>
         </Dialog>
     </div>
@@ -89,27 +90,21 @@ import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import Checkbox from 'primevue/checkbox';
 import { FilterMatchMode, FilterOperator } from '@primevue/core/api';
+import usePlayers from "@/composables/players.js";
 
 const swal = inject('$swal');
 const dt = ref();
 
-const {playerChange, playerCheck, getPost, playersData, deletePost } = usePosts();
+const {playerChange, playerCheck, getPost, playersData, deletePost, getPlayersReservas } = usePosts();
+const players = usePlayers()
+const { gameID, newPlayer } = players
+const { addPlayer } = players
+
 const route = useRoute();
 
 const isCameraOpen = ref(false);
 const scannedCode = ref(null);
 const displayAddPlayerDialog = ref(false);
-
-const newPlayer = ref({
-    DNI: '',
-    nombrecompleto: '',
-    telefono: '',
-    email: '',
-    team: '',
-    alquiler: false,
-    dentro: false,
-    shift: false
-});
 
 const filters = ref({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -127,8 +122,8 @@ const exportCSV = () => {
     // 2. Llamar al método de exportación sin parámetros.
     // Esto exportará los datos que ya están modificados en la tabla.
     dt.value.exportCSV();
-
-    loadPlayerData();
+    getPlayersReservasView();
+    getPlayersReservas(route.params.id);
 };
 
 const openCamera = () => {
@@ -159,7 +154,7 @@ const onDetect = (decodedString) => {
     }
 
     isCameraOpen.value = false;
-    loadPlayerData();
+    getPlayersReservasView();
 
 };
 
@@ -180,17 +175,9 @@ const onError = (error) => {
     console.error('Error al abrir la cámara:', error);
 };
 
-const loadPlayerData = async () => {
-    try {
-        await getPost(route.params.id);
-    } catch (error) {
-        console.error("Error loading player data:", error);
-    }
-    console.log(playersData.value);
-};
 
 const handleRefresh = () => {
-    loadPlayerData();
+    getPlayersReservasView();
 };
 
 const openAddPlayerDialog = () => {
@@ -204,47 +191,14 @@ const openAddPlayerDialog = () => {
     displayAddPlayerDialog.value = true;
 };
 
-const addPlayer = async () => {
-    try {
-
-        const response = await axios.post('/api/reservar', {
-            skip:true,
-            DNI: newPlayer.value.DNI,
-            nombrecompleto: newPlayer.value.nombrecompleto,
-            alquiler: newPlayer.value.alquiler,
-            dentro: newPlayer.value.dentro,
-            shift: newPlayer.value.shift,
-            partida_id: route.query.date,
-            precio: newPlayer.value.alquiler ? '40' : '15',
-        });
-
-        displayAddPlayerDialog.value = false;
-
-        await swal({
-            icon: 'success',
-            title: 'Jugador agregado con éxito',
-            text: 'El jugador ha sido registrado en la partida.',
-            confirmButtonText: 'Aceptar'
-        });
-
-        loadPlayerData();
-
-    } catch (error) {
-        console.error("Error al enviar el formulario:", error.response?.data || error);
-        displayAddPlayerDialog.value = false;
-        swal({
-            icon: 'error',
-            title: 'Error al agregar el jugador',
-            text: error.response?.data?.message || 'Hubo un problema al procesar la solicitud.',
-            showConfirmButton: false,
-            timer: 2500
-        });
-    }
-};
-
 onMounted(() => {
-    loadPlayerData();
+    gameID.value = route.params.id
+    getPlayersReservasView();
 });
+
+const getPlayersReservasView = () => {
+    getPlayersReservas(route.params.id);
+};
 </script>
 
 <style>

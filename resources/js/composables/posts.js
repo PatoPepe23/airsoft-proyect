@@ -1,8 +1,10 @@
 import { ref, inject } from 'vue'
 import { useRouter } from 'vue-router'
 
-const posts = ref({})
+
 export default function usePosts() {
+
+    const posts = ref([])
     const playersData = ref([]);
 
     const router = useRouter()
@@ -10,39 +12,14 @@ export default function usePosts() {
     const isLoading = ref(false)
     const swal = inject('$swal')
 
-    const getPosts = async (
-        page = 1,
-        search_day = '',
-        search_id = '',
-        search_players = '',
-        search_shift = '',
-        search_team = '',
-        search_state = '',
-        order_column = 'created_at',
-        order_direction = 'desc'
-    ) => {
-        // console.log('day: '+search_day);
-        // console.log('id: '+search_id);
-        // console.log('player: '+search_players);
-        // console.log('shift: '+search_shift);
-        // console.log('state: '+search_state);
-        axios.get('/api/posts?page=' + page +
-            '&search_day=' + search_day +
-            '&search_id=' + search_id +
-            '&search_players=' + search_players +
-            '&search_shift=' + search_shift +
-            '$search_team=' + search_team +
-            '&search_state=' + search_state +
-            '&order_column=' + order_column +
-            '&order_direction=' + order_direction)
+    const getPosts = async () => {
+        axios.get('/api/posts')
             .then(response => {
-                console.log(response.data);
-
                 posts.value = response.data;
             })
     }
 
-    const getPost = async (id) => {
+    const getPlayersReservas = async (id) => {
         try {
             const response = await axios.get(`/api/posts/${id}`);
             if (response.data && response.data.players) {
@@ -285,7 +262,7 @@ export default function usePosts() {
     return {
         posts,
         getPosts,
-        getPost,
+        getPlayersReservas,
         storePost,
         updatePost,
         cancelPost,

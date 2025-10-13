@@ -1,4 +1,6 @@
 <template>
+
+    {{posts}}
     <div class="row justify-content-center my-2">
         <div class="col-md-12">
             <div class="card border-0">
@@ -72,12 +74,11 @@
 </template>
 
 <script setup>
-import {ref, onMounted, watch} from "vue";
+import {ref, onMounted} from "vue";
 import usePosts from "@/composables/posts";
 import useCategories from "@/composables/categories";
 import datatables from "@/composables/datatables.js";
 import { useAbility } from '@casl/vue';
-import _ from 'lodash';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import InputText from 'primevue/inputtext';
@@ -85,21 +86,18 @@ import IconField from 'primevue/iconfield';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-
 const rowsPerPage = ref(10);
 
-const { posts= ref([]), getPosts, cancelPost } = usePosts();
-const { categoryList, getCategoryList } = useCategories();
+const { posts, getPosts, cancelPost } = usePosts();
+const { getCategoryList } = useCategories();
 const { can } = useAbility();
-const {filters, loading, currentPage, totalRecords, orderColumn, orderDirection, onPage, onSort, fetchPosts } = datatables();
+const {filters, loading, currentPage, totalRecords, orderColumn, orderDirection, onPage, onSort } = datatables();
 
 const formatDate = (dateString) => {
     // Si la fecha es null o no está definida, devuelve un string vacío
     if (!dateString) return '';
-
     // Crea un objeto Date. Asume que la fecha está en formato YYYY-MM-DD
     const date = new Date(dateString);
-
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
@@ -108,11 +106,10 @@ const formatDate = (dateString) => {
 };
 
 onMounted(() => {
-    fetchPosts();
+    getPosts();
     getCategoryList();
 });
 
-watch(filters, _.debounce(() => fetchPosts(1), 200), { deep: true });
 
 const getShift = (shift) => {
     let decidedShift = '';

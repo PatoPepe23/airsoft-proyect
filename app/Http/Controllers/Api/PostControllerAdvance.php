@@ -19,9 +19,9 @@ class PostControllerAdvance extends Controller
 {
     public function index()
     {
+
         $actualDate = Carbon::now();
         $maxDate = $actualDate->addMonth(2)->endOfMonth();
-
         $partidas = Partida::where('fecha', '<=', $maxDate)->get();
 
         return GameResource::collection($partidas);
