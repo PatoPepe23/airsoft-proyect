@@ -1,6 +1,6 @@
 <template>
 
-    {{posts}}
+<!--    {{posts}}-->
     <div class="row justify-content-center my-2">
         <div class="col-md-12">
             <div class="card border-0">

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Mail\BookingCanceled;
+use App\Mail\BookingApologies;
 use App\Models\pedido;
 use App\Models\Player;
 use Illuminate\Http\Request;
 use App\Models\partida;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class reservarController extends Controller
@@ -116,7 +118,12 @@ class reservarController extends Controller
     public function cancel($sendmail, $dni, $partida, $email)
     {
 
-        $partidaFecha = Carbon::parse(trim($partida))->format('Y-m-d');
+        try {
+            $partidaFecha = Carbon::parse(trim($partida))->format('Y-m-d');
+        } catch (\Throwable $th) {
+            $partidaFecha = $partida;
+        }
+
 
 
         $player = Player::where('DNI', $dni)->first();
@@ -124,6 +131,8 @@ class reservarController extends Controller
         if (!$player) {
             return response('Jugador no encontrado', 404);
         }
+
+        Log::info($partidaFecha);
 
         $partida = partida::where('fecha', $partidaFecha)
             ->where('shift', 0)
@@ -168,6 +177,11 @@ class reservarController extends Controller
         return response('Reserva cancelada correctamente, se le ha enviado un correo conforme se ha cancelado, ya puede cerrar esta pestaña', 200);
 
 
+    }
+
+    public function apologies()
+    {
+        Mail::to('marcos23fg23@gmail.com')->send(new BookingApologies());
     }
 
     public function misReservas($dni)

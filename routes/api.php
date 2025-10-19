@@ -64,4 +64,5 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     });
 
     Route::get('/cancelar-reserva/{sendmail}/{dni}/{fecha}/{email}', [reservarController::class, 'cancel']);
+    Route::get('/cancelar-reserva-disculpa', [reservarController::class, 'apologies']);
 });
