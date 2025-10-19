@@ -71,6 +71,30 @@
     transition: 0.5s ease !important;
 }
 
+.tarde-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #283227 !important;
+    border-radius: 4px !important;
+    border: solid 1px #F1E58B !important;
+    color: #F8F8F8 !important;
+    transition: 0.5s ease !important;
+    height: 100%;
+}
+
+.tarde-button:hover{
+    background-color: #395538 !important;
+    border-radius: 4px !important;
+    border: solid 1px #F1E58B !important;
+    color: #F8F8F8 !important;
+    transition: 0.5s ease !important;
+}
+
+.tarde-button-container{
+    height: 20%;
+}
+
 /*banner*/
 
 #banner {

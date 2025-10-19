@@ -58,7 +58,7 @@ class reservarController extends Controller
         }
 
         $partida = Partida::where('fecha', $partidafecha)
-            ->where('shift', $request->shift)
+            ->where('shift', false)
             ->first();
 
         if (!$partida) {

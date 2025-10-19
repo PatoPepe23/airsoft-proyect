@@ -1,13 +1,14 @@
 <template>
     <div class="container">
         <div class="nav-avoid">
+            <p>{{ partida_id }}</p>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><router-link to="/">{{ $t('home') }}</router-link></li>
                     <li class="breadcrumb-item"><router-link to="/booking">{{ $t('booking') }}</router-link></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ route.params.id }}</li> </ol>
+                    <li class="breadcrumb-item active" aria-current="page">{{ dateID }}</li> </ol>
             </nav>
-            <h1>{{ $t('booking') }} {{ route.params.id }}</h1> <div class="bookingform">
+            <h1>{{ $t('booking') }} {{ dateID }}</h1> <div class="bookingform">
             <form @submit.prevent="reservar">
                 <div class="bookingformleft">
                     <div class="formsplit">
@@ -31,6 +32,9 @@
                             <input type="tel" id="telefono" v-model="telefono" @input="saveToCookie('telefono')" min="18">
                         </div>
                     </div>
+                    <div v-if="dateID === '25-10-2025'" class="tarde-button-container d-md-none">
+                        <router-link to="08-11-2025" class="tarde-button"> Reserva por la tarde </router-link>
+                    </div>
                     <div class="formsplit">
                         <div class="form-group bookingtextinput bookingseparationup">
                             <label for="nombre">¿Tienes equipo? Escribe el nombre</label>
@@ -44,6 +48,9 @@
                             </div>
                         </div>
                         <p>* Si deseas comprar un bocadillo, deberás ir a Organización del campo.</p>
+                        <div v-if="dateID === '25-10-2025'" class="tarde-button-container d-none d-md-block">
+                            <router-link to="08-11-2025" class="tarde-button"> Reserva por la tarde </router-link>
+                        </div>
                     </div>
 
                 </div>
@@ -52,7 +59,7 @@
                     <div>
                         <h2>Información de la reserva</h2>
                         <p>Alquiler: {{ alquiler ? 'Sí ' : 'No ' }}<span class="precio">{{ alquiler ? '+ 25€' : '+ 0€' }}</span></p>
-                        <p>Día: <span class="precio">{{ route.params.id }}</span></p> <p>Hora: <span class="precio">{{ shift ? '16:00' : '8:00' }}</span></p>
+                        <p>Día: <span class="precio">{{ dateID }}</span></p> <p>Hora: <span class="precio">{{ shift ? '15:30' : '8:00' }}</span></p>
                     </div>
                     <div class="bookingconfirmation">
                         <form @submit.prevent="discount" class="formdiscount">
@@ -76,13 +83,12 @@ import { authStore} from "@/store/auth.js"
 import Cookies from 'js-cookie';
 import { useCookieConsentStore } from '@/store/cookieConsent';
 
-
 const auth = authStore();
 const authenticated = auth.authenticated;
 
 const route = useRoute() // Correctly using useRoute() for Composition API
 const router = useRouter();
-const partida_id = route.params.id; // And correctly using 'route' here
+const partida_id = computed(() => route.params.id); // And correctly using 'route' here
 const swal = inject('$swal');
 
 const cookieConsentStore = useCookieConsentStore();
@@ -95,7 +101,31 @@ const alquiler = ref(false);
 const team = ref("");
 const food = ref(false);
 const bocadillo = ref(1)
-const shift = ref(false); // Checkbox
+// const shift = ref(false); // Checkbox
+const shift = computed(() => {
+    // Accedemos directamente a la variable reactiva 'route'
+    const paramId = route.params.id;
+
+    if (paramId === '08-11-2025'){
+        // La propiedad computada retorna el valor deseado
+        return true
+    } else {
+        // En cualquier otro caso, retorna el ID original
+        return false
+    }
+});
+const dateID = computed(() => {
+    // Accedemos directamente a la variable reactiva 'route'
+    const paramId = route.params.id;
+
+    if (paramId === '08-11-2025'){
+        // La propiedad computada retorna el valor deseado
+        return '25-10-2025 TARDE';
+    } else {
+        // En cualquier otro caso, retorna el ID original
+        return paramId;
+    }
+});
 
 const discountinput = ref("");
 const descuentoPorcentaje = ref(null);
@@ -265,7 +295,7 @@ const reservar = async () => {
             alquiler: alquiler.value,
             food: food.value,
             food_id: bocadillo.value,
-            partida_id: partida_id,
+            partida_id: partida_id.value,
             shift: shift.value,
             team: team.value,
             precio: precio.value,
@@ -284,7 +314,7 @@ const reservar = async () => {
             subject: 'Confirmación de reserva',
             body: `Gracias por tu reserva, ${nombrecompleto.value}. Nos vemos pronto.`,
             precio: precio.value,
-            partida_id: partida_id
+            partida_id: dateID.value
         })
 
         await swal({

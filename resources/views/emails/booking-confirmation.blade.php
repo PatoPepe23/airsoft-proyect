@@ -6,7 +6,7 @@
 </head>
 <body>
 <h2>Gracias {{ $data['nombrecompleto'] }} por reservar en Dunkerque Airsoft Camp!</h2>
-<h2>Hora: {{ $data['shift'] ? '16:00' : '8:00'}}</h2>
+<h2>Hora: {{ $data['shift'] ? '15:30' : '8:00'}}</h2>
 <h2>Día: {{$data['partida_id']}}</h2>
 <h3><u>Datos de la reserva</u></h3>
 <ul>
