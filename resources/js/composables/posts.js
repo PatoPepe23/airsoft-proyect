@@ -1,8 +1,10 @@
 import { ref, inject } from 'vue'
 import { useRouter } from 'vue-router'
 
+
 export default function usePosts() {
-    const posts = ref({})
+
+    const posts = ref([])
     const playersData = ref([]);
 
     const router = useRouter()
@@ -10,39 +12,14 @@ export default function usePosts() {
     const isLoading = ref(false)
     const swal = inject('$swal')
 
-    const getPosts = async (
-        page = 1,
-        search_day = '',
-        search_id = '',
-        search_players = '',
-        search_shift = '',
-        search_team = '',
-        search_state = '',
-        order_column = 'created_at',
-        order_direction = 'desc'
-    ) => {
-        // console.log('day: '+search_day);
-        // console.log('id: '+search_id);
-        // console.log('player: '+search_players);
-        // console.log('shift: '+search_shift);
-        // console.log('state: '+search_state);
-        axios.get('/api/posts?page=' + page +
-            '&search_day=' + search_day +
-            '&search_id=' + search_id +
-            '&search_players=' + search_players +
-            '&search_shift=' + search_shift +
-            '$search_team=' + search_team +
-            '&search_state=' + search_state +
-            '&order_column=' + order_column +
-            '&order_direction=' + order_direction)
+    const getPosts = async () => {
+        axios.get('/api/posts')
             .then(response => {
-                console.log(response.data);
-
                 posts.value = response.data;
             })
     }
 
-    const getPost = async (id) => {
+    const getPlayersReservas = async (id) => {
         try {
             const response = await axios.get(`/api/posts/${id}`);
             if (response.data && response.data.players) {
@@ -101,6 +78,56 @@ export default function usePosts() {
                                 icon: 'error',
                                 title: 'El jugador no existe en la partida'
                             })
+                        })
+                }
+            })
+
+    }
+
+    const playerChange = async (player, id, name, player_id, status) => {
+
+        const swalText = status ? `Cambiar a ${name} con DNI ${player} a <b>Alquiler</b>?` : `Cambiar a ${name} con DNI ${player} a <b>Normal</b>?`;
+        const swalTitle = status ? `Cambiar a Alquiler?` : `Cambiar a Normal?`;
+
+        swal({
+            title: swalTitle,
+            html: swalText,
+            icon: 'question',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Si, cambialo',
+            confirmButtonColor: '#ef4444',
+            timer: 20000,
+            timerProgressBar: true,
+            reverseButtons: true,
+        })
+            .then(result => {
+                if (result.isConfirmed) {
+                    axios.post(`/api/postChange/${id}/${player_id}`)
+                        .then(response => {
+                            getPosts()
+                            router.push({name: 'posts.edit'})
+                            if (response.data === true) {
+                                swal({
+                                    icon: 'error',
+                                    title: 'El jugador ya esta dentro'
+                                })
+                                return false;
+                            } else {
+                                swal({
+                                    icon: 'success',
+                                    title: 'Cambiado con éxito'
+                                })
+                                return true;
+                            }
+
+                        })
+                        .catch(error => {
+                            swal({
+                                icon: 'error',
+                                title: 'El jugador no existe en la partida'
+                            })
+                            return false;
                         })
                 }
             })
@@ -197,16 +224,53 @@ export default function usePosts() {
 
     }
 
+    const deletePost = async (sendmail, dni, fecha, email) => {
+        swal({
+            title: 'Quieres Eliminar este jugador?',
+            text: 'Una vez eliminado se borrara permamentemente los datos!',
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Si, eliminar',
+            confirmButtonColor: '#ef4444',
+            timer: 20000,
+            timerProgressBar: true,
+            reverseButtons: true
+        })
+            .then(result => {
+                if (result.isConfirmed) {
+                    axios.get(`/api/cancelar-reserva/${sendmail}/${dni}/${fecha}/${email}`)
+                        .then(response => {
+                            getPosts()
+                            router.push({name: 'posts.index'})
+                            swal({
+                                icon: 'success',
+                                title: 'Jugador eliminado correctamente'
+                            })
+                        })
+                        .catch(error => {
+                            swal({
+                                icon: 'error',
+                                title: 'Something went wrong'
+                            })
+                        })
+                }
+            })
+
+    }
+
     return {
         posts,
         getPosts,
-        getPost,
+        getPlayersReservas,
         storePost,
         updatePost,
         cancelPost,
         validationErrors,
         isLoading,
         playersData,
-        playerCheck
+        playerCheck,
+        playerChange,
+        deletePost
     }
 }

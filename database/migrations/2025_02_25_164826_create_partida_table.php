@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('fecha');
             $table->integer('plazas');
+            $table->integer('alquiler');
             $table->string('tipo');
             $table->boolean('cancelled');
             $table->boolean('shift');

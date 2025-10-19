@@ -12,7 +12,7 @@ class partida extends Model
 
     protected $table = 'partida';
 
-    protected $fillable = ['fecha', 'plazas', 'tipo', 'cancelled', 'shift'];
+    protected $fillable = ['fecha', 'plazas', 'alquiler', 'tipo', 'cancelled', 'shift'];
 
 
     public function players()

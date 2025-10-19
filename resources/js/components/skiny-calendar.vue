@@ -166,7 +166,7 @@ onBeforeUnmount(() => {
     width: 90vw;
     border-radius: 4px;
     padding: 20px;
-    margin: 20px auto;
+    margin: 30% auto auto 2%;
 }
 
 .skiny-calendar-div {

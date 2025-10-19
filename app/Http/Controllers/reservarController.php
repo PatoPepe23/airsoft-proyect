@@ -51,6 +51,12 @@ class reservarController extends Controller
         }
 
         // Obtener partida
+
+        if (is_int($request->partida_id)){
+            $game = Partida::findOrFail($request->partida_id);
+            $request->partida_id = $game->fecha;
+        }
+
         try {
             $partidafecha = Carbon::createFromFormat('d-m-Y', $request->partida_id)->format('Y-m-d');
         } catch (\Throwable $th) {
@@ -62,6 +68,7 @@ class reservarController extends Controller
             ->first();
 
         if (!$partida) {
+            return response()->json(['error' => $partidafecha], 404);
             return response()->json(['error' => 'Partida no encontrada'], 404);
         }
 
@@ -71,15 +78,29 @@ class reservarController extends Controller
             return response()->json(['error' => 'Este jugador ya tiene una reserva para esta partida.'], 409);
         }
 
-        // Validar límite de alquileres
-        $plazasAlquiler = $partida->players()->where('alquiler', true)->count();
-        if ($request->alquiler && $plazasAlquiler >= 25) {
-            return response()->json(['error' => 'Límite de alquileres alcanzado'], 409);
-        }
-
         // Reducir plazas
-        $partida->plazas -= 1;
-        $partida->save();
+
+
+        $plazasPartida = $partida->plazas > 0;
+
+        $plazasAlquiler = $partida->alquiler > 0;
+
+        if ($plazasPartida) {
+            if ($request->alquiler) {
+                if ($plazasAlquiler) {
+                    $partida->alquiler -=1;
+                    $partida->plazas -= 1;
+                    $partida->save();
+                } else {
+                    return response()->json(['error' => 'Límite de alquileres alcanzado'], 409);
+                }
+            } else {
+                $partida->plazas -= 1;
+                $partida->save();
+            }
+        } else {
+            return response()->json(['error' => 'No quedan plazas disponibles'], 409);
+        }
 
         // Adjuntar jugador a la partida
         $pivotData = ['pedido_id' => $pedido->id];
@@ -92,9 +113,11 @@ class reservarController extends Controller
     }
 
 
-    public function cancel($dni, $partida, $email)
+    public function cancel($sendmail, $dni, $partida, $email)
     {
-        $partidaFecha = Carbon::createFromFormat('d-m-Y', $partida)->format('Y-m-d');
+
+        $partidaFecha = Carbon::parse(trim($partida))->format('Y-m-d');
+
 
         $player = Player::where('DNI', $dni)->first();
 
@@ -102,11 +125,11 @@ class reservarController extends Controller
             return response('Jugador no encontrado', 404);
         }
 
-        $partida = Partida::where('fecha', $partidaFecha)
+        $partida = partida::where('fecha', $partidaFecha)
             ->where('shift', 0)
             ->first();
 
-        if (! $partida) {
+        if (!$partida) {
             return response('Partida no encontrada', 404);
         }
 
@@ -138,7 +161,10 @@ class reservarController extends Controller
             'partida_id' => $partidaFecha,
         ];
 
-        Mail::to($email)->send(new BookingCanceled($data));
+        if ($sendmail) {
+            Mail::to($email)->send(new BookingCanceled($data));
+        }
+
         return response('Reserva cancelada correctamente, se le ha enviado un correo conforme se ha cancelado, ya puede cerrar esta pestaña', 200);
 
 

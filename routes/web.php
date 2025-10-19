@@ -26,7 +26,7 @@ Route::post('logout', [AuthenticatedSessionController::class, 'logout']);
 
 Route::post('/booking/{id}', [reservarController::class, 'store']);
 
-Route::get('/cancelar-reserva/{dni}/{fecha}/{email}', [reservarController::class, 'cancel']);
+Route::get('/cancelar-reserva/{sendmail}/{dni}/{fecha}/{email}', [reservarController::class, 'cancel']);
 
 //Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

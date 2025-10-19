@@ -1,4 +1,6 @@
 <template>
+
+    {{posts}}
     <div class="row justify-content-center my-2">
         <div class="col-md-12">
             <div class="card border-0">
@@ -49,6 +51,9 @@
                         <Column field="players" header="JUGADORES" sortable filterField="players" style="min-width: 12rem">
                             <template #body="{ data }">{{ ((data.players - 220) * -1) }} / 220</template>
                         </Column>
+                        <Column field="alquiler" header="ALQUILERES" sortable filterField="players" style="min-width: 12rem">
+                            <template #body="{ data }">{{ ((data.alquiler - 25) * -1) }} / 25</template>
+                        </Column>
                         <Column field="shift" header="TURNO" sortable filterField="shift" style="min-width: 10rem">
                             <template #body="{ data }">{{ getShift(data.shift) }}</template>
                         </Column>
@@ -69,56 +74,30 @@
 </template>
 
 <script setup>
-import {ref, onMounted, watch} from "vue";
+import {ref, onMounted} from "vue";
 import usePosts from "@/composables/posts";
 import useCategories from "@/composables/categories";
+import datatables from "@/composables/datatables.js";
 import { useAbility } from '@casl/vue';
-import _ from 'lodash';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import InputText from 'primevue/inputtext';
 import IconField from 'primevue/iconfield';
-import InputIcon from 'primevue/inputicon';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const filters = ref({
-    'global': { value: null, matchMode: 'contains' },
-    'day': { value: null, matchMode: 'contains' },
-    'players': { value: null, matchMode: 'contains' },
-    'shift': { value: null, matchMode: 'contains' },
-    'state': { value: null, matchMode: 'contains' },
-});
-
-
-const loading = ref(false);
-const currentPage = ref(1);
-const totalRecords = ref(0);
 const rowsPerPage = ref(10);
-const orderColumn = ref('created_at');
-const orderDirection = ref('desc');
-const { posts= ref([]), getPosts, cancelPost } = usePosts();
-const { categoryList, getCategoryList } = useCategories();
+
+const { posts, getPosts, cancelPost } = usePosts();
+const { getCategoryList } = useCategories();
 const { can } = useAbility();
-
-const stateOptions = ref([
-    { state: 'Abierta', filter: 2},
-    { state: 'Cerrada', filter: 0},
-    { state: 'Cancelada', filter: 1},
-])
-
-const shiftOptions = ref([
-    { shift: 'Tarde', filter: 1},
-    { shift: 'Mañana', filter: 0},
-])
+const {filters, loading, currentPage, totalRecords, orderColumn, orderDirection, onPage, onSort } = datatables();
 
 const formatDate = (dateString) => {
     // Si la fecha es null o no está definida, devuelve un string vacío
     if (!dateString) return '';
-
     // Crea un objeto Date. Asume que la fecha está en formato YYYY-MM-DD
     const date = new Date(dateString);
-
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
@@ -127,42 +106,10 @@ const formatDate = (dateString) => {
 };
 
 onMounted(() => {
-    fetchPosts();
+    getPosts();
     getCategoryList();
 });
 
-const fetchPosts = (page = 1, sortField = orderColumn.value, sortOrder = orderDirection.value) => {
-    loading.value = true;
-    currentPage.value = page;
-    getPosts(
-        page,
-        filters.value.day.value,
-        '', // search_id no se usa
-        filters.value.players.value,
-        filters.value.shift.value,
-        filters.value.state.value,
-        sortField,
-        sortOrder,
-        filters.value.global.value
-    ).then(() => {
-        totalRecords.value = posts.value.meta.total;
-        loading.value = false;
-    }).catch(() => {
-        loading.value = false;
-    });
-};
-
-const onSort = (event) => {
-    orderColumn.value = event.sortField;
-    orderDirection.value = event.sortOrder === 1 ? 'asc' : 'desc';
-    fetchPosts(currentPage.value, orderColumn.value, orderDirection.value);
-};
-
-const onPage = (event) => {
-    fetchPosts(event.page + 1);
-};
-
-watch(filters, _.debounce(() => fetchPosts(1), 200), { deep: true });
 
 const getShift = (shift) => {
     let decidedShift = '';

@@ -1,5 +1,6 @@
 <template>
     <div class="card">
+
         <DataTable :value="playersData"  ref="dt"
                    v-model:filters="filters"
                    :globalFilterFields="['nombrecompleto' , 'name','DNI','mail']"
@@ -11,6 +12,7 @@
                     <Button icon="pi pi-refresh" rounded raised @click="handleRefresh" />
                     <Button icon="pi pi-plus" rounded raised @click="openAddPlayerDialog" />
                     <Button icon="pi pi-external-link" label="Export" @click="exportCSV($event)" />
+                    <span class="text-xl">{{playersData.filter(player => player.status === 'Dentro').length + ' / ' + playersData.length + ' Jugadores dentro'}}</span>
                     <InputText v-model="filters['global'].value" placeholder="Buscar ..." />
                 </div>
             </template>
@@ -20,6 +22,9 @@
                     <button @click.prevent.stop="playerCheck(player.data.DNI, route.params.id, player.data.name, player.data.income, player.data.player_id, player.data.status)"
                             class="btn btn-success btn-sm ms-2">{{ player.data.status === 'Dentro' ? 'Sacar' : 'Verificar' }}
                     </button>
+                    <button @click.prevent.stop="deletePost(false, player.data.DNI, route.query.date, 'dunkerque.airsoftcamp@gmail.com')"
+                            class="btn btn-danger btn-sm ms-2">Eliminar
+                    </button>
                 </template>
             </column>
 
@@ -28,7 +33,9 @@
 
             <Column field="income" sortable header="Importe">
                 <template #body="player">
-                    {{ player.data.income === 15 ? 'Normal' : 'Alquiler' }}
+                    <button @click.prevent.stop="playerChange(player.data.DNI, route.params.id, player.data.name, player.data.player_id, player.data.income === 15)"
+                            class="btn btn-success btn-sm ms-2">{{ player.data.income === 15 ? 'Normal' : 'Alquiler' }}
+                    </button>
                 </template>
             </Column>
 
@@ -67,7 +74,7 @@
 
             <template #footer>
                 <Button label="Cancelar" icon="pi pi-times" class="p-button-text" @click="displayAddPlayerDialog = false" />
-                <Button label="Agregar" icon="pi pi-check" @click="addPlayer" />
+                <Button label="Agregar" icon="pi pi-check" @click="addPlayer()" />
             </template>
         </Dialog>
     </div>
@@ -83,27 +90,21 @@ import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import Checkbox from 'primevue/checkbox';
 import { FilterMatchMode, FilterOperator } from '@primevue/core/api';
+import usePlayers from "@/composables/players.js";
 
 const swal = inject('$swal');
 const dt = ref();
 
-const { playerCheck, getPost, playersData } = usePosts();
+const {playerChange, playerCheck, getPost, playersData, deletePost, getPlayersReservas } = usePosts();
+const players = usePlayers()
+const { gameID, newPlayer } = players
+const { addPlayer } = players
+
 const route = useRoute();
 
 const isCameraOpen = ref(false);
 const scannedCode = ref(null);
 const displayAddPlayerDialog = ref(false);
-
-const newPlayer = ref({
-    DNI: '',
-    nombrecompleto: '',
-    telefono: '',
-    email: '',
-    team: '',
-    alquiler: false,
-    dentro: false,
-    shift: false
-});
 
 const filters = ref({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -121,8 +122,8 @@ const exportCSV = () => {
     // 2. Llamar al método de exportación sin parámetros.
     // Esto exportará los datos que ya están modificados en la tabla.
     dt.value.exportCSV();
-
-    loadPlayerData();
+    getPlayersReservasView();
+    getPlayersReservas(route.params.id);
 };
 
 const openCamera = () => {
@@ -153,7 +154,7 @@ const onDetect = (decodedString) => {
     }
 
     isCameraOpen.value = false;
-    loadPlayerData();
+    getPlayersReservasView();
 
 };
 
@@ -174,17 +175,9 @@ const onError = (error) => {
     console.error('Error al abrir la cámara:', error);
 };
 
-const loadPlayerData = async () => {
-    try {
-        await getPost(route.params.id);
-    } catch (error) {
-        console.error("Error loading player data:", error);
-    }
-    console.log(playersData.value);
-};
 
 const handleRefresh = () => {
-    loadPlayerData();
+    getPlayersReservasView();
 };
 
 const openAddPlayerDialog = () => {
@@ -198,46 +191,14 @@ const openAddPlayerDialog = () => {
     displayAddPlayerDialog.value = true;
 };
 
-const addPlayer = async () => {
-    try {
-        const response = await axios.post('/api/reservar', {
-            skip:true,
-            DNI: newPlayer.value.DNI,
-            nombrecompleto: newPlayer.value.nombrecompleto,
-            alquiler: newPlayer.value.alquiler,
-            dentro: newPlayer.value.dentro,
-            shift: newPlayer.value.shift,
-            partida_id: route.query.date,
-            precio: newPlayer.value.alquiler ? '40' : '15',
-        });
-
-        displayAddPlayerDialog.value = false;
-
-        await swal({
-            icon: 'success',
-            title: 'Jugador agregado con éxito',
-            text: 'El jugador ha sido registrado en la partida.',
-            confirmButtonText: 'Aceptar'
-        });
-
-        loadPlayerData();
-
-    } catch (error) {
-        console.error("Error al enviar el formulario:", error.response?.data || error);
-
-        swal({
-            icon: 'error',
-            title: 'Error al agregar el jugador',
-            text: error.response?.data?.message || 'Hubo un problema al procesar la solicitud.',
-            showConfirmButton: false,
-            timer: 2500
-        });
-    }
-};
-
 onMounted(() => {
-    loadPlayerData();
+    gameID.value = route.params.id
+    getPlayersReservasView();
 });
+
+const getPlayersReservasView = () => {
+    getPlayersReservas(route.params.id);
+};
 </script>
 
 <style>
